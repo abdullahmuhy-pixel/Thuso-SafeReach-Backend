@@ -18,7 +18,7 @@ const coordinatorRoutes = require('./routes/coordinatorRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
-
+app.set('trust proxy', 1);
 // ── Security middleware (Task 1 non-functional requirements) ──────────────
 app.use(helmet({
   hsts: { maxAge: 31536000, includeSubDomains: true, preload: true },
