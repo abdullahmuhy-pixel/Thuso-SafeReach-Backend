@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0f1a">
+<title>SafeReach Coordinator</title>
+<style>
+:root{--bg:#0a0f1a;--surface:#111a2b;--surface2:#18243a;--border:#25344f;--text:#e8eefc;--dim:#8a9bbd;--cyan:#00d4ff;--red:#ff4455;--orange:#ff8c42;--green:#1fdc7a;--yellow:#ffc857}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh;padding-bottom:env(safe-area-inset-bottom)}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--border);padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{font-weight:800;font-size:1.05rem}.brand span{color:var(--cyan)}
+.who{font-size:.72rem;color:var(--dim)}
+button{font:inherit;cursor:pointer}
+.btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:.55rem .9rem;font-size:.82rem}
+.btn.primary{background:var(--cyan);color:#001018;border-color:var(--cyan);font-weight:700}
+.btn.danger{border-color:var(--red);color:var(--red)}
+.btn.ok{border-color:var(--green);color:var(--green)}
+.btn:disabled{opacity:.5}
+main{padding:12px 14px 40px;max-width:760px;margin:0 auto}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tab{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--dim);border-radius:10px;padding:.6rem .4rem;font-size:.82rem}
+.tab.on{color:var(--cyan);border-color:var(--cyan)}
+.badge{background:var(--red);color:#fff;border-radius:99px;font-size:.68rem;padding:1px 7px;margin-left:5px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
+.card.alert{border-color:var(--red);background:linear-gradient(180deg,rgba(255,68,85,.1),var(--surface))}
+.row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.name{font-weight:700}.meta{font-size:.76rem;color:var(--dim);margin-top:3px}
+.tag{display:inline-block;font-size:.68rem;border-radius:6px;padding:2px 7px;border:1px solid var(--border);color:var(--dim);margin-right:4px}
+.tag.high{color:var(--red);border-color:var(--red)}.tag.medium{color:var(--orange);border-color:var(--orange)}.tag.low{color:var(--green);border-color:var(--green)}
+.tag.src{color:var(--yellow);border-color:var(--yellow)}
+.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+a{color:var(--cyan)}
+.empty{text-align:center;color:var(--dim);padding:28px 10px;font-size:.88rem}
+.banner{background:var(--red);color:#fff;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-weight:700;display:none}
+.status{font-size:.72rem;color:var(--dim);text-align:center;margin:6px 0 12px}
+#login{max-width:380px;margin:12vh auto 0;padding:0 18px}
+#login h1{font-size:1.5rem;margin-bottom:4px}#login p{color:var(--dim);font-size:.85rem;margin-bottom:18px}
+input{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:.8rem;font:inherit;margin-bottom:10px}
+.err{color:var(--red);font-size:.8rem;min-height:1.2em;margin-bottom:8px}
+.hide{display:none!important}
+select{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:.45rem;font:inherit;font-size:.8rem}
+.form h3{font-size:.95rem;margin-bottom:8px}.hint{font-size:.7rem;color:var(--dim);margin:-4px 0 10px}
+#pwOverlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.75);display:none;align-items:flex-end;justify-content:center}
+#pwOverlay.show{display:flex}
+#pwBox{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:16px;width:100%;max-width:520px;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+#pwBox h3{margin-bottom:10px}
+.btnrow{display:flex;gap:8px;margin-top:6px}.btnrow .btn{flex:1}
+#acctOverlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.75);display:none;align-items:flex-end;justify-content:center}
+#acctOverlay.show{display:flex}
+#acctBox{background:var(--surface);border:1px solid var(--border);border-radius:16px 16px 0 0;padding:16px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+#acctBox h3{margin-bottom:4px}#acctBox h4{margin:14px 0 6px;font-size:.9rem}
+.keybox{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:1.05rem;letter-spacing:.06em;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center;word-break:break-all;margin:8px 0}
+.codes{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0}
+.codes code{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;font-size:.95rem;letter-spacing:.05em}
+.notice{background:rgba(255,200,87,.12);border:1px solid var(--yellow);color:var(--yellow);border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:.84rem;display:none}
+.notice .btnrow{margin-top:8px}.notice .btn{padding:.4rem .7rem;font-size:.78rem;flex:0 0 auto}
+a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
+.msg{font-size:.8rem;min-height:1.2em;margin:6px 0}.msg.bad{color:var(--red)}.msg.good{color:var(--green)}
+</style>
+</head>
+<body>
+
+<section id="login">
+  <h1>Safe<span style="color:var(--cyan)">Reach</span> Coordinator</h1>
+  <p>Sign in with your coordinator or admin account.</p>
+  <div id="pwStep">
+    <input id="phone" type="tel" placeholder="Phone number e.g. +27110000002" autocomplete="username">
+    <input id="pass" type="password" placeholder="Password" autocomplete="current-password">
+    <div class="err" id="loginErr"></div>
+    <button class="btn primary" style="width:100%;padding:.85rem" id="loginBtn">Sign in</button>
+  </div>
+  <div id="codeStep" class="hide">
+    <p style="margin-bottom:10px">Open your authenticator app and enter the 6-digit code for SafeReach. Lost your phone? Use one of your recovery codes instead.</p>
+    <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="20" placeholder="6-digit code or recovery code">
+    <div class="err" id="codeErr"></div>
+    <button class="btn primary" style="width:100%;padding:.85rem" id="codeBtn">Verify</button>
+    <button class="btn" style="width:100%;margin-top:8px" id="codeBack">Back</button>
+  </div>
+</section>
+
+<div id="app" class="hide">
+  <header>
+    <div><div class="brand">Safe<span>Reach</span> Coordinator</div><div class="who" id="who"></div></div>
+    <div style="display:flex;gap:6px"><button class="btn" id="acctBtn">Account</button><button class="btn" id="logout">Sign out</button></div>
+  </header>
+  <main>
+    <div class="notice" id="twofaNotice">🔐 Protect this account with two-factor authentication.
+      <div class="btnrow"><button class="btn" id="twofaSetup">Set up now</button><button class="btn" id="twofaLater">Later</button></div>
+    </div>
+    <div class="banner" id="banner"></div>
+    <div class="tabs">
+      <button class="tab on" data-tab="alerts">🚨 Alerts<span class="badge hide" id="alertBadge">0</span></button>
+      <button class="tab" data-tab="incidents">⚠️ Incidents</button>
+      <button class="tab" data-tab="members">👥 Members</button>
+      <button class="tab hide" data-tab="users" id="usersTab">🛠 Users</button>
+    </div>
+    <div class="status" id="status"></div>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div id="acctOverlay">
+  <div id="acctBox">
+    <h3>Account</h3>
+    <div class="who" id="acctWho"></div>
+    <div id="acctBody"></div>
+    <div class="msg" id="acctMsg"></div>
+    <div class="btnrow"><button class="btn" id="acctClose">Close</button></div>
+  </div>
+</div>
+
+<div id="pwOverlay">
+  <div id="pwBox">
+    <h3 id="pwTitle">Change password</h3>
+    <input id="pwCurrent" type="password" placeholder="Current password" autocomplete="current-password">
+    <input id="pwNew" type="password" placeholder="New password" autocomplete="new-password">
+    <input id="pwNew2" type="password" placeholder="Repeat new password" autocomplete="new-password">
+    <div class="hint">8-72 characters with a capital letter, a number and one of @ $ ! % * ? &amp;</div>
+    <div class="msg" id="pwMsg"></div>
+    <div class="btnrow"><button class="btn" id="pwCancel">Cancel</button><button class="btn primary" id="pwSave">Save</button></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const API = 'https://thuso-safereach-backend.onrender.com/api';
+  const POLL_MS = 15000;
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const tok = () => sessionStorage.getItem('sr_coord_token');
+  let state = { tab: 'alerts', alerts: [], incidents: [], members: [], users: [], branches: [], seen: null, timer: null, challenge: null, acct: { mode: 'home' } };
+
+  async function api(path, method, body, slow) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), slow ? 60000 : 15000);
+    try {
+      const res = await fetch(API + path, {
+        method: method || 'GET', signal: ctrl.signal,
+        headers: Object.assign({ 'Content-Type': 'application/json' }, tok() ? { Authorization: 'Bearer ' + tok() } : {}),
+        body: body ? JSON.stringify(body) : undefined
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { const e = new Error(data.error || 'HTTP ' + res.status); e.status = res.status; throw e; }
+      return data;
+    } finally { clearTimeout(t); }
+  }
+
+  // ---------- auth ----------
+  function showStep(which) {
+    $('pwStep').classList.toggle('hide', which !== 'pw');
+    $('codeStep').classList.toggle('hide', which !== 'code');
+    $('loginErr').textContent = ''; $('codeErr').textContent = '';
+    if (which === 'code') { $('code').value = ''; setTimeout(() => $('code').focus(), 50); }
+  }
+  const netMsg = e => e.name === 'AbortError' || e instanceof TypeError ? 'Cannot reach the server. Try again.' : e.message;
+  function finishLogin(d) {
+    sessionStorage.setItem('sr_coord_token', d.token);
+    sessionStorage.setItem('sr_coord_user', JSON.stringify(d.user));
+    state.challenge = null; $('pass').value = ''; $('code').value = '';
+    showStep('pw'); start();
+  }
+  async function login() {
+    const phone = $('phone').value.replace(/[\s()-]/g, ''), pass = $('pass').value;
+    const err = $('loginErr'), btn = $('loginBtn');
+    err.textContent = ''; btn.disabled = true; btn.textContent = 'Signing in… (server may take a minute to wake)';
+    try {
+      const d = await api('/coordinator/auth/login', 'POST', { phoneNumber: phone, password: pass }, true);
+      if (d.requires2FA) { state.challenge = d.challengeToken; $('pass').value = ''; showStep('code'); }
+      else finishLogin(d);
+    } catch (e) { err.textContent = netMsg(e); }
+    finally { btn.disabled = false; btn.textContent = 'Sign in'; }
+  }
+  async function verify2fa() {
+    const code = $('code').value.trim(), err = $('codeErr'), btn = $('codeBtn');
+    if (!code) { err.textContent = 'Enter the code from your authenticator app.'; return; }
+    err.textContent = ''; btn.disabled = true;
+    try {
+      finishLogin(await api('/coordinator/auth/verify-2fa', 'POST', { challengeToken: state.challenge, code }, true));
+    } catch (e) {
+      if (e.status === 401 && /expired/i.test(e.message)) { showStep('pw'); $('loginErr').textContent = e.message; }
+      else err.textContent = netMsg(e);
+    } finally { btn.disabled = false; }
+  }
+  function logout() {
+    sessionStorage.clear(); clearInterval(state.timer); state.seen = null; state.challenge = null;
+    closeAcct(); showStep('pw');
+    $('app').classList.add('hide'); $('login').classList.remove('hide');
+  }
+  $('loginBtn').onclick = login;
+  $('pass').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+  $('codeBtn').onclick = verify2fa;
+  $('code').addEventListener('keydown', e => { if (e.key === 'Enter') verify2fa(); });
+  $('codeBack').onclick = () => { state.challenge = null; showStep('pw'); };
+  $('logout').onclick = logout;
+
+  // ---------- data ----------
+  async function refresh() {
+    try {
+      const d = await api('/coordinator/dashboard');
+      state.alerts = d.activeAlerts || []; state.incidents = d.recentIncidents || [];
+      const ids = new Set(state.alerts.map(a => a._id));
+      if (state.seen) {
+        const fresh = state.alerts.filter(a => !state.seen.has(a._id));
+        if (fresh.length) {
+          const b = $('banner');
+          b.textContent = '🚨 ' + fresh.length + ' new SOS alert' + (fresh.length > 1 ? 's' : '') + ' — respond now';
+          b.style.display = 'block';
+          if (navigator.vibrate) navigator.vibrate([300, 150, 300]);
+        }
+      }
+      state.seen = ids;
+      $('status').textContent = 'Updated ' + new Date().toLocaleTimeString() + ' · refreshes every 15s';
+      const n = state.alerts.length, bd = $('alertBadge');
+      bd.textContent = n; bd.classList.toggle('hide', !n);
+      document.title = (n ? '(' + n + ') ' : '') + 'SafeReach Coordinator';
+      if (state.tab !== 'users') render();
+    } catch (e) {
+      if (e.status === 401 || e.status === 403) { logout(); $('loginErr').textContent = 'Session expired — please sign in again.'; return; }
+      $('status').textContent = 'Offline or server waking… retrying';
+    }
+  }
+  async function loadMembers() {
+    try { state.members = await api('/coordinator/members'); } catch (e) { state.members = []; }
+    if (state.tab === 'members') render();
+  }
+
+  // ---------- render ----------
+  const ago = d => { const m = Math.max(0, Math.round((Date.now() - new Date(d)) / 60000)); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; };
+  const person = u => u ? esc(u.fullName) : 'Unknown member';
+  const phoneLink = u => u && u.phoneNumber ? '<a href="tel:' + esc(u.phoneNumber) + '">' + esc(u.phoneNumber) + '</a>' : '';
+  const mapLink = o => (o.lat != null && o.lng != null) ? '<a target="_blank" rel="noopener" href="https://www.google.com/maps?q=' + encodeURIComponent(o.lat + ',' + o.lng) + '">📍 Open map</a>' : '<span class="meta">No location</span>';
+  const SRC = { manual: 'Manual SOS', shake: 'Shake SOS', checkin_timeout: 'Check-in timed out' };
+
+  function render() {
+    const v = $('view'); let h = '';
+    if (state.tab === 'alerts') {
+      if (!state.alerts.length) h = '<div class="empty">✅ No active alerts.</div>';
+      state.alerts.forEach(a => {
+        h += '<div class="card alert"><div class="row"><div><div class="name">' + person(a.userId) + '</div>' +
+          '<div class="meta">' + phoneLink(a.userId) + '</div></div><span class="meta">' + ago(a.triggeredAt) + '</span></div>' +
+          '<div style="margin-top:8px"><span class="tag src">' + esc(SRC[a.triggerSource] || a.triggerSource) + '</span> ' + mapLink(a) + '</div>' +
+          '<div class="meta">' + new Date(a.triggeredAt).toLocaleString() + '</div>' +
+          '<div class="actions"><button class="btn ok" data-resolve="' + esc(a._id) + '">Mark resolved</button></div></div>';
+      });
+    } else if (state.tab === 'incidents') {
+      if (!state.incidents.length) h = '<div class="empty">No incident reports yet.</div>';
+      state.incidents.forEach(i => {
+        const rev = !!i.reviewedBy;
+        h += '<div class="card"><div class="row"><div><span class="tag ' + esc(i.severity) + '">' + esc(i.severity) + '</span><span class="tag">' + esc(i.type) + '</span></div>' +
+          '<span class="meta">' + ago(i.reportedAt) + '</span></div>' +
+          '<div style="margin-top:8px">' + esc(i.description) + '</div>' +
+          '<div class="meta">' + person(i.userId) + ' · ' + phoneLink(i.userId) + '</div>' +
+          '<div class="meta">' + esc(i.location || '') + ' ' + mapLink(i) + '</div>' +
+          '<div class="actions">' + (rev ? '<span class="tag low">Reviewed</span>' : '<button class="btn" data-review="' + esc(i._id) + '">Mark reviewed</button>') + '</div></div>';
+      });
+    } else if (state.tab === 'users') {
+      h = '<div class="card form"><h3>Create account</h3>' +
+        '<input id="nu-name" placeholder="Full name (letters only)" autocomplete="off">' +
+        '<input id="nu-phone" type="tel" placeholder="Phone e.g. +27821234567" autocomplete="off">' +
+        '<input id="nu-pass" type="password" placeholder="Temporary password" autocomplete="new-password">' +
+        '<div class="hint">8-72 characters with a capital letter, a number and one of @ $ ! % * ? &amp;</div>' +
+        '<select id="nu-role" style="width:100%;margin-bottom:10px"><option value="coordinator">Coordinator</option><option value="admin">Admin</option><option value="member">Member</option></select>' +
+        '<select id="nu-branch" style="width:100%;margin-bottom:10px"></select>' +
+        '<div class="msg" id="nu-msg"></div><button class="btn primary" style="width:100%" data-create="1">Create account</button></div>' +
+        '<div class="card form"><h3>NGO branches</h3><div id="branchList" class="meta" style="margin-bottom:8px"></div>' +
+        '<input id="br-name" placeholder="Branch name e.g. Thuso Soweto" autocomplete="off">' +
+        '<input id="br-region" placeholder="Region e.g. Gauteng" autocomplete="off">' +
+        '<div class="msg" id="br-msg"></div><button class="btn" style="width:100%" data-addbranch="1">Add branch</button></div>' +
+        '<div class="status">Existing accounts</div><div id="userList"></div>';
+    } else {
+      if (!state.members.length) h = '<div class="empty">No members registered yet.</div>';
+      state.members.forEach(m => {
+        h += '<div class="card"><div class="name">' + esc(m.fullName) + '</div><div class="meta">' + phoneLink(m) + ' · joined ' + new Date(m.createdAt).toLocaleDateString() + '</div></div>';
+      });
+    }
+    v.innerHTML = h;
+  }
+
+  // ---------- admin: users ----------
+  const me = () => JSON.parse(sessionStorage.getItem('sr_coord_user') || 'null') || {};
+  const PW_RE = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,72}$/;
+  const branchName = b => b ? (typeof b === 'object' ? b.branchName : (state.branches.find(x => x._id === b) || {}).branchName) || '' : '';
+
+  async function loadUsers() {
+    try {
+      const [u, b] = await Promise.all([api('/admin/users'), api('/admin/branches')]);
+      state.users = u; state.branches = b;
+    } catch (e) {
+      state.users = [];
+      if ($('userList')) $('userList').innerHTML = '<div class="empty">Could not load users: ' + esc(e.message) + '</div>';
+      return;
+    }
+    renderBranches(); renderUserList();
+  }
+  function branchOptions(selected, withNone) {
+    return (withNone ? '<option value="">— no branch —</option>' : '') +
+      state.branches.map(b => '<option value="' + esc(b._id) + '"' + (b._id === selected ? ' selected' : '') + '>' + esc(b.branchName) + ' (' + esc(b.region) + ')</option>').join('');
+  }
+  function renderBranches() {
+    const list = $('branchList');
+    if (list) list.textContent = state.branches.length ? state.branches.map(b => b.branchName + ' — ' + b.region).join('  •  ') : 'No branches yet.';
+    const sel = $('nu-branch');
+    if (sel) { const keep = sel.value; sel.innerHTML = branchOptions(keep, true); toggleBranchField(); }
+  }
+  function toggleBranchField() {
+    const sel = $('nu-branch'), role = $('nu-role');
+    if (sel && role) sel.style.display = role.value === 'coordinator' ? '' : 'none';
+  }
+  function renderUserList() {
+    const el = $('userList'); if (!el) return;
+    const mine = me().id;
+    el.innerHTML = state.users.map(u => {
+      const self = u._id === mine, off = u.active === false;
+      const bId = u.ngoBranch && typeof u.ngoBranch === 'object' ? u.ngoBranch._id : (u.ngoBranch || '');
+      return '<div class="card"' + (off ? ' style="opacity:.6"' : '') + '><div class="row"><div><div class="name">' + esc(u.fullName) +
+        (self ? ' <span class="tag">you</span>' : '') + (off ? ' <span class="tag high">deactivated</span>' : '') + (u.totpEnabled === true ? ' <span class="tag low">2FA on</span>' : '') + '</div>' +
+        '<div class="meta">' + esc(u.phoneNumber) + (u.role === 'coordinator' && branchName(u.ngoBranch) ? ' · ' + esc(branchName(u.ngoBranch)) : '') + '</div></div>' +
+        '<select data-role="' + esc(u._id) + '" data-prev="' + esc(u.role) + '"' + (self ? ' disabled title="You cannot change your own role"' : '') + '>' +
+        ['member', 'coordinator', 'admin'].map(r => '<option value="' + r + '"' + (r === u.role ? ' selected' : '') + '>' + r + '</option>').join('') + '</select></div>' +
+        (u.role === 'coordinator' ? '<div style="margin-top:8px"><select data-branch="' + esc(u._id) + '" data-prev="' + esc(bId) + '" style="width:100%">' + branchOptions(bId, true) + '</select></div>' : '') +
+        (self ? '' : '<div class="actions"><button class="btn" data-reset="' + esc(u._id) + '" data-name="' + esc(u.fullName) + '">Reset password</button>' +
+          (u.totpEnabled === true ? '<button class="btn" data-reset2fa="' + esc(u._id) + '" data-name="' + esc(u.fullName) + '">Reset 2FA</button>' : '') +
+          '<button class="btn ' + (off ? 'ok' : 'danger') + '" data-active="' + esc(u._id) + '" data-to="' + (off ? 'true' : 'false') + '" data-name="' + esc(u.fullName) + '">' + (off ? 'Reactivate' : 'Deactivate') + '</button></div>') +
+        '</div>';
+    }).join('') || '<div class="empty">No users.</div>';
+  }
+  async function createUser(btn) {
+    const msg = $('nu-msg'); msg.className = 'msg'; msg.textContent = '';
+    const body = {
+      fullName: $('nu-name').value.trim(),
+      phoneNumber: $('nu-phone').value.replace(/[\s()-]/g, ''),
+      password: $('nu-pass').value,
+      role: $('nu-role').value
+    };
+    if (body.role === 'coordinator' && $('nu-branch').value) body.ngoBranch = $('nu-branch').value;
+    const bad = t => { msg.className = 'msg bad'; msg.textContent = t; };
+    // same rules as the backend whitelist, for clear messages before sending
+    if (!/^[A-Za-z\s'-]{2,60}$/.test(body.fullName)) return bad('Name: letters, spaces, apostrophes and hyphens only (2-60).');
+    if (!/^\+?\d{9,15}$/.test(body.phoneNumber)) return bad('Enter a valid phone number (9-15 digits).');
+    if (!PW_RE.test(body.password)) return bad('Password does not meet the rules below.');
+    btn.disabled = true;
+    try {
+      await api('/admin/users', 'POST', body);
+      msg.className = 'msg good'; msg.textContent = '✅ ' + body.role + ' account created for ' + body.fullName + '.';
+      $('nu-name').value = ''; $('nu-phone').value = ''; $('nu-pass').value = '';
+      loadUsers();
+    } catch (e) { bad(e.message); }
+    finally { btn.disabled = false; }
+  }
+  async function addBranch(btn) {
+    const msg = $('br-msg'); msg.className = 'msg'; msg.textContent = '';
+    const name = $('br-name').value.trim(), region = $('br-region').value.trim();
+    const bad = t => { msg.className = 'msg bad'; msg.textContent = t; };
+    if (!/^[A-Za-z0-9\s,.'()&-]{2,80}$/.test(name)) return bad('Branch name: 2-80 letters, numbers, spaces and , . \' ( ) & -');
+    if (!/^[A-Za-z0-9\s,.'()&-]{2,60}$/.test(region)) return bad('Region: 2-60 letters, numbers and spaces.');
+    btn.disabled = true;
+    try {
+      await api('/admin/branches', 'POST', { branchName: name, region });
+      msg.className = 'msg good'; msg.textContent = '✅ Branch added.';
+      $('br-name').value = ''; $('br-region').value = '';
+      loadUsers();
+    } catch (e) { bad(e.message); }
+    finally { btn.disabled = false; }
+  }
+
+  // ---------- account sheet: change password + two-factor authentication ----------
+  const setMe = patch => sessionStorage.setItem('sr_coord_user', JSON.stringify(Object.assign(me(), patch)));
+  const acctMsg = (t, cls) => { $('acctMsg').className = 'msg' + (cls ? ' ' + cls : ''); $('acctMsg').textContent = t || ''; };
+  function openAcct(mode) { state.acct = { mode: mode || 'home' }; $('acctOverlay').classList.add('show'); renderAcct(); }
+  function closeAcct() { const o = $('acctOverlay'); if (o) o.classList.remove('show'); state.acct = { mode: 'home' }; }
+  async function copyText(text, done) {
+    try { await navigator.clipboard.writeText(text); acctMsg(done, 'good'); }
+    catch (e) { window.prompt('Copy this text:', text); }
+  }
+  function updateNotice() {
+    const u = me(), hide = !u.id || u.twoFactorEnabled || sessionStorage.getItem('sr_2fa_later');
+    $('twofaNotice').style.display = hide ? 'none' : 'block';
+  }
+  function renderAcct() {
+    const u = me(), a = state.acct; acctMsg('');
+    $('acctWho').textContent = (u.fullName || '') + ' · ' + (u.phoneNumber || '') + ' · ' + (u.role || '');
+    let h = '';
+    if (a.mode === 'home') {
+      h = '<h4>Password</h4><button class="btn" style="width:100%" data-acct="pw">Change my password</button>' +
+        '<h4>Two-factor authentication</h4>';
+      if (u.twoFactorEnabled) {
+        h += '<div class="meta" style="margin-bottom:8px">✅ On — sign-in needs a code from your authenticator app.</div>' +
+          '<button class="btn danger" style="width:100%" data-acct="offform">Turn off</button>';
+      } else {
+        h += '<div class="meta" style="margin-bottom:8px">Off. A code from an authenticator app (Google Authenticator, Microsoft Authenticator, Authy…) will be needed at sign-in.</div>' +
+          '<input id="acct-pass" type="password" placeholder="Re-enter your password to continue" autocomplete="current-password">' +
+          '<button class="btn primary" style="width:100%" data-acct="setup">Turn on</button>';
+      }
+    } else if (a.mode === 'setup') {
+      h = '<h4>1. Add SafeReach to your authenticator app</h4>' +
+        '<div class="meta">On this phone, tap the button. If nothing opens, open your authenticator app, choose “Enter a setup key”, and type this key (time-based):</div>' +
+        '<div class="keybox">' + esc(a.secret.replace(/(.{4})/g, '$1 ').trim()) + '</div>' +
+        '<a class="btn primary" href="' + esc(a.url) + '">Open authenticator app</a>' +
+        '<div class="btnrow"><button class="btn" data-acct="copykey">Copy key</button></div>' +
+        '<h4>2. Enter the 6-digit code it shows</h4>' +
+        '<input id="acct-code" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="123456">' +
+        '<div class="btnrow"><button class="btn" data-acct="home">Cancel</button><button class="btn primary" data-acct="enable">Confirm</button></div>';
+    } else if (a.mode === 'codes') {
+      h = '<h4>Save your recovery codes</h4>' +
+        '<div class="meta">Each code works once if you lose your phone. They are shown <b>only now</b> — store them somewhere safe (not on this phone alone).</div>' +
+        '<div class="codes">' + a.codes.map(c => '<code>' + esc(c) + '</code>').join('') + '</div>' +
+        '<div class="btnrow"><button class="btn" data-acct="copycodes">Copy all</button><button class="btn primary" data-acct="done">I have saved them</button></div>';
+    } else if (a.mode === 'off') {
+      h = '<h4>Turn off two-factor authentication</h4>' +
+        '<input id="acct-pass" type="password" placeholder="Your password" autocomplete="current-password">' +
+        '<input id="acct-code" inputmode="numeric" autocomplete="one-time-code" maxlength="20" placeholder="Current 6-digit code or a recovery code">' +
+        '<div class="btnrow"><button class="btn" data-acct="home">Cancel</button><button class="btn danger" data-acct="off">Turn off</button></div>';
+    }
+    $('acctBody').innerHTML = h;
+  }
+  async function acctAction(act, btn) {
+    const a = state.acct;
+    if (act === 'pw') { closeAcct(); openPw({ reset: false }); return; }
+    if (act === 'home') { openAcct('home'); return; }
+    if (act === 'offform') { openAcct('off'); return; }
+    if (act === 'done') { closeAcct(); updateNotice(); return; }
+    if (act === 'copykey') { copyText(a.secret, 'Key copied.'); return; }
+    if (act === 'copycodes') { copyText(a.codes.join('\n'), 'Recovery codes copied.'); return; }
+    btn.disabled = true;
+    try {
+      if (act === 'setup') {
+        const pass = $('acct-pass').value;
+        if (!pass) { acctMsg('Enter your password.', 'bad'); return; }
+        const d = await api('/coordinator/auth/2fa/setup', 'POST', { password: pass });
+        state.acct = { mode: 'setup', secret: d.secret, url: d.otpauthUrl }; renderAcct();
+      } else if (act === 'enable') {
+        const code = $('acct-code').value.replace(/\s/g, '');
+        if (!/^\d{6}$/.test(code)) { acctMsg('Enter the 6-digit code from the app.', 'bad'); return; }
+        const d = await api('/coordinator/auth/2fa/enable', 'POST', { code });
+        setMe({ twoFactorEnabled: true });
+        state.acct = { mode: 'codes', codes: d.recoveryCodes }; renderAcct(); updateNotice();
+      } else if (act === 'off') {
+        const pass = $('acct-pass').value, code = $('acct-code').value.trim();
+        if (!pass || !code) { acctMsg('Enter your password and a code.', 'bad'); return; }
+        await api('/coordinator/auth/2fa/disable', 'POST', { password: pass, code });
+        setMe({ twoFactorEnabled: false }); openAcct('home'); acctMsg('Two-factor authentication is now off.', 'good'); updateNotice();
+      }
+    } catch (e) { acctMsg(e.message, 'bad'); }
+    finally { btn.disabled = false; }
+  }
+  $('acctBtn').onclick = () => openAcct('home');
+  $('acctClose').onclick = () => { closeAcct(); };
+  $('twofaSetup').onclick = () => openAcct('home');
+  $('twofaLater').onclick = () => { sessionStorage.setItem('sr_2fa_later', '1'); updateNotice(); };
+
+  // ---------- password dialog (own password, or admin reset for someone else) ----------
+  let pwMode = null;
+  function openPw(mode) {
+    pwMode = mode;
+    $('pwTitle').textContent = mode.reset ? 'Reset password for ' + mode.name : 'Change my password';
+    $('pwCurrent').classList.toggle('hide', !!mode.reset);
+    ['pwCurrent', 'pwNew', 'pwNew2'].forEach(i => { $(i).value = ''; });
+    $('pwMsg').className = 'msg'; $('pwMsg').textContent = mode.reset ? 'They will be signed out everywhere and should change this temporary password.' : '';
+    $('pwOverlay').classList.add('show');
+  }
+  function closePw() { $('pwOverlay').classList.remove('show'); pwMode = null; ['pwCurrent', 'pwNew', 'pwNew2'].forEach(i => { $(i).value = ''; }); }
+  async function savePw() {
+    const msg = $('pwMsg'); const bad = t => { msg.className = 'msg bad'; msg.textContent = t; };
+    const cur = $('pwCurrent').value, nw = $('pwNew').value, nw2 = $('pwNew2').value;
+    if (!pwMode.reset && !cur) return bad('Enter your current password.');
+    if (!PW_RE.test(nw)) return bad('New password does not meet the rules below.');
+    if (nw !== nw2) return bad('The two new passwords do not match.');
+    $('pwSave').disabled = true;
+    try {
+      if (pwMode.reset) {
+        await api('/admin/users/' + pwMode.id + '/reset-password', 'POST', { newPassword: nw });
+        closePw(); alert('Password reset for ' + pwMode.name + '. Give them the temporary password in person.');
+      } else {
+        const d = await api('/auth/password', 'PATCH', { currentPassword: cur, newPassword: nw });
+        if (d.token) sessionStorage.setItem('sr_coord_token', d.token);   // other sessions are now revoked
+        closePw(); alert('Password changed.');
+      }
+    } catch (e) { bad(e.message); }
+    finally { $('pwSave').disabled = false; }
+  }
+  $('pwCancel').onclick = closePw;
+  $('pwSave').onclick = savePw;
+
+  // ---------- events ----------
+  document.addEventListener('change', async e => {
+    if (e.target.id === 'nu-role') { toggleBranchField(); return; }
+    const roleSel = e.target.closest('[data-role]');
+    if (roleSel) {
+      const id = roleSel.dataset.role, role = roleSel.value, prev = roleSel.dataset.prev;
+      if (!confirm('Change this account to "' + role + '"?')) { roleSel.value = prev; return; }
+      try { await api('/admin/users/' + id + '/role', 'PATCH', { role }); roleSel.dataset.prev = role; loadUsers(); }
+      catch (err) { roleSel.value = prev; alert('Could not change role: ' + err.message); }
+      return;
+    }
+    const brSel = e.target.closest('[data-branch]');
+    if (brSel) {
+      const id = brSel.dataset.branch, prev = brSel.dataset.prev;
+      try { await api('/admin/users/' + id + '/branch', 'PATCH', { ngoBranch: brSel.value || null }); brSel.dataset.prev = brSel.value; loadUsers(); }
+      catch (err) { brSel.value = prev; alert('Could not change branch: ' + err.message); }
+    }
+  });
+  document.addEventListener('click', async e => {
+    const t = e.target.closest('[data-tab],[data-resolve],[data-review],[data-create],[data-addbranch],[data-reset],[data-reset2fa],[data-active],[data-acct]'); if (!t) return;
+    if (t.dataset.acct) { acctAction(t.dataset.acct, t); return; }
+    if (t.dataset.reset2fa) {
+      if (!confirm('Turn off two-factor authentication for ' + t.dataset.name + '?\n\nThey will be signed out and can set it up again from their Account screen.')) return;
+      t.disabled = true;
+      try { await api('/admin/users/' + t.dataset.reset2fa + '/reset-2fa', 'POST'); loadUsers(); }
+      catch (err) { t.disabled = false; alert('Action failed: ' + err.message); }
+      return;
+    }
+    if (t.dataset.create) { createUser(t); return; }
+    if (t.dataset.addbranch) { addBranch(t); return; }
+    if (t.dataset.reset) { openPw({ reset: true, id: t.dataset.reset, name: t.dataset.name }); return; }
+    if (t.dataset.active) {
+      const to = t.dataset.to === 'true';
+      if (!confirm((to ? 'Reactivate ' : 'Deactivate ') + t.dataset.name + '?' + (to ? '' : '\n\nThey will be signed out and unable to sign in. Their records are kept.'))) return;
+      t.disabled = true;
+      try { await api('/admin/users/' + t.dataset.active + '/active', 'PATCH', { active: to }); loadUsers(); }
+      catch (err) { t.disabled = false; alert('Action failed: ' + err.message); }
+      return;
+    }
+    if (t.dataset.tab) {
+      state.tab = t.dataset.tab;
+      document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t));
+      if (state.tab === 'alerts') $('banner').style.display = 'none';
+      if (state.tab === 'members') loadMembers();
+      else if (state.tab === 'users') { render(); loadUsers(); }
+      else render();
+      return;
+    }
+    t.disabled = true;
+    try {
+      if (t.dataset.resolve) await api('/sos/' + t.dataset.resolve + '/resolve', 'PATCH');
+      else await api('/incidents/' + t.dataset.review + '/review', 'PATCH');
+      refresh();
+    } catch (err) { t.disabled = false; alert('Action failed: ' + err.message); }
+  });
+
+  function start() {
+    const u = JSON.parse(sessionStorage.getItem('sr_coord_user') || 'null');
+    $('who').textContent = u ? u.fullName + ' (' + u.role + ')' : '';
+    $('usersTab').classList.toggle('hide', !(u && u.role === 'admin'));
+    updateNotice();
+    $('login').classList.add('hide'); $('app').classList.remove('hide');
+    refresh(); clearInterval(state.timer); state.timer = setInterval(refresh, POLL_MS);
+  }
+  if (tok()) start();
+})();
+</script>
+</body>
+</html>
