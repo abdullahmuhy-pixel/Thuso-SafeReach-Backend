@@ -21,7 +21,7 @@ const loginLimiter = rateLimit({
 router.post('/login', loginLimiter, async (req, res) => {
   const { phoneNumber, password } = req.body;
 
-  if (!isValid('phoneNumber', phoneNumber) || !password) {
+  if (!isValid('phoneNumber', phoneNumber) || typeof password !== 'string' || !password || password.length > 200) {
     return res.status(400).json({ error: 'Invalid phone number or password' });
   }
 
@@ -32,6 +32,10 @@ router.post('/login', loginLimiter, async (req, res) => {
 
   const match = await AuthService.verifyPassword(password, user.passwordHash);
   if (!match) return res.status(401).json({ error: 'Authentication failed' });
+
+  if (user.active === false) {
+    return res.status(403).json({ error: 'This account has been deactivated. Contact an administrator.' });
+  }
 
   const token = AuthService.issueToken(user);
   return res.json({ token, user: user.toSafeJSON() });

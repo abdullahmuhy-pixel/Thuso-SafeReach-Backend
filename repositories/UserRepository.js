@@ -26,9 +26,30 @@ class UserRepository {
     return User.findByIdAndUpdate(id, { role }, { new: true });
   }
 
+  // Soft delete / restore — records stay, sign-in stops.
+  async setActive(id, active) {
+    return User.findByIdAndUpdate(id, { active }, { new: true });
+  }
+
+  async setBranch(id, branchId) {
+    return User.findByIdAndUpdate(id, { ngoBranch: branchId }, { new: true });
+  }
+
+  // Also stamps passwordChangedAt so older sessions stop working.
+  async updatePassword(id, passwordHash) {
+    return User.findByIdAndUpdate(
+      id,
+      { passwordHash, passwordChangedAt: new Date() },
+      { new: true }
+    );
+  }
+
   async list({ role } = {}) {
     const filter = role ? { role } : {};
-    return User.find(filter).select('-passwordHash');
+    return User.find(filter)
+      .select('-passwordHash')
+      .populate('ngoBranch', 'branchName region')
+      .sort({ createdAt: -1 });
   }
 }
 

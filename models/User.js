@@ -13,12 +13,18 @@ const userSchema = new mongoose.Schema({
   },
   // Only populated for role === 'coordinator'
   ngoBranch: { type: mongoose.Schema.Types.ObjectId, ref: 'NGOBranch', default: null },
+  // Soft-delete flag: deactivated accounts cannot sign in, but their check-ins,
+  // alerts and reports stay in the database for the audit trail.
+  // (Accounts created before this field existed are treated as active.)
+  active: { type: Boolean, default: true },
+  // Tokens issued before this moment are rejected (see middleware/auth.js)
+  passwordChangedAt: { type: Date, default: null },
 }, { timestamps: { createdAt: 'createdAt', updatedAt: false } });
 
 // Never serialise the password hash back to the client
 userSchema.methods.toSafeJSON = function () {
-  const { _id, fullName, phoneNumber, role, createdAt } = this;
-  return { id: _id, fullName, phoneNumber, role, createdAt };
+  const { _id, fullName, phoneNumber, role, createdAt, ngoBranch } = this;
+  return { id: _id, fullName, phoneNumber, role, createdAt, ngoBranch: ngoBranch || null, active: this.active !== false };
 };
 
 module.exports = mongoose.model('User', userSchema);

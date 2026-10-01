@@ -13,15 +13,28 @@ async function authenticate(req, res, next) {
 
   if (!token) return res.status(401).json({ error: 'Authentication required' });
 
+  let user;
   try {
     const decoded = AuthService.verifyToken(token);
-    const user = await UserRepository.findById(decoded.id);
+    user = await UserRepository.findById(decoded.id);
     if (!user) return res.status(401).json({ error: 'User no longer exists' });
-    req.user = user;
-    next();
+
+    // Sessions issued before the last password change are no longer valid.
+    if (user.passwordChangedAt && decoded.iat &&
+        decoded.iat < Math.floor(user.passwordChangedAt.getTime() / 1000)) {
+      return res.status(401).json({ error: 'Password was changed — please sign in again' });
+    }
   } catch (err) {
     return res.status(401).json({ error: 'Invalid or expired session' });
   }
+
+  // Deactivated accounts keep their records but can no longer use the API.
+  if (user.active === false) {
+    return res.status(401).json({ error: 'This account has been deactivated' });
+  }
+
+  req.user = user;
+  next();
 }
 
 // requireRole('coordinator', 'admin') — call after authenticate()

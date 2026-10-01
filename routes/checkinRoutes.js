@@ -6,15 +6,18 @@
 const express = require('express');
 const CheckInRepository = require('../repositories/CheckInRepository');
 const { authenticate, requireRole } = require('../middleware/auth');
-const { validateBody, isValid } = require('../middleware/validators');
+const { validateBody, validateParams, isValid } = require('../middleware/validators');
 
 const router = express.Router();
 router.use(authenticate, requireRole('member'));
 
 router.post('/', validateBody({ destination: 'destination' }), async (req, res) => {
   const { durationMinutes, destination, lat, lng } = req.body;
-  const minutes = Number(durationMinutes);
 
+  if (typeof durationMinutes !== 'number' && typeof durationMinutes !== 'string') {
+    return res.status(400).json({ error: 'durationMinutes must be a number' });
+  }
+  const minutes = Number(durationMinutes);
   if (!Number.isFinite(minutes) || minutes < 5 || minutes > 24 * 60) {
     return res.status(400).json({ error: 'durationMinutes must be between 5 and 1440' });
   }
@@ -41,17 +44,25 @@ router.get('/active', async (req, res) => {
   return res.json({ checkIn: checkIn || null });
 });
 
-router.patch('/:id/extend', async (req, res) => {
-  const minutes = Number(req.body.minutes) || 15;
+router.patch('/:id/extend', validateParams({ id: 'mongoId' }), async (req, res) => {
+  const raw = req.body.minutes === undefined ? 15 : req.body.minutes;
+  const minutes = typeof raw === 'number' || typeof raw === 'string' ? Number(raw) : NaN;
+  if (!Number.isFinite(minutes) || minutes < 1 || minutes > 720) {
+    return res.status(400).json({ error: 'minutes must be between 1 and 720' });
+  }
+
   const checkIn = await CheckInRepository.findById(req.params.id);
   if (!checkIn || String(checkIn.userId) !== String(req.user._id)) {
     return res.status(404).json({ error: 'Check-in not found' });
+  }
+  if (checkIn.status !== 'active') {
+    return res.status(409).json({ error: 'This check-in is no longer active' });
   }
   const updated = await CheckInRepository.extend(req.params.id, minutes);
   return res.json({ success: true, checkIn: updated });
 });
 
-router.patch('/:id/safe', async (req, res) => {
+router.patch('/:id/safe', validateParams({ id: 'mongoId' }), async (req, res) => {
   const checkIn = await CheckInRepository.findById(req.params.id);
   if (!checkIn || String(checkIn.userId) !== String(req.user._id)) {
     return res.status(404).json({ error: 'Check-in not found' });

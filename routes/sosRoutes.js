@@ -5,7 +5,7 @@
 const express = require('express');
 const SOSAlertRepository = require('../repositories/SOSAlertRepository');
 const { authenticate, requireRole } = require('../middleware/auth');
-const { isValid } = require('../middleware/validators');
+const { isValid, validateParams } = require('../middleware/validators');
 const { dispatchAlert } = require('../services/NotificationDispatcher');
 
 const router = express.Router();
@@ -15,6 +15,9 @@ router.post('/', authenticate, requireRole('member'), async (req, res) => {
 
   if (lat !== undefined && !isValid('latLng', lat)) return res.status(400).json({ error: 'Invalid latitude' });
   if (lng !== undefined && !isValid('latLng', lng)) return res.status(400).json({ error: 'Invalid longitude' });
+  if (checkInId !== undefined && checkInId !== null && !isValid('mongoId', checkInId)) {
+    return res.status(400).json({ error: 'Invalid checkInId' });
+  }
 
   const allowedSources = ['manual', 'shake', 'checkin_timeout'];
   const source = allowedSources.includes(triggerSource) ? triggerSource : 'manual';
@@ -40,10 +43,16 @@ router.get('/', authenticate, requireRole('coordinator', 'admin'), async (req, r
   return res.json(alerts);
 });
 
-router.patch('/:id/resolve', authenticate, requireRole('coordinator', 'admin'), async (req, res) => {
-  const alert = await SOSAlertRepository.resolve(req.params.id, req.user._id);
-  if (!alert) return res.status(404).json({ error: 'Alert not found' });
-  return res.json({ success: true, alert });
-});
+router.patch(
+  '/:id/resolve',
+  authenticate,
+  requireRole('coordinator', 'admin'),
+  validateParams({ id: 'mongoId' }),
+  async (req, res) => {
+    const alert = await SOSAlertRepository.resolve(req.params.id, req.user._id);
+    if (!alert) return res.status(404).json({ error: 'Alert not found' });
+    return res.json({ success: true, alert });
+  }
+);
 
 module.exports = router;

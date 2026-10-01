@@ -6,7 +6,7 @@
 const express = require('express');
 const IncidentRepository = require('../repositories/IncidentRepository');
 const { authenticate, requireRole } = require('../middleware/auth');
-const { validateBody, isValid } = require('../middleware/validators');
+const { validateBody, validateParams, isValid } = require('../middleware/validators');
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.post(
   '/',
   authenticate,
   requireRole('member'),
-  validateBody({ description: 'description', location: 'destination' }),
+  validateBody({ description: 'description', location: 'destination' }, ['type', 'description']),
   async (req, res) => {
     const { type, description, severity, location, lat, lng } = req.body;
 
@@ -51,10 +51,16 @@ router.get('/', authenticate, requireRole('coordinator', 'admin'), async (req, r
   return res.json(incidents);
 });
 
-router.patch('/:id/review', authenticate, requireRole('coordinator', 'admin'), async (req, res) => {
-  const incident = await IncidentRepository.markReviewed(req.params.id, req.user._id);
-  if (!incident) return res.status(404).json({ error: 'Incident not found' });
-  return res.json({ success: true, incident });
-});
+router.patch(
+  '/:id/review',
+  authenticate,
+  requireRole('coordinator', 'admin'),
+  validateParams({ id: 'mongoId' }),
+  async (req, res) => {
+    const incident = await IncidentRepository.markReviewed(req.params.id, req.user._id);
+    if (!incident) return res.status(404).json({ error: 'Incident not found' });
+    return res.json({ success: true, incident });
+  }
+);
 
 module.exports = router;
