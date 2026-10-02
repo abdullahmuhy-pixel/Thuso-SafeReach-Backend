@@ -61,7 +61,10 @@ router.post('/login', loginLimiter, async (req, res) => {
   }
 
   const user = await UserRepository.findByPhone(phoneNumber);
-  if (!user) return res.status(401).json({ error: 'Authentication failed' });
+  // Members only. Coordinators and admins must use /api/coordinator/auth/login,
+  // which is where two-factor authentication is enforced — letting them in here
+  // would bypass it.
+  if (!user || user.role !== 'member') return res.status(401).json({ error: 'Authentication failed' });
 
   const match = await AuthService.verifyPassword(password, user.passwordHash);
   if (!match) return res.status(401).json({ error: 'Authentication failed' });

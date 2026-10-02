@@ -93,9 +93,14 @@ async function start() {
   app.listen(port, () => console.log(`[server] Thuso SafeReach backend running on port ${port}`));
 }
 
-start().catch(err => {
-  console.error('[server] Failed to start:', err);
-  process.exit(1);
-});
+// Only boot (database + sweeper + listener) when run directly with
+// `node server.js`. Tests `require` this file to get the configured app
+// without connecting to anything.
+if (require.main === module) {
+  start().catch(err => {
+    console.error('[server] Failed to start:', err);
+    process.exit(1);
+  });
+}
 
 module.exports = app;

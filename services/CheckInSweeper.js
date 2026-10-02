@@ -7,6 +7,7 @@
 const CheckInRepository = require('../repositories/CheckInRepository');
 const SOSAlertRepository = require('../repositories/SOSAlertRepository');
 const IncidentRepository = require('../repositories/IncidentRepository');
+const UserRepository = require('../repositories/UserRepository');
 const { dispatchAlert } = require('./NotificationDispatcher');
 
 const SWEEP_INTERVAL_MS = 30 * 1000;
@@ -17,12 +18,17 @@ async function sweepOnce() {
   for (const checkIn of expired) {
     await CheckInRepository.markEscalated(checkIn._id);
 
+    // Route the alert to the member's branch.
+    const member = await UserRepository.findById(checkIn.userId);
+    const ngoBranch = member ? member.ngoBranch || null : null;
+
     const alert = await SOSAlertRepository.create({
       userId: checkIn.userId,
       checkInId: checkIn._id,
       triggerSource: 'checkin_timeout',
       lat: checkIn.lat,
       lng: checkIn.lng,
+      ngoBranch,
     });
 
     await IncidentRepository.create({
@@ -33,6 +39,7 @@ async function sweepOnce() {
       location: checkIn.lat ? `${checkIn.lat}, ${checkIn.lng}` : 'Location not set',
       lat: checkIn.lat,
       lng: checkIn.lng,
+      ngoBranch,
     });
 
     await dispatchAlert(alert);

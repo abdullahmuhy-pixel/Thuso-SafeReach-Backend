@@ -7,7 +7,8 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-const SALT_ROUNDS = 12;
+// 12 in production. Tests set BCRYPT_ROUNDS=4 so hashing doesn't slow them down.
+const SALT_ROUNDS = Number(process.env.BCRYPT_ROUNDS) || 12;
 
 class AuthService {
   constructor() {
@@ -37,6 +38,23 @@ class AuthService {
 
   verifyToken(token) {
     return jwt.verify(token, this.jwtSecret);
+  }
+
+  // Short-lived token handed out after the password step of a 2FA login. It is
+  // signed with a DIFFERENT key from session tokens, so it can never be used
+  // to call the API — it only proves "this person already passed the password".
+  issueChallengeToken(user) {
+    return jwt.sign(
+      { id: user._id.toString(), purpose: '2fa' },
+      this.jwtSecret + ':2fa-challenge',
+      { expiresIn: '5m' }
+    );
+  }
+
+  verifyChallengeToken(token) {
+    const decoded = jwt.verify(token, this.jwtSecret + ':2fa-challenge');
+    if (decoded.purpose !== '2fa') throw new Error('Wrong token type');
+    return decoded;
   }
 }
 

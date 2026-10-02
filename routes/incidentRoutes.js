@@ -7,6 +7,7 @@ const express = require('express');
 const IncidentRepository = require('../repositories/IncidentRepository');
 const { authenticate, requireRole } = require('../middleware/auth');
 const { validateBody, validateParams, isValid } = require('../middleware/validators');
+const { scopeFor, canAccess } = require('../services/BranchScope');
 
 const router = express.Router();
 
@@ -34,6 +35,7 @@ router.post(
       location: location || '',
       lat: lat ?? null,
       lng: lng ?? null,
+      ngoBranch: req.user.ngoBranch || null, // routed to the member's branch
     });
 
     return res.status(201).json({ success: true, incident });
@@ -47,7 +49,7 @@ router.get('/mine', authenticate, requireRole('member'), async (req, res) => {
 
 // Coordinator-facing
 router.get('/', authenticate, requireRole('coordinator', 'admin'), async (req, res) => {
-  const incidents = await IncidentRepository.findAll();
+  const incidents = await IncidentRepository.findAll({ branchId: scopeFor(req.user).branchId });
   return res.json(incidents);
 });
 
@@ -57,6 +59,10 @@ router.patch(
   requireRole('coordinator', 'admin'),
   validateParams({ id: 'mongoId' }),
   async (req, res) => {
+    const existing = await IncidentRepository.findById(req.params.id);
+    if (!existing || !canAccess(req.user, existing.ngoBranch)) {
+      return res.status(404).json({ error: 'Incident not found' });
+    }
     const incident = await IncidentRepository.markReviewed(req.params.id, req.user._id);
     if (!incident) return res.status(404).json({ error: 'Incident not found' });
     return res.json({ success: true, incident });

@@ -40,7 +40,7 @@ router.post(
     if (!ROLES.includes(role)) return res.status(400).json({ error: 'Invalid role' });
 
     let branchId = null;
-    if (role === 'coordinator' && ngoBranch) {
+    if (role !== 'admin' && ngoBranch) {
       if (!isValid('mongoId', ngoBranch)) return res.status(400).json({ error: 'Invalid branch' });
       const branch = await BranchRepository.findById(ngoBranch);
       if (!branch) return res.status(400).json({ error: 'Branch not found' });
@@ -74,8 +74,8 @@ router.patch('/users/:id/role', validateParams({ id: 'mongoId' }), async (req, r
   if (!target) return res.status(404).json({ error: 'User not found' });
 
   let user = await UserRepository.updateRole(req.params.id, role);
-  // A branch only makes sense for coordinators.
-  if (role !== 'coordinator' && target.ngoBranch) {
+  // Admins work across all branches, so they don't belong to one.
+  if (role === 'admin' && target.ngoBranch) {
     user = await UserRepository.setBranch(req.params.id, null);
   }
   return res.json({ success: true, user: user.toSafeJSON() });
@@ -98,13 +98,14 @@ router.patch('/users/:id/active', validateParams({ id: 'mongoId' }), async (req,
   return res.json({ success: true, user: user.toSafeJSON() });
 });
 
-// Assign (or clear, with null) a coordinator's NGO branch.
+// Assign (or clear, with null) a member's or coordinator's NGO branch. A member's
+// branch decides which coordinators see their alerts and reports.
 router.patch('/users/:id/branch', validateParams({ id: 'mongoId' }), async (req, res) => {
   const { ngoBranch } = req.body;
   const target = await UserRepository.findById(req.params.id);
   if (!target) return res.status(404).json({ error: 'User not found' });
-  if (target.role !== 'coordinator') {
-    return res.status(400).json({ error: 'Only coordinators can belong to a branch' });
+  if (target.role === 'admin') {
+    return res.status(400).json({ error: 'Admins are not tied to a branch' });
   }
 
   let branchId = null;
@@ -137,6 +138,20 @@ router.post(
     return res.json({ success: true });
   }
 );
+
+// Lost phone? An admin switches 2FA off for that account (their sessions are
+// signed out too) and they set it up again. Admins turn off their OWN 2FA from
+// the Account screen, which needs their password and a code.
+router.post('/users/:id/reset-2fa', validateParams({ id: 'mongoId' }), async (req, res) => {
+  if (sameId(req.params.id, req.user._id)) {
+    return res.status(400).json({ error: 'Use "Turn off" in your own Account screen' });
+  }
+  const target = await UserRepository.findById(req.params.id);
+  if (!target) return res.status(404).json({ error: 'User not found' });
+
+  await UserRepository.disableTotp(req.params.id, { revokeSessions: true });
+  return res.json({ success: true });
+});
 
 // ── NGO branches ────────────────────────────────────────────────────────
 router.get('/branches', async (req, res) => {

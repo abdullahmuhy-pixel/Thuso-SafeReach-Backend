@@ -1,13 +1,21 @@
 // repositories/IncidentRepository.js
 const Incident = require('../models/Incident');
 
+// Same rule as SOSAlertRepository: a coordinator sees their branch's reports plus
+// reports from members who are not assigned to a branch.
+const branchFilter = branchId => (branchId ? { $or: [{ ngoBranch: branchId }, { ngoBranch: null }] } : {});
+
 class IncidentRepository {
   async create(data) {
     return Incident.create(data);
   }
 
-  async findAll({ limit = 50 } = {}) {
-    return Incident.find()
+  async findById(id) {
+    return Incident.findById(id);
+  }
+
+  async findAll({ limit = 50, branchId } = {}) {
+    return Incident.find(branchFilter(branchId))
       .sort({ reportedAt: -1 })
       .limit(limit)
       .populate('userId', 'fullName phoneNumber');

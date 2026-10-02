@@ -18,6 +18,8 @@ const incidentSchema = new mongoose.Schema({
   lat: { type: Number, default: null },
   lng: { type: Number, default: null },
   reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+  // Branch of the reporting member when the report was made (null = unassigned).
+  ngoBranch: { type: mongoose.Schema.Types.ObjectId, ref: 'NGOBranch', default: null },
 }, { timestamps: { createdAt: 'reportedAt', updatedAt: false } });
 
 module.exports = mongoose.model('Incident', incidentSchema);

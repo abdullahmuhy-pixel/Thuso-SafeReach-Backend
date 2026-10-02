@@ -2,15 +2,15 @@ version: 2.1
 jobs:
   build-and-test:
     docker:
-      - image: cimg/node:18.0
+      - image: cimg/node:20.18
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: npm install
       - run:
-          name: Run unit tests
-          command: npm test --passWithNoTests
+          name: Run automated tests
+          command: npm test
 workflows:
   backend-ci:
     jobs:

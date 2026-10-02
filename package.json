@@ -9,7 +9,7 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "seed": "node seed/seedCoordinators.js",
-    "test": "echo \"No automated tests yet — see GitHub Actions workflow\""
+    "test": "node --test tests/*.test.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
