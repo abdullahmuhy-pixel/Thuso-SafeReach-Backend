@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0f1a">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src https://thuso-safereach-backend.onrender.com; base-uri 'none'; form-action 'none'">
+<title>SafeReach — Travel safety for South Africa</title>
+<meta name="description" content="SafeReach by Thuso Travel Safety Network: check-in timers, one-tap SOS and incident reporting for travellers in South Africa.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#0a0f1a;--surface:#111a2b;--surface2:#18243a;--border:#25344f;--text:#e8eefc;--dim:#9aaacb;--cyan:#00d4ff;--red:#ff4455;--green:#1fdc7a;--orange:#ff8c42;--on-cyan:#001018}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f7fc;--surface:#ffffff;--surface2:#eaf0fa;--border:#cfd9ec;--text:#0f1a2e;--dim:#4a5b7a;--cyan:#006f94;--red:#c62839;--green:#0f8a4d;--orange:#b85a12;--on-cyan:#ffffff}}
+:root[data-theme="light"]{--bg:#f4f7fc;--surface:#ffffff;--surface2:#eaf0fa;--border:#cfd9ec;--text:#0f1a2e;--dim:#4a5b7a;--cyan:#006f94;--red:#c62839;--green:#0f8a4d;--orange:#b85a12;--on-cyan:#ffffff}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;padding-bottom:env(safe-area-inset-bottom)}
+a{color:var(--cyan)}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--border);padding:calc(env(safe-area-inset-top) + 8px) 14px 8px}
+.bar{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:14px;justify-content:space-between}
+.brand{font-weight:800;font-size:1.1rem;white-space:nowrap}.brand span{color:var(--cyan)}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav a{color:var(--dim);text-decoration:none;font-size:.85rem;padding:.4rem .6rem;border-radius:8px;white-space:nowrap}
+nav a:hover,nav a.on{color:var(--cyan);background:var(--surface)}
+section{padding:46px 16px}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-size:clamp(1.9rem,6vw,3rem);line-height:1.15;margin-bottom:14px}
+h2{font-size:1.5rem;margin-bottom:6px}
+h3{font-size:1.02rem;margin-bottom:4px}
+.lead{color:var(--dim);font-size:1.05rem;max-width:620px;margin-bottom:22px}
+.sub{color:var(--dim);margin-bottom:22px;max-width:640px}
+.hero{padding-top:56px;border-bottom:1px solid var(--border)}
+.tag{display:inline-block;border:1px solid var(--border);background:var(--surface);color:var(--cyan);border-radius:99px;padding:3px 12px;font-size:.78rem;margin-bottom:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:.65rem 1.05rem;font:inherit;font-size:.92rem;cursor:pointer;text-decoration:none;text-align:center}
+.btn.primary{background:var(--cyan);color:var(--on-cyan);border-color:var(--cyan);font-weight:700}
+.btn.danger{border-color:var(--red);color:var(--red)}
+.btn.sos{background:var(--red);border-color:var(--red);color:#fff;font-weight:800;font-size:1.05rem;width:100%;padding:.9rem}
+.btn:disabled{opacity:.55;cursor:default}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px}
+.card .ic{font-size:1.5rem;margin-bottom:6px}
+.card p,.step p{color:var(--dim);font-size:.9rem}
+.step{display:flex;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
+.num{flex:none;width:30px;height:30px;border-radius:50%;background:var(--cyan);color:var(--on-cyan);font-weight:800;display:grid;place-items:center}
+.alt{background:var(--surface);border-block:1px solid var(--border)}
+.alt .card{background:var(--bg)}
+.sos-nums{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.sos-nums a{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;text-decoration:none;color:var(--text)}
+.sos-nums b{display:block;color:var(--red);font-size:1.5rem}
+.sos-nums span{color:var(--dim);font-size:.8rem}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px}
+.tabs{display:flex;gap:6px;margin-bottom:14px}
+.tab{flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--dim);border-radius:10px;padding:.6rem;font:inherit;cursor:pointer}
+.tab.on{color:var(--cyan);border-color:var(--cyan)}
+label{display:block;font-size:.82rem;color:var(--dim);margin:10px 0 4px}
+input,select,textarea{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:.65rem .75rem;font:inherit}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus,.btn:focus-visible,.tab:focus-visible,nav a:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+.hint{font-size:.78rem;color:var(--dim);margin-top:4px}
+.msg{font-size:.88rem;margin-top:10px;min-height:1.2em}
+.msg.err{color:var(--red)}.msg.ok{color:var(--green)}.msg.info{color:var(--dim)}
+.hide{display:none!important}
+.dur{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0}
+.dur button{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:.6rem 0;font:inherit;cursor:pointer}
+.dur button.sel{border-color:var(--cyan);color:var(--cyan)}
+.timer{font-size:2.6rem;font-weight:800;text-align:center;color:var(--cyan);font-variant-numeric:tabular-nums;margin:4px 0}
+.inc{border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-top:8px;background:var(--bg)}
+.inc small{color:var(--dim)}
+.pill{display:inline-block;font-size:.72rem;border:1px solid var(--border);border-radius:99px;padding:0 8px;margin-right:6px;color:var(--orange)}
+details summary{cursor:pointer;color:var(--cyan);font-size:.9rem}
+footer{border-top:1px solid var(--border);padding:26px 16px;color:var(--dim);font-size:.82rem}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--cyan);color:var(--on-cyan);padding:6px 10px;border-radius:8px;z-index:20}
+@media (max-width:560px){.bar{flex-direction:column;align-items:flex-start;gap:4px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="bar">
+    <div class="brand">Safe<span>Reach</span></div>
+    <nav aria-label="Main">
+      <a href="#home">Home</a><a href="#features">Features</a><a href="#how">How it works</a><a href="#safety">Safety numbers</a><a href="#account">My account</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="home"><div class="wrap">
+  <span class="tag">by Thuso Travel Safety Network</span>
+  <h1>Travel South Africa with someone watching your back.</h1>
+  <p class="lead">SafeReach lets you start a check-in timer before a trip. If you do not confirm you are safe in time, our coordinators are alerted automatically, even if your phone is off.</p>
+  <div class="row">
+    <a class="btn primary" href="#account">Create a free account</a>
+    <a class="btn" href="https://abdullahmuhy-pixel.github.io/Thuso-SafeReach-Backend/">Open the SafeReach app</a>
+  </div>
+</div></section>
+
+<section id="features"><div class="wrap">
+  <h2>What SafeReach does</h2>
+  <p class="sub">Everything below works from the app on your phone or from your account on this website.</p>
+  <div class="grid">
+    <div class="card"><div class="ic" aria-hidden="true">⏱️</div><h3>Check-in timer</h3><p>Choose a duration and destination. Tap I'm safe when you arrive, or extend the time.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true">🔔</div><h3>Automatic escalation</h3><p>If time runs out, the server raises an SOS alert for you. It does not need your phone to be on.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true">🆘</div><h3>One-tap SOS</h3><p>Send an alert with your location. In the app you can also shake your phone, with a 5 second cancel.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true">📝</div><h3>Incident reports</h3><p>Report theft, assault, accidents, fires and medical events so coordinators can respond and spot patterns.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true">📶</div><h3>Works offline</h3><p>In the app, alerts and reports made without signal are saved and sent when you are back online.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true">🧭</div><h3>Trip tools</h3><p>The app also has a trip planner, medical ID and a phrasebook that work on your phone.</p></div>
+  </div>
+</div></section>
+
+<section class="alt" id="how"><div class="wrap">
+  <h2>How it works</h2>
+  <p class="sub">Three steps. No special equipment.</p>
+  <div class="step"><div class="num">1</div><div><h3>Create an account</h3><p>Use your phone number and a password. Do it once on this site or in the app.</p></div></div>
+  <div class="step"><div class="num">2</div><div><h3>Start a check-in before you travel</h3><p>Pick 15, 30, 45 or 60 minutes and say where you are going.</p></div></div>
+  <div class="step"><div class="num">3</div><div><h3>Confirm you are safe</h3><p>Tap I'm safe. If you do not, a coordinator from the Thuso branch sees the alert on their dashboard.</p></div></div>
+  <p class="hint" style="margin-top:14px">NGO staff: <a href="https://abdullahmuhy-pixel.github.io/Thuso-SafeReach-Backend/coordinator.html">sign in to the coordinator and admin dashboard</a>.</p>
+</div></section>
+
+<section id="safety"><div class="wrap">
+  <h2>Emergency numbers in South Africa</h2>
+  <p class="sub">SafeReach does not replace emergency services. In a real emergency, call them first.</p>
+  <div class="sos-nums">
+    <a href="tel:10111"><b>10111</b><span>Police</span></a>
+    <a href="tel:10177"><b>10177</b><span>Ambulance</span></a>
+    <a href="tel:10111"><b>10111</b><span>Fire</span></a>
+    <a href="tel:112"><b>112</b><span>General emergency</span></a>
+  </div>
+  <h3 style="margin-top:22px">Install the app</h3>
+  <p class="sub" style="margin-bottom:0"><b>Android (Chrome):</b> open the app, tap the ⋮ menu, then Install app. <b>iPhone (Safari):</b> open the app, tap Share, then Add to Home Screen.</p>
+</div></section>
+
+<section class="alt" id="account"><div class="wrap" style="max-width:560px">
+  <h2>My account</h2>
+  <p class="sub">Create an account or sign in to start a check-in, send an SOS and report incidents from this page.</p>
+
+  <div id="authView">
+    <div class="tabs" role="tablist">
+      <button class="tab on" id="tabIn" role="tab" aria-selected="true" type="button">Sign in</button>
+      <button class="tab" id="tabUp" role="tab" aria-selected="false" type="button">Create account</button>
+    </div>
+    <div class="panel">
+      <form id="authForm" novalidate>
+        <div id="nameWrap" class="hide"><label for="aName">Full name</label><input id="aName" autocomplete="name" maxlength="60" placeholder="e.g. Naledi Dlamini"></div>
+        <label for="aPhone">Phone number</label><input id="aPhone" inputmode="tel" autocomplete="tel" placeholder="+27821234567">
+        <label for="aPass">Password</label><input id="aPass" type="password" autocomplete="current-password">
+        <p class="hint hide" id="pwHint">8 to 72 characters with a capital letter, a number and one of @ $ ! % * ? &amp;</p>
+        <p class="msg" id="authMsg" role="status" aria-live="polite"></p>
+        <button class="btn primary" id="authGo" type="submit" style="width:100%;margin-top:6px">Sign in</button>
+      </form>
+      <p class="hint" style="margin-top:10px">The first request can take up to a minute while the free server wakes up. This portal is for travellers. Staff use the <a href="https://abdullahmuhy-pixel.github.io/Thuso-SafeReach-Backend/coordinator.html">dashboard</a>.</p>
+    </div>
+  </div>
+
+  <div id="portal" class="hide">
+    <div class="panel row" style="justify-content:space-between;align-items:center">
+      <div><b id="who"></b><div class="hint">Signed in. You are signed out when you close this tab.</div></div>
+      <button class="btn" id="signOut" type="button">Sign out</button>
+    </div>
+
+    <div class="panel">
+      <h3>Check-in</h3>
+      <div id="ciStart">
+        <label>Duration</label>
+        <div class="dur" id="durGrid"></div>
+        <label for="ciDest">Where are you going?</label><input id="ciDest" maxlength="120" placeholder="e.g. Walking to the taxi rank">
+        <button class="btn primary" id="ciGo" type="button" style="width:100%;margin-top:12px">Start check-in</button>
+      </div>
+      <div id="ciActive" class="hide">
+        <div class="timer" id="ciTimer" aria-live="off">--:--</div>
+        <p class="hint" id="ciInfo" style="text-align:center"></p>
+        <div class="row" style="margin-top:12px"><button class="btn primary" id="ciSafe" type="button" style="flex:2">✅ I'm safe</button><button class="btn" id="ciExt" type="button" style="flex:1">+15 min</button></div>
+      </div>
+      <p class="msg" id="ciMsg" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="panel">
+      <h3>SOS</h3>
+      <p class="hint" style="margin:0 0 10px">Alerts your coordinators with your location if you allow it. Call 10111 or 112 for emergency services.</p>
+      <button class="btn sos" id="sosGo" type="button">🆘 Alert my coordinators</button>
+      <div id="sosConfirm" class="hide" style="margin-top:10px">
+        <p style="margin-bottom:8px"><b>Send an SOS alert now?</b></p>
+        <div class="row"><button class="btn danger" id="sosYes" type="button" style="flex:1">Yes, send it</button><button class="btn" id="sosNo" type="button" style="flex:1">Cancel</button></div>
+      </div>
+      <p class="msg" id="sosMsg" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="panel">
+      <h3>Report an incident</h3>
+      <label for="rType">Type</label>
+      <select id="rType"><option value="theft">Theft</option><option value="assault">Assault</option><option value="accident">Accident</option><option value="fire">Fire</option><option value="medical">Medical</option><option value="other">Other</option></select>
+      <label for="rSev">Severity</label>
+      <select id="rSev"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select>
+      <label for="rDesc">What happened?</label><textarea id="rDesc" maxlength="1000"></textarea>
+      <label for="rLoc">Where? (optional)</label><input id="rLoc" maxlength="120" placeholder="e.g. Corner of Bree St and Rissik St">
+      <button class="btn primary" id="rGo" type="button" style="width:100%;margin-top:12px">Send report</button>
+      <p class="msg" id="rMsg" role="status" aria-live="polite"></p>
+      <h3 style="margin-top:14px">My reports</h3>
+      <div id="rList"><p class="hint">Nothing loaded yet.</p></div>
+    </div>
+
+    <div class="panel">
+      <details>
+        <summary>Change my password</summary>
+        <label for="pCur">Current password</label><input id="pCur" type="password" autocomplete="current-password">
+        <label for="pNew">New password</label><input id="pNew" type="password" autocomplete="new-password">
+        <p class="hint">8 to 72 characters with a capital letter, a number and one of @ $ ! % * ? &amp;</p>
+        <button class="btn" id="pGo" type="button" style="margin-top:10px">Change password</button>
+        <p class="msg" id="pMsg" role="status" aria-live="polite"></p>
+      </details>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <p><b>SafeReach</b> by Thuso Travel Safety Network, a fictional non-profit created for IIE Rosebank College, Work Integrated Learning 3 (XADAD7112/w). Alerts go to the project's demo coordinators, not to real emergency services.</p>
+  <p style="margin-top:6px"><a href="https://abdullahmuhy-pixel.github.io/Thuso-SafeReach-Backend/">Member app</a> · <a href="https://abdullahmuhy-pixel.github.io/Thuso-SafeReach-Backend/coordinator.html">Staff dashboard</a> · <a href="https://github.com/abdullahmuhy-pixel/Thuso-SafeReach-Backend" rel="noopener">Source code</a></p>
+</div></footer>
+
+<script>
+(function(){
+'use strict';
+var API='https://thuso-safereach-backend.onrender.com/api';
+var $=function(id){return document.getElementById(id)};
+var PW_RE=/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,72}$/;
+
+/* ---- session (this tab only) ---- */
+function tok(){try{return sessionStorage.getItem('srw_token')}catch(e){return null}}
+function setSession(t,u){try{if(t){sessionStorage.setItem('srw_token',t);sessionStorage.setItem('srw_user',JSON.stringify(u||{}))}else{sessionStorage.removeItem('srw_token');sessionStorage.removeItem('srw_user')}}catch(e){}}
+function getUser(){try{return JSON.parse(sessionStorage.getItem('srw_user'))||{}}catch(e){return {}}}
+
+/* ---- helpers ---- */
+function msg(id,text,kind){var el=$(id);el.textContent=text||'';el.className='msg'+(kind?' '+kind:'')}
+function clean(s,max,punct){return String(s==null?'':s).replace(punct?/[^\w\s,.'()\/#!?-]/g:/[^\w\s,.'()\/#-]/g,' ').replace(/\s+/g,' ').trim().slice(0,max)}
+function coord(n){n=Number(n);return Number.isFinite(n)?n.toFixed(6):undefined}
+function netErr(e){return(e&&(e.name==='AbortError'||e instanceof TypeError))?'Cannot reach the server. It may be waking up, so try again in a moment.':(e&&e.message)||'Something went wrong.'}
+function api(path,method,body,slow){
+  var ctrl=new AbortController(),t=setTimeout(function(){ctrl.abort()},slow?60000:20000);
+  var h={'Content-Type':'application/json'};if(tok())h.Authorization='Bearer '+tok();
+  return fetch(API+path,{method:method||'GET',signal:ctrl.signal,headers:h,body:body?JSON.stringify(body):undefined})
+   .then(function(res){return res.json().catch(function(){return {}}).then(function(d){
+      if(!res.ok){
+        if(res.status===401&&tok()&&path.indexOf('/auth/')!==0){signOut('Your session ended. Please sign in again.')}
+        var e=new Error(d.error||('HTTP '+res.status));e.status=res.status;throw e;
+      }
+      return d;})})
+   .finally(function(){clearTimeout(t)});
+}
+function position(){return new Promise(function(res){
+  if(!navigator.geolocation)return res(null);
+  navigator.geolocation.getCurrentPosition(function(p){res({lat:coord(p.coords.latitude),lng:coord(p.coords.longitude)})},function(){res(null)},{timeout:5000,maximumAge:60000});
+})}
+
+/* ---- nav highlight ---- */
+var links=[].slice.call(document.querySelectorAll('nav a'));
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-40% 0px -55% 0px'});
+  ['home','features','how','safety','account'].forEach(function(id){io.observe($(id))});
+}
+
+/* ---- sign in / create account ---- */
+var mode='in';
+function setMode(m){
+  mode=m;var up=m==='up';
+  $('tabIn').classList.toggle('on',!up);$('tabUp').classList.toggle('on',up);
+  $('tabIn').setAttribute('aria-selected',String(!up));$('tabUp').setAttribute('aria-selected',String(up));
+  $('nameWrap').classList.toggle('hide',!up);$('pwHint').classList.toggle('hide',!up);
+  $('authGo').textContent=up?'Create account':'Sign in';
+  $('aPass').autocomplete=up?'new-password':'current-password';
+  msg('authMsg','');
+}
+$('tabIn').onclick=function(){setMode('in')};
+$('tabUp').onclick=function(){setMode('up')};
+$('authForm').addEventListener('submit',function(ev){
+  ev.preventDefault();
+  var phone=$('aPhone').value.replace(/[\s()-]/g,''),pass=$('aPass').value,name=$('aName').value.trim();
+  if(!phone||!pass){return msg('authMsg','Enter your phone number and password.','err')}
+  if(mode==='up'){
+    if(!name)return msg('authMsg','Enter your full name.','err');
+    if(!PW_RE.test(pass))return msg('authMsg','That password does not meet the rules below.','err');
+  }
+  var btn=$('authGo');btn.disabled=true;msg('authMsg','Please wait…','info');
+  var p=mode==='up'?api('/auth/register','POST',{fullName:name,phoneNumber:phone,password:pass},true):api('/auth/login','POST',{phoneNumber:phone,password:pass},true);
+  p.then(function(d){
+    if(!d.token)throw new Error('Sign-in did not return a session.');
+    setSession(d.token,d.user);$('aPass').value='';showPortal();
+  }).catch(function(e){msg('authMsg',netErr(e),'err')}).finally(function(){btn.disabled=false});
+});
+
+function showPortal(){
+  var u=getUser();
+  $('authView').classList.add('hide');$('portal').classList.remove('hide');
+  $('who').textContent=(u.fullName||'Member')+(u.phoneNumber?' ('+u.phoneNumber+')':'');
+  msg('authMsg','');loadActive();loadReports();
+}
+function signOut(why){
+  setSession(null);stopTimer();ci=null;
+  $('portal').classList.add('hide');$('authView').classList.remove('hide');
+  ['ciMsg','sosMsg','rMsg','pMsg'].forEach(function(i){msg(i,'')});
+  $('rList').textContent='';
+  msg('authMsg',why||'Signed out.',why?'err':'info');
+}
+$('signOut').onclick=function(){signOut()};
+
+/* ---- check-in ---- */
+var ci=null,timerId=null,dur=15;
+(function(){var g=$('durGrid');[15,30,45,60].forEach(function(m){var b=document.createElement('button');b.type='button';b.textContent=m+' min';if(m===dur)b.className='sel';b.onclick=function(){dur=m;[].forEach.call(g.children,function(c){c.classList.remove('sel')});b.classList.add('sel')};g.appendChild(b)})})();
+function pickCheckin(d){var c=d&&(d.checkIn||d.checkin||d.active||d);if(c&&typeof c==='object'&&c._id&&c.expiresAt&&(!c.status||c.status==='active'))return c;return null}
+function stopTimer(){if(timerId){clearInterval(timerId);timerId=null}}
+function renderCheckin(){
+  stopTimer();
+  var on=!!ci;$('ciStart').classList.toggle('hide',on);$('ciActive').classList.toggle('hide',!on);
+  if(!on)return;
+  $('ciInfo').textContent=ci.destination?('Going to: '+ci.destination):'';
+  function tick(){
+    var ms=new Date(ci.expiresAt).getTime()-Date.now();
+    if(ms<=0){$('ciTimer').textContent='00:00';$('ciInfo').textContent='Time is up. Tap I\u2019m safe now, or coordinators will be alerted automatically.';return}
+    var s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60),r=s%60,p=function(n){return String(n).padStart(2,'0')};
+    $('ciTimer').textContent=(h?h+':':'')+p(m)+':'+p(r);
+  }
+  tick();timerId=setInterval(tick,1000);
+}
+function loadActive(){
+  return api('/checkin/active').then(function(d){ci=pickCheckin(d);renderCheckin()}).catch(function(e){ci=null;renderCheckin();if(e.status&&e.status!==404)msg('ciMsg',netErr(e),'err')});
+}
+$('ciGo').onclick=function(){
+  var b=$('ciGo');b.disabled=true;msg('ciMsg','Starting…','info');
+  position().then(function(pos){
+    var body={durationMinutes:dur,destination:clean($('ciDest').value,120)};
+    if(pos){body.lat=pos.lat;body.lng=pos.lng}
+    return api('/checkin','POST',body,true);
+  }).then(function(d){
+    ci=pickCheckin(d);renderCheckin();msg('ciMsg','Check-in started. Tap I\u2019m safe before the time runs out.','ok');
+    if(!ci)return loadActive();
+  }).catch(function(e){
+    if(e.status===409){msg('ciMsg','You already have an active check-in.','info');return loadActive()}
+    msg('ciMsg',netErr(e),'err');
+  }).finally(function(){b.disabled=false});
+};
+$('ciSafe').onclick=function(){
+  if(!ci)return;var b=$('ciSafe');b.disabled=true;
+  api('/checkin/'+encodeURIComponent(ci._id)+'/safe','PATCH').then(function(){ci=null;renderCheckin();msg('ciMsg','You are marked safe. Check-in cancelled.','ok')})
+   .catch(function(e){msg('ciMsg',netErr(e),'err');loadActive()}).finally(function(){b.disabled=false});
+};
+$('ciExt').onclick=function(){
+  if(!ci)return;var b=$('ciExt');b.disabled=true;
+  api('/checkin/'+encodeURIComponent(ci._id)+'/extend','PATCH',{minutes:15}).then(function(){msg('ciMsg','Added 15 minutes.','ok');return loadActive()})
+   .catch(function(e){msg('ciMsg',netErr(e),'err')}).finally(function(){b.disabled=false});
+};
+
+/* ---- SOS ---- */
+$('sosGo').onclick=function(){$('sosGo').classList.add('hide');$('sosConfirm').classList.remove('hide');msg('sosMsg','')};
+$('sosNo').onclick=function(){$('sosConfirm').classList.add('hide');$('sosGo').classList.remove('hide')};
+$('sosYes').onclick=function(){
+  var b=$('sosYes');b.disabled=true;msg('sosMsg','Sending alert…','info');
+  position().then(function(pos){
+    var body={triggerSource:'manual'};if(ci&&ci._id)body.checkInId=ci._id;if(pos){body.lat=pos.lat;body.lng=pos.lng}
+    return api('/sos','POST',body,true);
+  }).then(function(){msg('sosMsg','Coordinators alerted. If you are in danger, also call 10111 or 112.','ok')})
+   .catch(function(e){msg('sosMsg','Could not send the alert: '+netErr(e)+' Call 10111 or 112 if you need help now.','err')})
+   .finally(function(){b.disabled=false;$('sosConfirm').classList.add('hide');$('sosGo').classList.remove('hide')});
+};
+
+/* ---- incident reports ---- */
+function renderReports(list){
+  var box=$('rList');box.textContent='';
+  if(!list.length){var p=document.createElement('p');p.className='hint';p.textContent='No reports yet.';box.appendChild(p);return}
+  list.slice(0,10).forEach(function(i){
+    var d=document.createElement('div');d.className='inc';
+    var pill=document.createElement('span');pill.className='pill';pill.textContent=(i.severity||'')+' '+(i.type||'');
+    var t=document.createElement('div');t.appendChild(pill);t.appendChild(document.createTextNode(i.description||''));
+    var s=document.createElement('small');
+    s.textContent=[i.location,i.reportedAt?new Date(i.reportedAt).toLocaleString():''].filter(Boolean).join(' · ');
+    d.appendChild(t);d.appendChild(s);box.appendChild(d);
+  });
+}
+function loadReports(){
+  return api('/incidents/mine').then(function(d){renderReports(Array.isArray(d)?d:(d.incidents||d.data||[]))}).catch(function(){});
+}
+$('rGo').onclick=function(){
+  var desc=clean($('rDesc').value,1000,true);
+  if(!desc)return msg('rMsg','Describe what happened.','err');
+  var b=$('rGo');b.disabled=true;msg('rMsg','Sending…','info');
+  position().then(function(pos){
+    var body={type:$('rType').value,severity:$('rSev').value,description:desc,location:clean($('rLoc').value,120)};
+    if(pos){body.lat=pos.lat;body.lng=pos.lng}
+    return api('/incidents','POST',body,true);
+  }).then(function(){$('rDesc').value='';$('rLoc').value='';msg('rMsg','Report sent. Thank you.','ok');return loadReports()})
+   .catch(function(e){msg('rMsg',netErr(e),'err')}).finally(function(){b.disabled=false});
+};
+
+/* ---- change password ---- */
+$('pGo').onclick=function(){
+  var cur=$('pCur').value,nw=$('pNew').value;
+  if(!cur)return msg('pMsg','Enter your current password.','err');
+  if(!PW_RE.test(nw))return msg('pMsg','The new password does not meet the rules.','err');
+  if(nw===cur)return msg('pMsg','Choose a different password.','err');
+  var b=$('pGo');b.disabled=true;
+  api('/auth/password','PATCH',{currentPassword:cur,newPassword:nw}).then(function(d){
+    if(d.token)setSession(d.token,getUser());
+    $('pCur').value='';$('pNew').value='';msg('pMsg','Password changed. Other devices were signed out.','ok');
+  }).catch(function(e){msg('pMsg',netErr(e),'err')}).finally(function(){b.disabled=false});
+};
+
+if(tok())showPortal();
+})();
+</script>
+</body>
+</html>
