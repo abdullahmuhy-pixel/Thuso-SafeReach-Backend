@@ -6,7 +6,7 @@ function fixIco(s){return String(s==null?'':s).replace(/([\u{1F1E6}-\u{1F1FF}])(
 const _ICO={"🛡": "shield", "🔍": "search", "📍": "pin", "🏥": "hospital", "💊": "pill", "👮": "badge", "🍽": "utensils", "🏋": "dumbbell", "🕌": "worship", "🛒": "cart", "💆": "spa", "➕": "plus", "🌍": "globe", "⬇": "download", "📵": "wifioff", "🗂": "layers", "🪪": "idcard", "🆔": "idcard", "🩺": "stethoscope", "⏱": "timer", "📖": "book", "⚠": "alert", "⚙": "settings", "🌙": "moon", "☀": "sun", "⛅": "cloud", "☁": "cloud", "🌫": "fog", "🌦": "rain", "🌧": "rain", "❄": "snow", "⛈": "storm", "🌡": "thermo", "💨": "wind", "📋": "clipboard", "🎯": "target", "💬": "chat", "⭐": "star", "📞": "phone", "🗺": "map", "🆘": "siren", "🚨": "siren", "📤": "share", "💾": "save", "👤": "user", "👥": "users", "🗑": "trash", "✅": "check", "🫀": "heart", "🩸": "drop", "📝": "note", "🐾": "paw", "🏛": "landmark", "🏦": "landmark", "🍔": "burger", "☕": "coffee", "🏪": "store", "🏧": "card", "⛽": "fuel", "🛏": "bed", "💇": "scissors", "🧺": "basket", "🔥": "flame", "🚗": "car", "🌊": "wave", "👝": "bag", "💡": "bulb", "🔄": "refresh", "🔔": "bell", "📶": "signal", "🧭": "compass", "👆": "tap", "⚡": "zap", "📦": "box", "⏳": "hourglass", "📲": "device", "📱": "device", "📡": "signal", "🔐": "shield", "🛠": "settings", "✈": "plane"};
 
 (function nukeStaleServiceWorker() {
-  const APP_VERSION = '2';
+  const APP_VERSION = '3';
   const VERSION_KEY = 'sr_app_ver';
   try {
     if (localStorage.getItem(VERSION_KEY) === APP_VERSION) return;
@@ -493,7 +493,8 @@ body.light{
 body.light .top-bar{background:linear-gradient(to bottom,rgba(240,244,248,.97) 55%,transparent)}
 body.light .cat-btn{background:rgba(240,244,248,.92)}
 body.light .radius-btn,.side-ctrls button,.tool-btn{filter:none}
-body.light #map{filter:invert(1) hue-rotate(180deg)}
+#map .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9) saturate(.6)}
+body.light #map .leaflet-tile-pane{filter:none}
 
 /* ──── EMERGENCY GUIDE OVERLAY ──── */
 #guide-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.82);backdrop-filter:blur(14px);display:none;align-items:flex-end}
@@ -964,7 +965,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
       </div>
       <div class="checkin-active-note" id="checkin-active-note">No note added</div>
       <div class="checkin-active-actions">
-        <button class="checkin-safe-btn" onclick="imSafe()"><i class="ic ic-check"></i> I'M SAFE</button>
+        <button class="checkin-safe-btn" onclick="imSafe()">I'M SAFE</button>
         <button class="checkin-extend-btn" onclick="extendCheckin(15)">+15 min</button>
       </div>
       <button class="checkin-close" onclick="hideCheckin()">Close (keeps running)</button>
@@ -981,7 +982,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
         <div style="font-size:.78rem;color:var(--text-dim)">Let your emergency contact know you're overdue:</div>
         <a href="#" id="checkin-sms-link" target="_blank" rel="noopener"><i class="ic ic-device"></i> Send SMS to Emergency Contact</a>
       </div>
-      <button class="checkin-safe-btn" style="width:100%;margin-bottom:8px" onclick="imSafe()"><i class="ic ic-check"></i> I'M SAFE NOW</button>
+      <button class="checkin-safe-btn" style="width:100%;margin-bottom:8px" onclick="imSafe()">I'M SAFE NOW</button>
       <button class="checkin-close" onclick="hideCheckin()">Close</button>
     </div>
 
@@ -1613,7 +1614,9 @@ document.addEventListener('click', e => {
   renderRecentStrip();
   // Auto-launch if opened via home screen shortcut URL params
   const params=new URLSearchParams(location.search);
-  if(params.get('action')||params.get('cat')) launch();
+  // Deferred so the rest of this script (check-in and shake state) is initialised first;
+  // calling launch() here directly crashed the SOS and category home-screen shortcuts.
+  if(params.get('action')||params.get('cat')) setTimeout(launch,0);
 })();
 
 function launch(){
@@ -1645,9 +1648,11 @@ function launch(){
 // ════════════════════════════════════════════
 function initMap(){
   map=L.map('map',{zoomControl:false}).setView([0,0],3);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    subdomains:'abcd',maxZoom:20
+  // OpenStreetMap tiles need no API key (CARTO's basemaps now return
+  // "API KEY REQUIRED" images). Dark mode is made with a CSS filter on the tiles.
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom:19
   }).addTo(map);
   const strip=document.getElementById('cat-strip');
   CATEGORIES.forEach(cat=>{
