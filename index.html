@@ -254,12 +254,12 @@ select.csel option{background:#1a1f2e}
 .side-ctrls{position:absolute;top:130px;right:10px;z-index:10;display:flex;flex-direction:column;gap:5px}
 .radius-btn{background:rgba(15,20,32,.88);border:1px solid var(--border2);border-radius:9px;padding:5px 9px;font-size:.68rem;font-weight:600;font-family:'Chakra Petch',monospace;color:var(--text-dim);cursor:pointer;text-align:center;transition:all .2s;backdrop-filter:blur(12px)}
 .radius-btn.active{background:var(--cyan-dim);border-color:var(--cyan);color:var(--cyan)}
-.icon-btn{width:38px;height:38px;background:rgba(15,20,32,.88);border:1px solid var(--border2);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.95rem;backdrop-filter:blur(12px);transition:all .2s;color:var(--text-dim)}
+.icon-btn{width:42px;height:42px;flex-direction:column;gap:2px;background:rgba(15,20,32,.88);border:1px solid var(--border2);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.95rem;backdrop-filter:blur(12px);transition:all .2s;color:var(--text-dim)}
 .icon-btn:hover{border-color:var(--cyan);color:var(--cyan)}
 .icon-btn.hi{border-color:rgba(255,204,68,.4);color:var(--gold);background:rgba(255,204,68,.08)}
 /* Bottom-left tool cluster */
 .tool-cluster{position:absolute;bottom:80px;left:10px;z-index:10;display:flex;flex-direction:column;gap:6px}
-.tool-btn{width:42px;height:42px;background:rgba(15,20,32,.92);border:1px solid var(--border2);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.05rem;backdrop-filter:blur(16px);transition:all .2s;color:var(--text-dim);position:relative}
+.tool-btn{width:54px;height:46px;flex-direction:column;gap:3px;background:rgba(15,20,32,.92);border:1px solid var(--border2);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.05rem;backdrop-filter:blur(16px);transition:all .2s;color:var(--text-dim);position:relative}
 .tool-btn:hover{transform:scale(1.08)}
 .tool-btn.t-card{border-color:rgba(255,204,68,.4);color:var(--gold);background:rgba(255,204,68,.08)}
 .tool-btn.t-med{border-color:rgba(0,224,122,.35);color:var(--green);background:rgba(0,224,122,.07)}
@@ -685,6 +685,10 @@ body.light #map .leaflet-tile-pane{filter:none}
 .ci-h-dest{font-size:.85rem;font-weight:600}.ci-h-meta{font-size:.72rem;color:var(--text-dim);margin-top:2px}
 .ci-pill{font-size:.68rem;font-weight:700;border-radius:20px;padding:3px 9px;white-space:nowrap;border:1px solid currentColor}
 .ci-pill.ok{color:var(--green)}.ci-pill.bad{color:var(--red)}.ci-pill.on{color:var(--gold)}
+.tool-btn .tl,.icon-btn .tl{font:600 8.5px/1 'DM Sans',system-ui,sans-serif;letter-spacing:.01em;white-space:nowrap;color:inherit;opacity:.9}
+.tool-btn .ic{font-size:1rem}.icon-btn .ic{font-size:.9rem}
+@media (max-height:760px){.tool-cluster{gap:4px}.tool-btn{height:40px;gap:2px}.tool-btn .ic{font-size:.85rem}}
+@media (max-height:640px){.tool-btn .tl{display:none}.tool-btn{height:38px;width:42px}}
 </style>
 </head>
 <body>
@@ -747,7 +751,7 @@ body.light #map .leaflet-tile-pane{filter:none}
       </div>
     </div>
     <div class="cat-row">
-      <button class="cat-search-btn" onclick="openCatSearch()" title="Search services"></button>
+      <button class="cat-search-btn" onclick="openCatSearch()" title="Search services" aria-label="Search services"><i class="ic ic-search"></i></button>
       <div class="cat-strip" id="cat-strip"></div>
     </div>
     <div class="recent-strip" id="recent-strip">
@@ -765,22 +769,22 @@ body.light #map .leaflet-tile-pane{filter:none}
     <div class="radius-btn"       onclick="setRadius(this,10000)">10km</div>
     <div class="radius-btn"       onclick="setRadius(this,20000)">20km</div>
     <div class="radius-btn"       onclick="setRadius(this,50000)">50km</div>
-    <button class="icon-btn" style="margin-top:4px" onclick="goToUser()" title="My location"></button>
-    <button class="icon-btn" id="showall-icon-btn" style="margin-top:2px" onclick="toggleShowAll()" title="Show All Services"></button>
+    <button class="icon-btn" style="margin-top:4px" onclick="goToUser()" title="My location" aria-label="My location"><i class="ic ic-pin"></i><b class="tl">Me</b></button>
+    <button class="icon-btn" id="showall-icon-btn" style="margin-top:2px" onclick="toggleShowAll()" title="Show All Services" aria-label="Show all services"><i class="ic ic-layers"></i><b class="tl">All</b></button>
   </div>
   <!-- Bottom-left tool cluster -->
   <div class="tool-cluster">
-    <button class="tool-btn t-card" onclick="showSafetyCard()" title="Safety Card"></button>
-    <button class="tool-btn t-med" onclick="showMedID()" title="Medical ID"><span></span><span class="med-dot" id="med-dot"></span></button>
-    <button class="tool-btn t-trip" onclick="showTrip()" title="Trip Planner"></button>
-    <button class="tool-btn t-checkin" onclick="showCheckin()" title="Check-in Timer"><span></span><span class="checkin-dot" id="checkin-dot"></span></button>
-    <button class="tool-btn" style="border-color:rgba(255,68,85,.35);color:var(--red);background:rgba(255,68,85,.08)" onclick="showGuide()" title="Emergency Guide"></button>
-    <button class="tool-btn" style="border-color:rgba(255,140,66,.35);color:var(--orange);background:rgba(255,140,66,.08)" onclick="showReport()" title="Report Incident"></button>
-    <button class="tool-btn" style="border-color:rgba(255,68,85,.4);color:var(--red);background:rgba(255,68,85,.1)" onclick="showLost()" title="I'm Lost — Show my coordinates"></button>
-    <button class="tool-btn t-settings" onclick="showSettings()" title="Settings"></button>
+    <button class="tool-btn t-card" onclick="showSafetyCard()" title="Safety Card"><i class="ic ic-idcard"></i><b class="tl">Card</b></button>
+    <button class="tool-btn t-med" onclick="showMedID()" title="Medical ID"><i class="ic ic-stethoscope"></i><b class="tl">Medical</b><span class="med-dot" id="med-dot"></span></button>
+    <button class="tool-btn t-trip" onclick="showTrip()" title="Trip Planner"><i class="ic ic-plane"></i><b class="tl">Trip</b></button>
+    <button class="tool-btn t-checkin" onclick="showCheckin()" title="Check-in Timer"><i class="ic ic-timer"></i><b class="tl">Check-in</b><span class="checkin-dot" id="checkin-dot"></span></button>
+    <button class="tool-btn" style="border-color:rgba(255,68,85,.35);color:var(--red);background:rgba(255,68,85,.08)" onclick="showGuide()" title="Emergency Guide"><i class="ic ic-book"></i><b class="tl">Guide</b></button>
+    <button class="tool-btn" style="border-color:rgba(255,140,66,.35);color:var(--orange);background:rgba(255,140,66,.08)" onclick="showReport()" title="Report Incident"><i class="ic ic-alert"></i><b class="tl">Report</b></button>
+    <button class="tool-btn" style="border-color:rgba(255,68,85,.4);color:var(--red);background:rgba(255,68,85,.1)" onclick="showLost()" title="I'm Lost — Show my coordinates"><i class="ic ic-siren"></i><b class="tl">Lost</b></button>
+    <button class="tool-btn t-settings" onclick="showSettings()" title="Settings"><i class="ic ic-settings"></i><b class="tl">Settings</b></button>
   </div>
   <!-- Theme + weather -->
-  <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn"></button>
+  <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn" aria-label="Switch light or dark map"><i class="ic ic-moon"></i></button>
   <div id="weather-strip"><div class="weather-chip" id="weather-chip" onclick="refreshWeather()"><span id="weather-txt">Loading…</span></div></div>
   <div id="panel">
     <div class="panel-handle" onclick="togglePanel()">
@@ -1986,7 +1990,7 @@ function renderCards(results,cat){
           <div class="card-name">${esc(r.name)}</div>
           <div class="card-tags">
             <span class="tag tag-dist">${formatDist(r.dist)}</span>${ot}
-            ${r.addr?`<span class="tag tag-addr" title="Tap to copy address" onclick="copyAddress('${esc(r.addr)}',this)">${esc(r.addr)}</span>`:''}
+            ${r.addr?`<span class="tag tag-addr" title="Tap to copy address" onclick="copyAddress('${esc(r.addr)}',this)"><i class="ic ic-pin"></i> ${esc(r.addr)}</span>`:''}
             ${r.country?`<span class="tag tag-addr"><i class="ic ic-globe"></i> ${r.country.toUpperCase()}</span>`:''}
           </div>
         </div>
@@ -2268,7 +2272,7 @@ function showSavedTab(){
           <div class="card-name">${esc(r.name)}</div>
           <div class="card-tags">
             ${d!==null?`<span class="tag tag-dist">${formatDist(d)}</span>`:''}
-            ${r.addr?`<span class="tag tag-addr" title="Tap to copy address" onclick="copyAddress('${esc(r.addr)}',this)">${esc(r.addr)}</span>`:''}
+            ${r.addr?`<span class="tag tag-addr" title="Tap to copy address" onclick="copyAddress('${esc(r.addr)}',this)"><i class="ic ic-pin"></i> ${esc(r.addr)}</span>`:''}
           </div>
         </div>
       </div>
