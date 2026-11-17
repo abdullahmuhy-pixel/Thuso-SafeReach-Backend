@@ -72,6 +72,13 @@ details summary{cursor:pointer;color:var(--cyan);font-size:.9rem}
 footer{border-top:1px solid var(--border);padding:26px 16px;color:var(--dim);font-size:.82rem}
 .skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--cyan);color:var(--on-cyan);padding:6px 10px;border-radius:8px;z-index:20}
 @media (max-width:560px){.bar{flex-direction:column;align-items:flex-start;gap:4px}}
+.sic{display:inline-block;width:24px;height:24px;vertical-align:-.2em;background-color:currentColor;-webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat;flex-shrink:0}
+.ic-bell{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4'/%3E%3C/svg%3E")}
+.ic-compass{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18zM15.5 8.5l-2 5-5 2 2-5z'/%3E%3C/svg%3E")}
+.ic-note{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5'/%3E%3C/svg%3E")}
+.ic-signal{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20v-3M9 20v-7M14 20V9M19 20V4'/%3E%3C/svg%3E")}
+.ic-siren{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 18v-6a5 5 0 0 1 10 0v6M5 21h14M12 2v2M4.2 5.2l1.4 1.4M19.8 5.2l-1.4 1.4M3 12h1M20 12h1'/%3E%3C/svg%3E")}
+.ic-timer{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9v4l2.5 2M9 2h6M12 21a8 8 0 1 0 0-16a8 8 0 1 0 0 16z'/%3E%3C/svg%3E")}
 </style>
 </head>
 <body>
@@ -100,12 +107,12 @@ footer{border-top:1px solid var(--border);padding:26px 16px;color:var(--dim);fon
   <h2>What SafeReach does</h2>
   <p class="sub">Everything below works from the app on your phone or from your account on this website.</p>
   <div class="grid">
-    <div class="card"><div class="ic" aria-hidden="true">⏱️</div><h3>Check-in timer</h3><p>Choose a duration and destination. Tap I'm safe when you arrive, or extend the time.</p></div>
-    <div class="card"><div class="ic" aria-hidden="true">🔔</div><h3>Automatic escalation</h3><p>If time runs out, the server raises an SOS alert for you. It does not need your phone to be on.</p></div>
-    <div class="card"><div class="ic" aria-hidden="true">🆘</div><h3>One-tap SOS</h3><p>Send an alert with your location. In the app you can also shake your phone, with a 5 second cancel.</p></div>
-    <div class="card"><div class="ic" aria-hidden="true">📝</div><h3>Incident reports</h3><p>Report theft, assault, accidents, fires and medical events so coordinators can respond and spot patterns.</p></div>
-    <div class="card"><div class="ic" aria-hidden="true">📶</div><h3>Works offline</h3><p>In the app, alerts and reports made without signal are saved and sent when you are back online.</p></div>
-    <div class="card"><div class="ic" aria-hidden="true">🧭</div><h3>Trip tools</h3><p>The app also has a trip planner, medical ID and a phrasebook that work on your phone.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true"><i class="sic ic-timer"></i></div><h3>Check-in timer</h3><p>Choose a duration and destination. Tap I'm safe when you arrive, or extend the time.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true"><i class="sic ic-bell"></i></div><h3>Automatic escalation</h3><p>If time runs out, the server raises an SOS alert for you. It does not need your phone to be on.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true"><i class="sic ic-siren"></i></div><h3>One-tap SOS</h3><p>Send an alert with your location. In the app you can also shake your phone, with a 5 second cancel.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true"><i class="sic ic-note"></i></div><h3>Incident reports</h3><p>Report theft, assault, accidents, fires and medical events so coordinators can respond and spot patterns.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true"><i class="sic ic-signal"></i></div><h3>Works offline</h3><p>In the app, alerts and reports made without signal are saved and sent when you are back online.</p></div>
+    <div class="card"><div class="ic" aria-hidden="true"><i class="sic ic-compass"></i></div><h3>Trip tools</h3><p>The app also has a trip planner, medical ID and a phrasebook that work on your phone.</p></div>
   </div>
 </div></section>
 
@@ -170,7 +177,7 @@ footer{border-top:1px solid var(--border);padding:26px 16px;color:var(--dim);fon
       <div id="ciActive" class="hide">
         <div class="timer" id="ciTimer" aria-live="off">--:--</div>
         <p class="hint" id="ciInfo" style="text-align:center"></p>
-        <div class="row" style="margin-top:12px"><button class="btn primary" id="ciSafe" type="button" style="flex:2">✅ I'm safe</button><button class="btn" id="ciExt" type="button" style="flex:1">+15 min</button></div>
+        <div class="row" style="margin-top:12px"><button class="btn primary" id="ciSafe" type="button" style="flex:2">I'm safe</button><button class="btn" id="ciExt" type="button" style="flex:1">+15 min</button></div>
       </div>
       <p class="msg" id="ciMsg" role="status" aria-live="polite"></p>
     </div>
@@ -178,7 +185,7 @@ footer{border-top:1px solid var(--border);padding:26px 16px;color:var(--dim);fon
     <div class="panel">
       <h3>SOS</h3>
       <p class="hint" style="margin:0 0 10px">Alerts your coordinators with your location if you allow it. Call 10111 or 112 for emergency services.</p>
-      <button class="btn sos" id="sosGo" type="button">🆘 Alert my coordinators</button>
+      <button class="btn sos" id="sosGo" type="button">Alert my coordinators</button>
       <div id="sosConfirm" class="hide" style="margin-top:10px">
         <p style="margin-bottom:8px"><b>Send an SOS alert now?</b></p>
         <div class="row"><button class="btn danger" id="sosYes" type="button" style="flex:1">Yes, send it</button><button class="btn" id="sosNo" type="button" style="flex:1">Cancel</button></div>

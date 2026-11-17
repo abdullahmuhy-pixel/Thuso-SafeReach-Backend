@@ -30,6 +30,7 @@ main{padding:12px 14px 40px;max-width:760px;margin:0 auto}
 .tag{display:inline-block;font-size:.68rem;border-radius:6px;padding:2px 7px;border:1px solid var(--border);color:var(--dim);margin-right:4px}
 .tag.high{color:var(--red);border-color:var(--red)}.tag.medium{color:var(--orange);border-color:var(--orange)}.tag.low{color:var(--green);border-color:var(--green)}
 .tag.src{color:var(--yellow);border-color:var(--yellow)}
+.cifilter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.cifilter .btn{padding:6px 10px;font-size:.78rem}
 .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 a{color:var(--cyan)}
 .empty{text-align:center;color:var(--dim);padding:28px 10px;font-size:.88rem}
@@ -86,15 +87,16 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
     <div style="display:flex;gap:6px"><button class="btn" id="acctBtn">Account</button><button class="btn" id="logout">Sign out</button></div>
   </header>
   <main>
-    <div class="notice" id="twofaNotice">🔐 Protect this account with two-factor authentication.
+    <div class="notice" id="twofaNotice">Protect this account with two-factor authentication.
       <div class="btnrow"><button class="btn" id="twofaSetup">Set up now</button><button class="btn" id="twofaLater">Later</button></div>
     </div>
     <div class="banner" id="banner"></div>
     <div class="tabs">
-      <button class="tab on" data-tab="alerts">🚨 Alerts<span class="badge hide" id="alertBadge">0</span></button>
-      <button class="tab" data-tab="incidents">⚠️ Incidents</button>
-      <button class="tab" data-tab="members">👥 Members</button>
-      <button class="tab hide" data-tab="users" id="usersTab">🛠 Users</button>
+      <button class="tab on" data-tab="alerts">Alerts<span class="badge hide" id="alertBadge">0</span></button>
+      <button class="tab" data-tab="checkins">Check-ins<span class="badge hide" id="ciBadge">0</span></button>
+      <button class="tab" data-tab="incidents">Incidents</button>
+      <button class="tab" data-tab="members">Members</button>
+      <button class="tab hide" data-tab="users" id="usersTab">Users</button>
     </div>
     <div class="status" id="status"></div>
     <div id="view"></div>
@@ -130,7 +132,7 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
   const $ = id => document.getElementById(id);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const tok = () => sessionStorage.getItem('sr_coord_token');
-  let state = { tab: 'alerts', alerts: [], incidents: [], members: [], users: [], branches: [], scope: null, seen: null, timer: null, challenge: null, acct: { mode: 'home' } };
+  let state = { tab: 'alerts', alerts: [], incidents: [], checkins: [], ciFilter: 'all', members: [], users: [], branches: [], scope: null, seen: null, timer: null, challenge: null, acct: { mode: 'home' } };
 
   async function api(path, method, body, slow) {
     const ctrl = new AbortController();
@@ -199,13 +201,13 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
   async function refresh() {
     try {
       const d = await api('/coordinator/dashboard');
-      state.alerts = d.activeAlerts || []; state.incidents = d.recentIncidents || []; state.scope = d.scope || null;
+      state.alerts = d.activeAlerts || []; state.incidents = d.recentIncidents || []; state.checkins = d.recentCheckIns || []; state.scope = d.scope || null;
       const ids = new Set(state.alerts.map(a => a._id));
       if (state.seen) {
         const fresh = state.alerts.filter(a => !state.seen.has(a._id));
         if (fresh.length) {
           const b = $('banner');
-          b.textContent = '🚨 ' + fresh.length + ' new SOS alert' + (fresh.length > 1 ? 's' : '') + ' — respond now';
+          b.textContent = fresh.length + ' new SOS alert' + (fresh.length > 1 ? 's' : '') + ' — respond now';
           b.style.display = 'block';
           if (navigator.vibrate) navigator.vibrate([300, 150, 300]);
         }
@@ -215,6 +217,8 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
       $('status').textContent = 'Updated ' + new Date().toLocaleTimeString() + ' · refreshes every 15s' + scopeText;
       const n = state.alerts.length, bd = $('alertBadge');
       bd.textContent = n; bd.classList.toggle('hide', !n);
+      const na = state.checkins.filter(c => c.status === 'active').length, cb = $('ciBadge');
+      cb.textContent = na; cb.classList.toggle('hide', !na);
       document.title = (n ? '(' + n + ') ' : '') + 'SafeReach Coordinator';
       if (state.tab !== 'users') render();
     } catch (e) {
@@ -231,19 +235,40 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
   const ago = d => { const m = Math.max(0, Math.round((Date.now() - new Date(d)) / 60000)); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; };
   const person = u => u ? esc(u.fullName) : 'Unknown member';
   const phoneLink = u => u && u.phoneNumber ? '<a href="tel:' + esc(u.phoneNumber) + '">' + esc(u.phoneNumber) + '</a>' : '';
-  const mapLink = o => (o.lat != null && o.lng != null) ? '<a target="_blank" rel="noopener" href="https://www.google.com/maps?q=' + encodeURIComponent(o.lat + ',' + o.lng) + '">📍 Open map</a>' : '<span class="meta">No location</span>';
+  const mapLink = o => (o.lat != null && o.lng != null) ? '<a target="_blank" rel="noopener" href="https://www.google.com/maps?q=' + encodeURIComponent(o.lat + ',' + o.lng) + '">Open map</a>' : '<span class="meta">No location</span>';
   const SRC = { manual: 'Manual SOS', shake: 'Shake SOS', checkin_timeout: 'Check-in timed out' };
 
   function render() {
     const v = $('view'); let h = '';
     if (state.tab === 'alerts') {
-      if (!state.alerts.length) h = '<div class="empty">✅ No active alerts.</div>';
+      if (!state.alerts.length) h = '<div class="empty">No active alerts.</div>';
       state.alerts.forEach(a => {
         h += '<div class="card alert"><div class="row"><div><div class="name">' + person(a.userId) + '</div>' +
           '<div class="meta">' + phoneLink(a.userId) + '</div></div><span class="meta">' + ago(a.triggeredAt) + '</span></div>' +
           '<div style="margin-top:8px"><span class="tag src">' + esc(SRC[a.triggerSource] || a.triggerSource) + '</span> ' + mapLink(a) + '</div>' +
           '<div class="meta">' + new Date(a.triggeredAt).toLocaleString() + '</div>' +
           '<div class="actions"><button class="btn ok" data-resolve="' + esc(a._id) + '">Mark resolved</button></div></div>';
+      });
+    } else if (state.tab === 'checkins') {
+      const F = [['all', 'All'], ['active', 'Active'], ['safe', 'Safe'], ['escalated', 'Escalated']];
+      const cnt = k => k === 'all' ? state.checkins.length : state.checkins.filter(c => c.status === k).length;
+      h = '<div class="cifilter">' + F.map(([k, l]) => '<button class="btn' + (state.ciFilter === k ? ' primary' : '') + '" data-cif="' + k + '">' + l + ' (' + cnt(k) + ')</button>').join('') + '</div>';
+      const list = state.checkins.filter(c => state.ciFilter === 'all' || c.status === state.ciFilter);
+      if (!list.length) h += '<div class="empty">' + (state.checkins.length ? 'No check-ins in this view.' : 'No check-ins yet. They appear here as soon as a signed-in member starts a check-in timer.') + '</div>';
+      const t = d => d ? new Date(d).toLocaleString() : '';
+      const left = c => { const m = Math.round((new Date(c.expiresAt) - Date.now()) / 60000); return m >= 0 ? 'due in ' + m + ' min' : 'overdue by ' + (-m) + ' min'; };
+      list.forEach(c => {
+        const st = c.status === 'safe' ? '<span class="tag low">Safe</span>' : c.status === 'escalated' ? '<span class="tag high">Escalated</span>' : '<span class="tag src">Active</span>';
+        const ext = c.extensionCount ? ' · extended ' + c.extensionCount + 'x (+' + c.extendedMinutes + ' min)' : '';
+        let end = '';
+        if (c.status === 'safe') end = 'Confirmed safe ' + t(c.safeAt || c.updatedAt) + (c.escalatedAt ? ' (after the alert was raised ' + t(c.escalatedAt) + ')' : '');
+        else if (c.status === 'escalated') end = 'Not confirmed. SOS alert raised ' + t(c.escalatedAt || c.updatedAt);
+        else end = 'In progress, ' + left(c) + ' (' + t(c.expiresAt) + ')';
+        h += '<div class="card"><div class="row"><div><div class="name">' + person(c.userId) + '</div><div class="meta">' + phoneLink(c.userId) + '</div></div>' + st + '</div>' +
+          '<div style="margin-top:8px">' + esc(c.destination || 'No destination given') + '</div>' +
+          '<div class="meta">Started ' + t(c.startTime) + ' · ' + esc(c.durationMinutes) + ' min timer' + ext + '</div>' +
+          '<div class="meta">' + esc(end) + '</div>' +
+          '<div class="meta">' + mapLink(c) + '</div></div>';
       });
     } else if (state.tab === 'incidents') {
       if (!state.incidents.length) h = '<div class="empty">No incident reports yet.</div>';
@@ -344,7 +369,7 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
     btn.disabled = true;
     try {
       await api('/admin/users', 'POST', body);
-      msg.className = 'msg good'; msg.textContent = '✅ ' + body.role + ' account created for ' + body.fullName + '.';
+      msg.className = 'msg good'; msg.textContent = '' + body.role + ' account created for ' + body.fullName + '.';
       $('nu-name').value = ''; $('nu-phone').value = ''; $('nu-pass').value = '';
       loadUsers();
     } catch (e) { bad(e.message); }
@@ -359,7 +384,7 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
     btn.disabled = true;
     try {
       await api('/admin/branches', 'POST', { branchName: name, region });
-      msg.className = 'msg good'; msg.textContent = '✅ Branch added.';
+      msg.className = 'msg good'; msg.textContent = 'Branch added.';
       $('br-name').value = ''; $('br-region').value = '';
       loadUsers();
     } catch (e) { bad(e.message); }
@@ -387,7 +412,7 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
       h = '<h4>Password</h4><button class="btn" style="width:100%" data-acct="pw">Change my password</button>' +
         '<h4>Two-factor authentication</h4>';
       if (u.twoFactorEnabled) {
-        h += '<div class="meta" style="margin-bottom:8px">✅ On — sign-in needs a code from your authenticator app.</div>' +
+        h += '<div class="meta" style="margin-bottom:8px">On — sign-in needs a code from your authenticator app.</div>' +
           '<button class="btn danger" style="width:100%" data-acct="offform">Turn off</button>';
       } else {
         h += '<div class="meta" style="margin-bottom:8px">Off. A code from an authenticator app (Google Authenticator, Microsoft Authenticator, Authy…) will be needed at sign-in.</div>' +
@@ -503,7 +528,7 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
     }
   });
   document.addEventListener('click', async e => {
-    const t = e.target.closest('[data-tab],[data-resolve],[data-review],[data-create],[data-addbranch],[data-reset],[data-reset2fa],[data-active],[data-acct]'); if (!t) return;
+    const t = e.target.closest('[data-cif],[data-tab],[data-resolve],[data-review],[data-create],[data-addbranch],[data-reset],[data-reset2fa],[data-active],[data-acct]'); if (!t) return;
     if (t.dataset.acct) { acctAction(t.dataset.acct, t); return; }
     if (t.dataset.reset2fa) {
       if (!confirm('Turn off two-factor authentication for ' + t.dataset.name + '?\n\nThey will be signed out and can set it up again from their Account screen.')) return;
@@ -523,6 +548,7 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
       catch (err) { t.disabled = false; alert('Action failed: ' + err.message); }
       return;
     }
+    if (t.dataset.cif) { state.ciFilter = t.dataset.cif; render(); return; }
     if (t.dataset.tab) {
       state.tab = t.dataset.tab;
       document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t));

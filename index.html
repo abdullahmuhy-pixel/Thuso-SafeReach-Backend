@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <script>
+function fixIco(s){return String(s==null?'':s).replace(/([\u{1F1E6}-\u{1F1FF}])([\u{1F1E6}-\u{1F1FF}])/gu,(m,a,b)=>'<span class="cc">'+String.fromCharCode(a.codePointAt(0)-0x1F1E6+65,b.codePointAt(0)-0x1F1E6+65)+'</span>').replace(/([\u{1F100}-\u{1F1E5}\u{1F200}-\u{1FAFF}\u{2600}-\u{27BF}\u{2300}-\u{23FF}\u{2B07}\u{2B50}])\uFE0F?/gu,m=>{const k=m.replace('\uFE0F','');const n=_ICO[k];return n?'<i class="ic ic-'+n+'"></i>':''})}
+const _ICO={"🛡": "shield", "🔍": "search", "📍": "pin", "🏥": "hospital", "💊": "pill", "👮": "badge", "🍽": "utensils", "🏋": "dumbbell", "🕌": "worship", "🛒": "cart", "💆": "spa", "➕": "plus", "🌍": "globe", "⬇": "download", "📵": "wifioff", "🗂": "layers", "🪪": "idcard", "🆔": "idcard", "🩺": "stethoscope", "⏱": "timer", "📖": "book", "⚠": "alert", "⚙": "settings", "🌙": "moon", "☀": "sun", "⛅": "cloud", "☁": "cloud", "🌫": "fog", "🌦": "rain", "🌧": "rain", "❄": "snow", "⛈": "storm", "🌡": "thermo", "💨": "wind", "📋": "clipboard", "🎯": "target", "💬": "chat", "⭐": "star", "📞": "phone", "🗺": "map", "🆘": "siren", "🚨": "siren", "📤": "share", "💾": "save", "👤": "user", "👥": "users", "🗑": "trash", "✅": "check", "🫀": "heart", "🩸": "drop", "📝": "note", "🐾": "paw", "🏛": "landmark", "🏦": "landmark", "🍔": "burger", "☕": "coffee", "🏪": "store", "🏧": "card", "⛽": "fuel", "🛏": "bed", "💇": "scissors", "🧺": "basket", "🔥": "flame", "🚗": "car", "🌊": "wave", "👝": "bag", "💡": "bulb", "🔄": "refresh", "🔔": "bell", "📶": "signal", "🧭": "compass", "👆": "tap", "⚡": "zap", "📦": "box", "⏳": "hourglass", "📲": "device", "📱": "device", "📡": "signal", "🔐": "shield", "🛠": "settings", "✈": "plane"};
+
 (function nukeStaleServiceWorker() {
   const APP_VERSION = '2';
   const VERSION_KEY = 'sr_app_ver';
@@ -598,6 +601,89 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 .sr-status{font-size:.74rem;color:var(--text-dim);text-align:center;min-height:1.2em;margin-top:6px}
 .sr-link{background:none;border:none;color:var(--cyan);text-decoration:underline;cursor:pointer;font-size:inherit}
 .auth-err{color:var(--red);font-size:.74rem;min-height:1.2em;margin:4px 2px 8px}
+.ic{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.2em;background-color:currentColor;-webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat;flex-shrink:0}
+.ic-alert{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l10 18H2zM12 10v4.5M12 17.5h.01'/%3E%3C/svg%3E")}
+.ic-badge{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM12 8l1.2 2.5 2.8.3-2.1 1.9.6 2.8-2.5-1.4-2.5 1.4.6-2.8-2.1-1.9 2.8-.3z'/%3E%3C/svg%3E")}
+.ic-bag{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8h14l-1 13H6zM9 8V6a3 3 0 0 1 6 0v2'/%3E%3C/svg%3E")}
+.ic-basket{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 10h18l-2 10H5zM8 10l3-6M16 10l-3-6M9 14v3M15 14v3'/%3E%3C/svg%3E")}
+.ic-bed{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 19V6M3 15h18v4M21 15v-3a3 3 0 0 0-3-3h-8v6M6.5 10a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3z'/%3E%3C/svg%3E")}
+.ic-bell{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 16v-5a6 6 0 0 1 12 0v5l2 2H4zM10 21h4'/%3E%3C/svg%3E")}
+.ic-book{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5zM4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5'/%3E%3C/svg%3E")}
+.ic-box{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10'/%3E%3C/svg%3E")}
+.ic-bulb{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z'/%3E%3C/svg%3E")}
+.ic-burger{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 11a8 6 0 0 1 16 0zM3 14.5h18M5 18h14v1a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z'/%3E%3C/svg%3E")}
+.ic-car{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 16v-5l2-5h10l2 5v5M3 16h18v3h-3M6 19H3M5 11h14M7.5 13.5h.01M16.5 13.5h.01'/%3E%3C/svg%3E")}
+.ic-card{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6h18v12H3zM3 10h18M7 15h3'/%3E%3C/svg%3E")}
+.ic-cart{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 4h2l2.4 11h11L21 8H6.2M9 19.5a1 1 0 1 0 0 1a1 1 0 1 0 0-1zM18 19.5a1 1 0 1 0 0 1a1 1 0 1 0 0-1z'/%3E%3C/svg%3E")}
+.ic-chat{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 5h16v11H9l-5 4z'/%3E%3C/svg%3E")}
+.ic-check{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E")}
+.ic-clipboard{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 3h6v3H9zM8 4.5H6V21h12V4.5h-2M9 11h6M9 15h4'/%3E%3C/svg%3E")}
+.ic-cloud{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 18a4 4 0 0 1-.5-8A6 6 0 0 1 18 9a4.5 4.5 0 0 1-.5 9z'/%3E%3C/svg%3E")}
+.ic-coffee{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5zM17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 2v3M12 2v3'/%3E%3C/svg%3E")}
+.ic-compass{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18zM15.5 8.5l-2 5-5 2 2-5z'/%3E%3C/svg%3E")}
+.ic-device{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 2h10v20H7zM11 18h2'/%3E%3C/svg%3E")}
+.ic-download{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11M7 10l5 5 5-5M5 20h14'/%3E%3C/svg%3E")}
+.ic-drop{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z'/%3E%3C/svg%3E")}
+.ic-dumbbell{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 7v10M3 9v6M18 7v10M21 9v6M6 12h12'/%3E%3C/svg%3E")}
+.ic-flame{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2.5 1.5-3.5 2-5 1 1 1.5 2 1.5 3 1-1.5 1.5-4.5 1.5-8z'/%3E%3C/svg%3E")}
+.ic-fog{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 9h16M3 13h18M5 17h14'/%3E%3C/svg%3E")}
+.ic-fuel{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h12M4 10h10M14 8l3 2v8a1.5 1.5 0 0 0 3 0V9l-3-3'/%3E%3C/svg%3E")}
+.ic-globe{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18zM3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18'/%3E%3C/svg%3E")}
+.ic-heart{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 20s-8-4.6-8-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8 2.5C20 15.4 12 20 12 20z'/%3E%3C/svg%3E")}
+.ic-hospital{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16v16H4zM12 8v8M8 12h8'/%3E%3C/svg%3E")}
+.ic-hourglass{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3h12M6 21h12M7 3c0 5 10 5 10 9s-10 4-10 9M17 3c0 5-10 5-10 9s10 4 10 9'/%3E%3C/svg%3E")}
+.ic-idcard{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 5h18v14H3zM9 8.5a2 2 0 1 0 0 4a2 2 0 1 0 0-4zM5.5 16c.6-1.5 2-2 3.5-2s2.9.5 3.5 2M15 9.5h3M15 13h3'/%3E%3C/svg%3E")}
+.ic-landmark{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 21h18M5 21V10M9.5 21V10M14.5 21V10M19 21V10M2 10h20L12 3z'/%3E%3C/svg%3E")}
+.ic-layers{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l9 5-9 5-9-5zM3 12.5l9 5 9-5M3 17l9 5 9-5'/%3E%3C/svg%3E")}
+.ic-map{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 4L3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14'/%3E%3C/svg%3E")}
+.ic-moon{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z'/%3E%3C/svg%3E")}
+.ic-note{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5'/%3E%3C/svg%3E")}
+.ic-paw{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 4.5a1.6 1.6 0 1 0 0 3.2a1.6 1.6 0 1 0 0-3.2zM16 4.5a1.6 1.6 0 1 0 0 3.2a1.6 1.6 0 1 0 0-3.2zM4.5 9.5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3zM19.5 9.5a1.5 1.5 0 1 0 0 3a1.5 1.5 0 1 0 0-3zM12 12c-3 0-5 3.5-5 5.5 0 1.5 1.5 2 2.5 2s1.5-.6 2.5-.6 1.5.6 2.5.6 2.5-.5 2.5-2c0-2-2-5.5-5-5.5z'/%3E%3C/svg%3E")}
+.ic-phone{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2'/%3E%3C/svg%3E")}
+.ic-pill{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.5 20.5l12-12a4.95 4.95 0 0 0-7-7l-12 12a4.95 4.95 0 0 0 7 7zM8.5 8.5l7 7'/%3E%3C/svg%3E")}
+.ic-pin{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11zM12 7.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5z'/%3E%3C/svg%3E")}
+.ic-plane{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10.5 21l1.5-1.5V14l8 3v-2l-8-5V4.5a1.5 1.5 0 0 0-3 0V10l-8 5v2l8-3v5.5L10.5 21zM8 21h5'/%3E%3C/svg%3E")}
+.ic-plus{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E")}
+.ic-rain{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 15a4 4 0 0 1-.5-8A6 6 0 0 1 18 6a4.5 4.5 0 0 1-.5 9zM8 21l1.5-3M12 21l1.5-3M16 21l1.5-3'/%3E%3C/svg%3E")}
+.ic-refresh{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16M20 20v-4h-4'/%3E%3C/svg%3E")}
+.ic-save{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h11l3 3v15H5zM8 3v5h7V3M8 21v-7h8v7'/%3E%3C/svg%3E")}
+.ic-scissors{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3a3 3 0 1 0 0 6a3 3 0 1 0 0-6zM6 15a3 3 0 1 0 0 6a3 3 0 1 0 0-6zM8.2 7.8L20 19M8.2 16.2L20 5'/%3E%3C/svg%3E")}
+.ic-search{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 4a7 7 0 1 0 0 14a7 7 0 1 0 0-14zM21 21l-5-5'/%3E%3C/svg%3E")}
+.ic-settings{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9a3 3 0 1 0 0 6a3 3 0 1 0 0-6zM12 5.5a6.5 6.5 0 1 0 0 13a6.5 6.5 0 1 0 0-13zM12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22M4.9 4.9l2.5 2.5M16.6 16.6l2.5 2.5M4.9 19.1l2.5-2.5M16.6 7.4l2.5-2.5'/%3E%3C/svg%3E")}
+.ic-share{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v12M7 8l5-5 5 5M5 14v6h14v-6'/%3E%3C/svg%3E")}
+.ic-shield{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z'/%3E%3C/svg%3E")}
+.ic-signal{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 20v-3M9 20v-7M14 20V9M19 20V4'/%3E%3C/svg%3E")}
+.ic-siren{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 18v-6a5 5 0 0 1 10 0v6M5 21h14M12 2v2M4.2 5.2l1.4 1.4M19.8 5.2l-1.4 1.4M3 12h1M20 12h1'/%3E%3C/svg%3E")}
+.ic-snow{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9'/%3E%3C/svg%3E")}
+.ic-spa{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 19c0-8 6-14 15-14 0 9-6 15-14 15M5 19l7-7'/%3E%3C/svg%3E")}
+.ic-star{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z'/%3E%3C/svg%3E")}
+.ic-starf{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3l2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z'/%3E%3C/svg%3E")}
+.ic-stethoscope{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 3v6a4 4 0 0 0 8 0V3M10 13v2a5 5 0 0 0 10 0v-2M20 9a2 2 0 1 0 0 4a2 2 0 1 0 0-4z'/%3E%3C/svg%3E")}
+.ic-store{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l2-5h14l2 5M4 9v11h16V9M3 9h18M9 20v-6h6v6'/%3E%3C/svg%3E")}
+.ic-storm{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 15a4 4 0 0 1-.5-8A6 6 0 0 1 18 6a4.5 4.5 0 0 1-.5 9zM13 13l-3 4h4l-3 4'/%3E%3C/svg%3E")}
+.ic-sun{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 8a4 4 0 1 0 0 8a4 4 0 1 0 0-8zM12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'/%3E%3C/svg%3E")}
+.ic-tap{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 11V5a1.5 1.5 0 0 1 3 0v5M12 10V8.5a1.5 1.5 0 0 1 3 0V11M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L4.2 15a1.5 1.5 0 0 1 2.5-1.7L9 16'/%3E%3C/svg%3E")}
+.ic-target{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18zM12 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10zM12 11a1 1 0 1 0 0 2a1 1 0 1 0 0-2z'/%3E%3C/svg%3E")}
+.ic-thermo{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 14V5a2 2 0 0 1 4 0v9a4 4 0 1 1-4 0z'/%3E%3C/svg%3E")}
+.ic-timer{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9v4l2.5 2M9 2h6M12 21a8 8 0 1 0 0-16a8 8 0 1 0 0 16z'/%3E%3C/svg%3E")}
+.ic-trash{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3'/%3E%3C/svg%3E")}
+.ic-user{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 12a4 4 0 1 0 0-8a4 4 0 1 0 0 8zM4 21a8 8 0 0 1 16 0'/%3E%3C/svg%3E")}
+.ic-users{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 11a4 4 0 1 0 0-8a4 4 0 1 0 0 8zM2 21a7 7 0 0 1 14 0M16 3.5a4 4 0 0 1 0 7.5M22 21a7 7 0 0 0-4.5-6.5'/%3E%3C/svg%3E")}
+.ic-utensils{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 3v18M4 3v5a3 3 0 0 0 6 0V3M17 21V3c-2 0-3.5 3-3.5 6.5S15 13 17 13'/%3E%3C/svg%3E")}
+.ic-wave{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 8c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0M2 14c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0M2 20c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 6 0'/%3E%3C/svg%3E")}
+.ic-wifioff{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 2l20 20M8.5 16.5a5 5 0 0 1 7 0M5 13a10 10 0 0 1 5-2.7M19 13a10 10 0 0 0-2.3-1.7M2 8.8a15 15 0 0 1 4.2-2.6M22 8.8A15 15 0 0 0 10.7 5M12 20h.01'/%3E%3C/svg%3E")}
+.ic-wind{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h8'/%3E%3C/svg%3E")}
+.ic-worship{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21V11l8-6 8 6v10zM9 21v-4a3 3 0 0 1 6 0v4M12 2v3'/%3E%3C/svg%3E")}
+.ic-zap{--i:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 2L4 14h7l-1 8 9-12h-7z'/%3E%3C/svg%3E")}
+.cc{display:inline-flex;align-items:center;justify-content:center;font:700 .62em/1 'Chakra Petch',monospace;letter-spacing:.04em;padding:.28em .42em;border-radius:5px;border:1px solid currentColor;opacity:.85;vertical-align:.12em;margin-right:.45em}.cc:empty{display:none}
+.sc-flag.cc,.eo-flag.cc{font-size:.8rem}
+.dot{display:inline-block;width:.6em;height:.6em;border-radius:50%;background:#00e07a;margin-right:.35em;vertical-align:.05em}.dot.r{background:#ff4455}
+.svc-pin span .ic,.card-badge .ic{width:1.05em;height:1.05em}
+.ci-history{margin:14px 0 4px}.ci-h-title{font:600 .68rem/1 'Chakra Petch',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px}
+.ci-h-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)}
+.ci-h-dest{font-size:.85rem;font-weight:600}.ci-h-meta{font-size:.72rem;color:var(--text-dim);margin-top:2px}
+.ci-pill{font-size:.68rem;font-weight:700;border-radius:20px;padding:3px 9px;white-space:nowrap;border:1px solid currentColor}
+.ci-pill.ok{color:var(--green)}.ci-pill.bad{color:var(--red)}.ci-pill.on{color:var(--gold)}
 </style>
 </head>
 <body>
@@ -607,7 +693,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
   <div class="sbg"></div><div class="sgrid"></div>
   <div class="sc">
     <div class="logo-row">
-      <div class="logo-badge">🛡️</div>
+      <div class="logo-badge"><i class="ic ic-shield"></i></div>
       <div class="logo-name">Safe<em>Reach</em></div>
     </div>
     <p class="tagline">Find hospitals, police, vets &amp; embassies<br>wherever you travel — instantly.</p>
@@ -622,7 +708,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
           <div class="csearch-header-row"><span class="csearch-count-label" id="csearch-count"></span></div>
           <div class="csearch-filter-row">
             <input type="text" class="csearch-filter" id="csearch-filter"
-              placeholder="🔍  Search country…" oninput="filterCountries(this.value)"
+              placeholder=" Search country…" oninput="filterCountries(this.value)"
               autocomplete="off" autocorrect="off" spellcheck="false">
           </div>
           <div class="csearch-list" id="csearch-list"></div>
@@ -630,18 +716,18 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
       </div>
       <input type="hidden" id="country-select" value="">
       <p class="note"><em>Optional</em> — SafeReach will also auto-detect where you currently are.</p>
-      <button class="btn-main" onclick="launch()">📍 FIND SERVICES NEAR ME</button>
+      <button class="btn-main" onclick="launch()"><i class="ic ic-pin"></i> FIND SERVICES NEAR ME</button>
     </div>
     <div class="svc-grid">
-      <div class="svc-tile"><span class="ti">🏥</span>Hospitals</div>
-      <div class="svc-tile"><span class="ti">💊</span>Pharmacies</div>
-      <div class="svc-tile"><span class="ti">👮</span>Police</div>
-      <div class="svc-tile"><span class="ti">🍽️</span>Restaurants</div>
-      <div class="svc-tile"><span class="ti">🏋️</span>Gyms</div>
-      <div class="svc-tile"><span class="ti">🕌</span>Mosques</div>
-      <div class="svc-tile"><span class="ti">🛒</span>Supermarkets</div>
-      <div class="svc-tile"><span class="ti">💆</span>Spas</div>
-      <div class="svc-tile"><span class="ti">➕</span>20+ more</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-hospital"></i></span>Hospitals</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-pill"></i></span>Pharmacies</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-badge"></i></span>Police</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-utensils"></i></span>Restaurants</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-dumbbell"></i></span>Gyms</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-worship"></i></span>Mosques</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-cart"></i></span>Supermarkets</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-spa"></i></span>Spas</div>
+      <div class="svc-tile"><span class="ti"><i class="ic ic-plus"></i></span>20+ more</div>
     </div>
   </div>
 </div>
@@ -653,14 +739,14 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
     <div class="header-row">
       <div class="app-logo">Safe<em>Reach</em></div>
       <div class="header-right">
-        <div class="country-chip" id="chip">🌍 <span id="chip-label">Locating…</span></div>
-        <button class="install-btn" id="install-btn" onclick="triggerInstall()">⬇ Install</button>
+        <div class="country-chip" id="chip"><i class="ic ic-globe"></i> <span id="chip-label">Locating…</span></div>
+        <button class="install-btn" id="install-btn" onclick="triggerInstall()"><i class="ic ic-download"></i> Install</button>
         <button class="checkin-badge" id="checkin-badge" onclick="showCheckin()"><span class="checkin-badge-dot" id="checkin-badge-dot"></span><span id="checkin-badge-txt">--:--</span></button>
         <button class="sos-btn" onclick="showSOS()"><span class="sos-dot"></span>SOS</button>
       </div>
     </div>
     <div class="cat-row">
-      <button class="cat-search-btn" onclick="openCatSearch()" title="Search services">🔍</button>
+      <button class="cat-search-btn" onclick="openCatSearch()" title="Search services"></button>
       <div class="cat-strip" id="cat-strip"></div>
     </div>
     <div class="recent-strip" id="recent-strip">
@@ -668,7 +754,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
     </div>
   </div>
   <div id="offline-banner">
-    <div class="offline-txt">📵 <span>Offline — <span id="offline-msg">showing cached results</span></span></div>
+    <div class="offline-txt"><i class="ic ic-wifioff"></i> <span>Offline — <span id="offline-msg">showing cached results</span></span></div>
     <span id="offline-age" class="offline-cache-note"></span>
   </div>
   <div class="side-ctrls">
@@ -678,23 +764,23 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
     <div class="radius-btn"       onclick="setRadius(this,10000)">10km</div>
     <div class="radius-btn"       onclick="setRadius(this,20000)">20km</div>
     <div class="radius-btn"       onclick="setRadius(this,50000)">50km</div>
-    <button class="icon-btn" style="margin-top:4px" onclick="goToUser()" title="My location">📍</button>
-    <button class="icon-btn" id="showall-icon-btn" style="margin-top:2px" onclick="toggleShowAll()" title="Show All Services">🗂️</button>
+    <button class="icon-btn" style="margin-top:4px" onclick="goToUser()" title="My location"></button>
+    <button class="icon-btn" id="showall-icon-btn" style="margin-top:2px" onclick="toggleShowAll()" title="Show All Services"></button>
   </div>
   <!-- Bottom-left tool cluster -->
   <div class="tool-cluster">
-    <button class="tool-btn t-card" onclick="showSafetyCard()" title="Safety Card">🪪</button>
-    <button class="tool-btn t-med" onclick="showMedID()" title="Medical ID"><span>🩺</span><span class="med-dot" id="med-dot"></span></button>
-    <button class="tool-btn t-trip" onclick="showTrip()" title="Trip Planner">✈️</button>
-    <button class="tool-btn t-checkin" onclick="showCheckin()" title="Check-in Timer"><span>⏱️</span><span class="checkin-dot" id="checkin-dot"></span></button>
-    <button class="tool-btn" style="border-color:rgba(255,68,85,.35);color:var(--red);background:rgba(255,68,85,.08)" onclick="showGuide()" title="Emergency Guide">📖</button>
-    <button class="tool-btn" style="border-color:rgba(255,140,66,.35);color:var(--orange);background:rgba(255,140,66,.08)" onclick="showReport()" title="Report Incident">⚠️</button>
-    <button class="tool-btn" style="border-color:rgba(255,68,85,.4);color:var(--red);background:rgba(255,68,85,.1)" onclick="showLost()" title="I'm Lost — Show my coordinates">🆘</button>
-    <button class="tool-btn t-settings" onclick="showSettings()" title="Settings">⚙️</button>
+    <button class="tool-btn t-card" onclick="showSafetyCard()" title="Safety Card"></button>
+    <button class="tool-btn t-med" onclick="showMedID()" title="Medical ID"><span></span><span class="med-dot" id="med-dot"></span></button>
+    <button class="tool-btn t-trip" onclick="showTrip()" title="Trip Planner"></button>
+    <button class="tool-btn t-checkin" onclick="showCheckin()" title="Check-in Timer"><span></span><span class="checkin-dot" id="checkin-dot"></span></button>
+    <button class="tool-btn" style="border-color:rgba(255,68,85,.35);color:var(--red);background:rgba(255,68,85,.08)" onclick="showGuide()" title="Emergency Guide"></button>
+    <button class="tool-btn" style="border-color:rgba(255,140,66,.35);color:var(--orange);background:rgba(255,140,66,.08)" onclick="showReport()" title="Report Incident"></button>
+    <button class="tool-btn" style="border-color:rgba(255,68,85,.4);color:var(--red);background:rgba(255,68,85,.1)" onclick="showLost()" title="I'm Lost — Show my coordinates"></button>
+    <button class="tool-btn t-settings" onclick="showSettings()" title="Settings"></button>
   </div>
   <!-- Theme + weather -->
-  <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn">🌙</button>
-  <div id="weather-strip"><div class="weather-chip" id="weather-chip" onclick="refreshWeather()">⛅ <span id="weather-txt">Loading…</span></div></div>
+  <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" id="theme-btn"></button>
+  <div id="weather-strip"><div class="weather-chip" id="weather-chip" onclick="refreshWeather()"><span id="weather-txt">Loading…</span></div></div>
   <div id="panel">
     <div class="panel-handle" onclick="togglePanel()">
       <div class="hbar-wrap"><div class="hbar"></div></div>
@@ -707,25 +793,25 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
       <button class="panel-close-btn" onclick="closePanel()" title="Close results" aria-label="Close results panel">✕</button>
     </div>
     <div class="panel-tabs">
-      <button class="tab-btn active" id="tab-results" onclick="switchTab('results')">📋 Results</button>
-      <button class="tab-btn t-radar" id="tab-radar"  onclick="switchTab('radar')">🎯 Radar</button>
-      <button class="tab-btn t-phrase" id="tab-phrase" onclick="switchTab('phrase')">💬 Phrases</button>
-      <button class="tab-btn" id="tab-saved" onclick="switchTab('saved')">⭐ Saved <span class="saved-badge" id="sbadge" style="display:none">0</span></button>
+      <button class="tab-btn active" id="tab-results" onclick="switchTab('results')"><i class="ic ic-clipboard"></i> Results</button>
+      <button class="tab-btn t-radar" id="tab-radar"  onclick="switchTab('radar')"><i class="ic ic-target"></i> Radar</button>
+      <button class="tab-btn t-phrase" id="tab-phrase" onclick="switchTab('phrase')"><i class="ic ic-chat"></i> Phrases</button>
+      <button class="tab-btn" id="tab-saved" onclick="switchTab('saved')"><i class="ic ic-star"></i> Saved <span class="saved-badge" id="sbadge" style="display:none">0</span></button>
     </div>
     <div class="search-wrap" id="search-wrap" style="display:none">
-      <span class="sicon">🔍</span>
+      <span class="sicon"><i class="ic ic-search"></i></span>
       <input class="search-input" id="sinput" placeholder="Filter results…" oninput="filterResults()" autocomplete="off">
       <button class="sclear" id="sclear" onclick="clearSearch()">✕</button>
     </div>
     <div class="results-toolbar" id="results-toolbar">
-      <button class="rt-btn f-open" id="rt-open" onclick="toggleOpenFilter()">🟢 Open Now</button>
+      <button class="rt-btn f-open" id="rt-open" onclick="toggleOpenFilter()"><span class="dot"></span> Open Now</button>
       <div class="rt-sep"></div>
-      <button class="rt-btn active" id="sort-dist" onclick="setSortMode('dist')">📍 Nearest</button>
-      <button class="rt-btn" id="sort-phone" onclick="setSortMode('phone')">📞 Has Phone</button>
+      <button class="rt-btn active" id="sort-dist" onclick="setSortMode('dist')"><i class="ic ic-pin"></i> Nearest</button>
+      <button class="rt-btn" id="sort-phone" onclick="setSortMode('phone')"><i class="ic ic-phone"></i> Has Phone</button>
     </div>
     <div class="panel-scroll" id="pbody">
       <div class="state-wrap">
-        <div class="state-icon">🗺️</div>
+        <div class="state-icon"><i class="ic ic-map"></i></div>
         <div class="state-text">Tap a category above to search for services around you.</div>
       </div>
     </div>
@@ -736,7 +822,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <div id="catsearch-overlay" onclick="if(event.target===this)closeCatSearch()">
   <div class="catsearch-sheet">
     <div class="catsearch-header">
-      <span class="catsearch-title">🔍 Search Services</span>
+      <span class="catsearch-title"><i class="ic ic-search"></i> Search Services</span>
       <button class="panel-close-btn" onclick="closeCatSearch()" aria-label="Close search">✕</button>
     </div>
     <input type="text" class="catsearch-input" id="catsearch-input"
@@ -750,14 +836,14 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <div id="sos-overlay" onclick="if(event.target===this)hideSOS()">
   <div class="sos-sheet">
     <div class="sos-header">
-      <div class="sos-title">🆘 <span id="sos-cn">Emergency Numbers</span></div>
-      <button class="sos-share-loc" onclick="shareMyLocation()">📤 Share Location</button>
+      <div class="sos-title"><i class="ic ic-siren"></i> <span id="sos-cn">Emergency Numbers</span></div>
+      <button class="sos-share-loc" onclick="shareMyLocation()"><i class="ic ic-share"></i> Share Location</button>
     </div>
     <div class="sos-grid" id="sos-grid"></div>
-    <button class="sr-alert-btn" onclick="srSendSOS('manual')">🚨 Alert my coordinators</button>
+    <button class="sr-alert-btn" onclick="srSendSOS('manual')"><i class="ic ic-siren"></i> Alert my coordinators</button>
     <div class="sr-status" id="sos-alert-status"></div>
     <div class="sos-bottom">
-      <button class="btn-sc" onclick="hideSOS();showSafetyCard()">🪪 Safety Card</button>
+      <button class="btn-sc" onclick="hideSOS();showSafetyCard()"><i class="ic ic-idcard"></i> Safety Card</button>
       <button class="btn-close" onclick="hideSOS()">Close</button>
     </div>
   </div>
@@ -766,10 +852,10 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <!-- ═══ SAFETY CARD ═══ -->
 <div id="card-overlay" onclick="if(event.target===this)hideCard()">
   <div class="card-sheet">
-    <div class="card-sheet-title">🪪 Your Safety Card</div>
+    <div class="card-sheet-title"><i class="ic ic-idcard"></i> Your Safety Card</div>
     <div id="card-body"></div>
     <div class="sc-actions">
-      <button class="sc-act sc-act-share" onclick="shareCard()">📤 Share Card</button>
+      <button class="sc-act sc-act-share" onclick="shareCard()"><i class="ic ic-share"></i> Share Card</button>
       <button class="sc-act sc-act-close" onclick="hideCard()">Close</button>
     </div>
   </div>
@@ -778,7 +864,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <!-- ═══ MEDICAL ID ═══ -->
 <div id="medid-overlay" onclick="if(event.target===this)hideMedID()">
   <div class="medid-sheet">
-    <div class="medid-title">🩺 Medical ID</div>
+    <div class="medid-title"><i class="ic ic-stethoscope"></i> Medical ID</div>
     <div class="medid-subtitle">Saved on-device only. Show to first responders in an emergency.</div>
     <div class="medid-grid" id="medid-form">
       <div class="medid-field"><div class="medid-label">Full Name</div><input class="medid-input" id="mid-name" placeholder="Your name" autocomplete="name"></div>
@@ -790,12 +876,12 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
       <div class="medid-field medid-field-wide"><div class="medid-label">Additional Notes</div><textarea class="medid-input" id="mid-notes" rows="2" placeholder="e.g. Has pacemaker, insulin-dependent"></textarea></div>
     </div>
     <div class="medid-preview" id="medid-preview" style="display:none">
-      <div class="medid-prev-title">🆔 MEDICAL ID PREVIEW</div>
+      <div class="medid-prev-title"><i class="ic ic-idcard"></i> MEDICAL ID PREVIEW</div>
       <div id="medid-prev-content"></div>
     </div>
     <div class="medid-actions">
-      <button class="medid-act medid-save" onclick="saveMedID()">💾 Save</button>
-      <button class="medid-act medid-share" onclick="shareMedID()">📤 Share</button>
+      <button class="medid-act medid-save" onclick="saveMedID()"><i class="ic ic-save"></i> Save</button>
+      <button class="medid-act medid-share" onclick="shareMedID()"><i class="ic ic-share"></i> Share</button>
       <button class="medid-act medid-close" onclick="hideMedID()">Close</button>
     </div>
   </div>
@@ -804,13 +890,13 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <!-- ═══ TRIP PLANNER ═══ -->
 <div id="trip-overlay" onclick="if(event.target===this)hideTrip()">
   <div class="trip-sheet">
-    <div class="trip-title">✈️ Trip Planner</div>
+    <div class="trip-title"><i class="ic ic-plane"></i> Trip Planner</div>
     <div class="trip-subtitle">Search any city or country to pre-load emergency numbers before you travel.</div>
     <div class="trip-input-wrap">
-      <span class="trip-input-icon">🔍</span>
+      <span class="trip-input-icon"><i class="ic ic-search"></i></span>
       <input class="trip-input" id="trip-input" placeholder="e.g. Paris, Tokyo, Cape Town…" autocomplete="off" onkeydown="if(event.key==='Enter')searchTrip()">
     </div>
-    <button class="trip-search-btn" onclick="searchTrip()">🗺️ LOOK UP DESTINATION</button>
+    <button class="trip-search-btn" onclick="searchTrip()"><i class="ic ic-map"></i> LOOK UP DESTINATION</button>
     <div id="trip-results"></div>
     <button class="trip-close" onclick="hideTrip()">Close</button>
   </div>
@@ -819,7 +905,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <!-- ═══ EMERGENCY GUIDE ═══ -->
 <div id="guide-overlay" onclick="if(event.target===this)hideGuide()">
   <div class="guide-sheet">
-    <div class="guide-title">📖 Emergency Guide</div>
+    <div class="guide-title"><i class="ic ic-book"></i> Emergency Guide</div>
     <div class="guide-tabs" id="guide-tabs"></div>
     <div id="guide-content"></div>
     <button class="btn-guide-close" onclick="hideGuide()">Close</button>
@@ -829,7 +915,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <!-- ═══ INCIDENT REPORT ═══ -->
 <div id="report-overlay" onclick="if(event.target===this)hideReport()">
   <div class="report-sheet">
-    <div class="report-title">⚠️ Report an Incident</div>
+    <div class="report-title"><i class="ic ic-alert"></i> Report an Incident</div>
     <div class="report-sub">Log an incident. Saved on this device, and synced to your coordinators when you are signed in.</div>
     <div class="report-type-grid" id="report-types"></div>
     <div class="report-field">
@@ -841,7 +927,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
       <input class="report-input" id="rep-loc" placeholder="Street, landmark, or auto-filled…">
     </div>
     <div class="report-actions">
-      <button class="report-submit" onclick="submitReport()">📋 LOG INCIDENT</button>
+      <button class="report-submit" onclick="submitReport()"><i class="ic ic-clipboard"></i> LOG INCIDENT</button>
       <button class="report-close" onclick="hideReport()">Close</button>
     </div>
     <div id="report-list" style="margin-top:16px"></div>
@@ -853,7 +939,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
   <div class="checkin-sheet">
 
     <div id="checkin-start-view">
-      <div class="checkin-title">⏱️ Check-in Timer</div>
+      <div class="checkin-title"><i class="ic ic-timer"></i> Check-in Timer</div>
       <div class="checkin-sub">Tell SafeReach how long you'll be. If you don't check back in, we'll help you escalate.</div>
       <div class="checkin-dur-grid" id="checkin-dur-grid">
         <div class="checkin-dur-btn" onclick="selectCheckinDuration(this,15)">15 min</div>
@@ -865,19 +951,20 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
         <div class="checkin-field-label">Where are you going? (optional)</div>
         <input class="checkin-input" id="ci-note" placeholder="e.g. Walking to taxi rank on Main Rd">
       </div>
-      <button class="checkin-start-btn" onclick="startCheckin()">▶ START CHECK-IN</button>
+      <button class="checkin-start-btn" onclick="startCheckin()">START CHECK-IN</button>
+      <div id="ci-history" class="ci-history"></div>
       <button class="checkin-close" onclick="hideCheckin()">Close</button>
     </div>
 
     <div id="checkin-active-view" style="display:none">
-      <div class="checkin-title">⏱️ Check-in Active</div>
+      <div class="checkin-title"><i class="ic ic-timer"></i> Check-in Active</div>
       <div class="checkin-countdown-wrap">
         <div class="checkin-countdown" id="checkin-countdown">--:--</div>
         <div class="checkin-countdown-label">Time remaining</div>
       </div>
       <div class="checkin-active-note" id="checkin-active-note">No note added</div>
       <div class="checkin-active-actions">
-        <button class="checkin-safe-btn" onclick="imSafe()">✅ I'M SAFE</button>
+        <button class="checkin-safe-btn" onclick="imSafe()"><i class="ic ic-check"></i> I'M SAFE</button>
         <button class="checkin-extend-btn" onclick="extendCheckin(15)">+15 min</button>
       </div>
       <button class="checkin-close" onclick="hideCheckin()">Close (keeps running)</button>
@@ -886,15 +973,15 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 
     <div id="checkin-escalated-view" style="display:none">
       <div class="checkin-escalated-box">
-        <div class="checkin-escalated-icon">🆘</div>
+        <div class="checkin-escalated-icon"><i class="ic ic-siren"></i></div>
         <div class="checkin-escalated-title">Check-in Missed</div>
         <div class="checkin-escalated-desc">You didn't check back in before your timer ran out. SafeReach has opened the SOS numbers for your area and logged this to your incident log.</div>
       </div>
       <div id="checkin-sms-prompt">
         <div style="font-size:.78rem;color:var(--text-dim)">Let your emergency contact know you're overdue:</div>
-        <a href="#" id="checkin-sms-link" target="_blank" rel="noopener">📲 Send SMS to Emergency Contact</a>
+        <a href="#" id="checkin-sms-link" target="_blank" rel="noopener"><i class="ic ic-device"></i> Send SMS to Emergency Contact</a>
       </div>
-      <button class="checkin-safe-btn" style="width:100%;margin-bottom:8px" onclick="imSafe()">✅ I'M SAFE NOW</button>
+      <button class="checkin-safe-btn" style="width:100%;margin-bottom:8px" onclick="imSafe()"><i class="ic ic-check"></i> I'M SAFE NOW</button>
       <button class="checkin-close" onclick="hideCheckin()">Close</button>
     </div>
 
@@ -904,7 +991,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <!-- ═══ SETTINGS ═══ -->
 <div id="settings-overlay" onclick="if(event.target===this)hideSettings()">
   <div class="settings-sheet">
-    <div class="settings-title">⚙️ Settings</div>
+    <div class="settings-title"><i class="ic ic-settings"></i> Settings</div>
 
     <div class="settings-row">
       <div class="settings-row-text">
@@ -930,7 +1017,7 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 <!-- ═══ ACCOUNT ═══ -->
 <div id="auth-overlay" onclick="if(event.target===this)hideAuth()">
   <div class="settings-sheet">
-    <div class="settings-title">👤 Account</div>
+    <div class="settings-title"><i class="ic ic-user"></i> Account</div>
     <div id="auth-in-view">
       <div class="settings-note">Sign in to sync check-ins, SOS alerts and incident reports with your coordinators. SafeReach still works without an account.</div>
       <div class="settings-row"><input class="medid-input" id="auth-name" placeholder="Full name (new accounts only)" autocomplete="name"></div>
@@ -969,203 +1056,203 @@ body.light #map{filter:invert(1) hue-rotate(180deg)}
 // DATA
 // ════════════════════════════════════════════
 const COUNTRIES=[
-  {n:'South Africa', c:'ZA',f:'🇿🇦',lang:'Zulu',      e:{Police:'10111',Ambulance:'10177',Fire:'10111',General:'112'}},
-  {n:'United States',c:'US',f:'🇺🇸',lang:'Spanish',   e:{Police:'911', Ambulance:'911',  Fire:'911',  Poison:'1-800-222-1222'}},
-  {n:'United Kingdom',c:'GB',f:'🇬🇧',lang:'Welsh',    e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'112'}},
-  {n:'Australia',    c:'AU',f:'🇦🇺',lang:'None',       e:{Police:'000', Ambulance:'000',  Fire:'000',  SES:'132500'}},
-  {n:'Canada',       c:'CA',f:'🇨🇦',lang:'French',    e:{Police:'911', Ambulance:'911',  Fire:'911',  Coast:'1-800-267-7270'}},
-  {n:'Germany',      c:'DE',f:'🇩🇪',lang:'German',    e:{Police:'110', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'France',       c:'FR',f:'🇫🇷',lang:'French',    e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'112'}},
-  {n:'Italy',        c:'IT',f:'🇮🇹',lang:'Italian',   e:{Police:'113', Ambulance:'118',  Fire:'115',  Coast:'1530'}},
-  {n:'Spain',        c:'ES',f:'🇪🇸',lang:'Spanish',   e:{Police:'091', Ambulance:'061',  Fire:'080',  General:'112'}},
-  {n:'Portugal',     c:'PT',f:'🇵🇹',lang:'Portuguese',e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Netherlands',  c:'NL',f:'🇳🇱',lang:'Dutch',     e:{Police:'0900-8844',Ambulance:'112',Fire:'112',General:'112'}},
-  {n:'Japan',        c:'JP',f:'🇯🇵',lang:'Japanese',  e:{Police:'110', Ambulance:'119',  Fire:'119',  Coast:'118'}},
-  {n:'China',        c:'CN',f:'🇨🇳',lang:'Chinese',   e:{Police:'110', Ambulance:'120',  Fire:'119',  Traffic:'122'}},
-  {n:'India',        c:'IN',f:'🇮🇳',lang:'Hindi',     e:{Police:'100', Ambulance:'102',  Fire:'101',  Women:'1091'}},
-  {n:'Brazil',       c:'BR',f:'🇧🇷',lang:'Portuguese',e:{Police:'190', Ambulance:'192',  Fire:'193',  Traffic:'194'}},
-  {n:'Mexico',       c:'MX',f:'🇲🇽',lang:'Spanish',   e:{Police:'911', Ambulance:'911',  Fire:'911',  'Red Cross':'065'}},
-  {n:'Argentina',    c:'AR',f:'🇦🇷',lang:'Spanish',   e:{Police:'911', Ambulance:'107',  Fire:'100',  Tourist:'0800-555-0016'}},
-  {n:'Nigeria',      c:'NG',f:'🇳🇬',lang:'Yoruba',    e:{Police:'199', Ambulance:'199',  Fire:'199',  NEMA:'0800-CALLNEMA'}},
-  {n:'Kenya',        c:'KE',f:'🇰🇪',lang:'Swahili',   e:{Police:'999', Ambulance:'999',  Fire:'999',  Tourist:'020-604767'}},
-  {n:'Egypt',        c:'EG',f:'🇪🇬',lang:'Arabic',    e:{Police:'122', Ambulance:'123',  Fire:'180',  Tourist:'126'}},
-  {n:'UAE',          c:'AE',f:'🇦🇪',lang:'Arabic',    e:{Police:'999', Ambulance:'998',  Fire:'997',  Tourist:'800-ADED'}},
-  {n:'Saudi Arabia', c:'SA',f:'🇸🇦',lang:'Arabic',    e:{Police:'999', Ambulance:'997',  Fire:'998',  Traffic:'996'}},
-  {n:'Turkey',       c:'TR',f:'🇹🇷',lang:'Turkish',   e:{Police:'155', Ambulance:'112',  Fire:'110',  Coast:'158'}},
-  {n:'Thailand',     c:'TH',f:'🇹🇭',lang:'Thai',      e:{Police:'191', Ambulance:'1669', Fire:'199',  Tourist:'1155'}},
-  {n:'Singapore',    c:'SG',f:'🇸🇬',lang:'Malay',     e:{Police:'999', Ambulance:'995',  Fire:'995',  General:'995'}},
-  {n:'New Zealand',  c:'NZ',f:'🇳🇿',lang:'Maori',     e:{Police:'111', Ambulance:'111',  Fire:'111',  Coast:'*500'}},
-  {n:'Zimbabwe',     c:'ZW',f:'🇿🇼',lang:'Shona',     e:{Police:'999', Ambulance:'994',  Fire:'993',  ZRCS:'04-250001'}},
-  {n:'Ghana',        c:'GH',f:'🇬🇭',lang:'Twi',       e:{Police:'191', Ambulance:'193',  Fire:'192',  General:'112'}},
-  {n:'Botswana',     c:'BW',f:'🇧🇼',lang:'Setswana',  e:{Police:'999', Ambulance:'997',  Fire:'998',  General:'112'}},
-  {n:'Namibia',      c:'NA',f:'🇳🇦',lang:'Oshiwambo', e:{Police:'10111',Ambulance:'10177',Fire:'061-211111',MTC:'081-149'}},
-  {n:'Tanzania',     c:'TZ',f:'🇹🇿',lang:'Swahili',   e:{Police:'112', Ambulance:'114',  Fire:'115',  Tourist:'0800-110-093'}},
-  {n:'Morocco',      c:'MA',f:'🇲🇦',lang:'Arabic',    e:{Police:'19',  Ambulance:'150',  Fire:'150',  Gendarmerie:'177'}},
-  {n:'Indonesia',    c:'ID',f:'🇮🇩',lang:'Indonesian', e:{Police:'110', Ambulance:'118', Fire:'113',  SAR:'115'}},
-  {n:'Philippines',  c:'PH',f:'🇵🇭',lang:'Filipino',  e:{Police:'911', Ambulance:'911',  Fire:'911',  'Red Cross':'143'}},
-  {n:'Malaysia',     c:'MY',f:'🇲🇾',lang:'Malay',     e:{Police:'999', Ambulance:'999',  Fire:'994',  General:'999'}},
-  {n:'Vietnam',      c:'VN',f:'🇻🇳',lang:'Vietnamese', e:{Police:'113', Ambulance:'115', Fire:'114',  SAR:'0511'}},
-  {n:'South Korea',  c:'KR',f:'🇰🇷',lang:'Korean',    e:{Police:'112', Ambulance:'119',  Fire:'119',  Coast:'122'}},
-  {n:'Greece',       c:'GR',f:'🇬🇷',lang:'Greek',     e:{Police:'100', Ambulance:'166',  Fire:'199',  Coast:'108'}},
-  {n:'Switzerland',  c:'CH',f:'🇨🇭',lang:'German',    e:{Police:'117', Ambulance:'144',  Fire:'118',  General:'112'}},
-  {n:'Sweden',       c:'SE',f:'🇸🇪',lang:'Swedish',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Ethiopia',     c:'ET',f:'🇪🇹',lang:'Amharic',   e:{Police:'911', Ambulance:'907',  Fire:'939',  Traffic:'945'}},
-  {n:'Uganda',       c:'UG',f:'🇺🇬',lang:'Luganda',   e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'112'}},
-  {n:'Zambia',       c:'ZM',f:'🇿🇲',lang:'Nyanja',    e:{Police:'991', Ambulance:'992',  Fire:'993',  General:'112'}},
-  {n:'Pakistan',     c:'PK',f:'🇵🇰',lang:'Urdu',      e:{Police:'15',  Ambulance:'1122', Fire:'16',   Rescue:'1122'}},
-  {n:'Russia',       c:'RU',f:'🇷🇺',lang:'Russian',   e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Poland',       c:'PL',f:'🇵🇱',lang:'Polish',    e:{Police:'997', Ambulance:'999',  Fire:'998',  General:'112'}},
-  {n:'Austria',      c:'AT',f:'🇦🇹',lang:'German',    e:{Police:'133', Ambulance:'144',  Fire:'122',  General:'112'}},
-  {n:'Belgium',      c:'BE',f:'🇧🇪',lang:'French',    e:{Police:'101', Ambulance:'100',  Fire:'100',  General:'112'}},
-  {n:'Denmark',      c:'DK',f:'🇩🇰',lang:'Danish',    e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Finland',      c:'FI',f:'🇫🇮',lang:'Finnish',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Norway',       c:'NO',f:'🇳🇴',lang:'Norwegian', e:{Police:'112', Ambulance:'113',  Fire:'110',  General:'112'}},
-  {n:'Ireland',      c:'IE',f:'🇮🇪',lang:'Irish',     e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'112'}},
-  {n:'Czech Republic',c:'CZ',f:'🇨🇿',lang:'Czech',   e:{Police:'158', Ambulance:'155',  Fire:'150',  General:'112'}},
-  {n:'Hungary',      c:'HU',f:'🇭🇺',lang:'Hungarian', e:{Police:'107', Ambulance:'104',  Fire:'105',  General:'112'}},
-  {n:'Romania',      c:'RO',f:'🇷🇴',lang:'Romanian',  e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Ukraine',      c:'UA',f:'🇺🇦',lang:'Ukrainian', e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Colombia',     c:'CO',f:'🇨🇴',lang:'Spanish',   e:{Police:'123', Ambulance:'125',  Fire:'119',  General:'112'}},
-  {n:'Chile',        c:'CL',f:'🇨🇱',lang:'Spanish',   e:{Police:'133', Ambulance:'131',  Fire:'132',  General:'133'}},
-  {n:'Peru',         c:'PE',f:'🇵🇪',lang:'Spanish',   e:{Police:'105', Ambulance:'117',  Fire:'116',  General:'105'}},
-  {n:'Ecuador',      c:'EC',f:'🇪🇨',lang:'Spanish',   e:{Police:'101', Ambulance:'911',  Fire:'102',  General:'911'}},
-  {n:'Bolivia',      c:'BO',f:'🇧🇴',lang:'Spanish',   e:{Police:'110', Ambulance:'118',  Fire:'119',  General:'110'}},
-  {n:'Venezuela',    c:'VE',f:'🇻🇪',lang:'Spanish',   e:{Police:'171', Ambulance:'171',  Fire:'171',  General:'171'}},
-  {n:'Cuba',         c:'CU',f:'🇨🇺',lang:'Spanish',   e:{Police:'106', Ambulance:'104',  Fire:'105',  General:'106'}},
-  {n:'Costa Rica',   c:'CR',f:'🇨🇷',lang:'Spanish',   e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Jordan',       c:'JO',f:'🇯🇴',lang:'Arabic',    e:{Police:'191', Ambulance:'193',  Fire:'193',  General:'112'}},
-  {n:'Lebanon',      c:'LB',f:'🇱🇧',lang:'Arabic',    e:{Police:'112', Ambulance:'140',  Fire:'175',  General:'112'}},
-  {n:'Kuwait',       c:'KW',f:'🇰🇼',lang:'Arabic',    e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Qatar',        c:'QA',f:'🇶🇦',lang:'Arabic',    e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
-  {n:'Bahrain',      c:'BH',f:'🇧🇭',lang:'Arabic',    e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
-  {n:'Oman',         c:'OM',f:'🇴🇲',lang:'Arabic',    e:{Police:'9999',Ambulance:'9999', Fire:'9999', General:'9999'}},
-  {n:'Bangladesh',   c:'BD',f:'🇧🇩',lang:'Bengali',   e:{Police:'999', Ambulance:'199',  Fire:'199',  General:'999'}},
-  {n:'Nepal',        c:'NP',f:'🇳🇵',lang:'Nepali',    e:{Police:'100', Ambulance:'102',  Fire:'101',  General:'112'}},
-  {n:'Sri Lanka',    c:'LK',f:'🇱🇰',lang:'Sinhala',   e:{Police:'119', Ambulance:'110',  Fire:'111',  General:'119'}},
-  {n:'Myanmar',      c:'MM',f:'🇲🇲',lang:'Burmese',   e:{Police:'199', Ambulance:'192',  Fire:'191',  General:'199'}},
-  {n:'Cambodia',     c:'KH',f:'🇰🇭',lang:'Khmer',     e:{Police:'117', Ambulance:'119',  Fire:'118',  General:'117'}},
-  {n:'Ivory Coast',  c:'CI',f:'🇨🇮',lang:'French',    e:{Police:'111', Ambulance:'185',  Fire:'180',  General:'112'}},
-  {n:'Senegal',      c:'SN',f:'🇸🇳',lang:'French',    e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'112'}},
-  {n:'Cameroon',     c:'CM',f:'🇨🇲',lang:'French',    e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'112'}},
-  {n:'Angola',       c:'AO',f:'🇦🇴',lang:'Portuguese',e:{Police:'113', Ambulance:'112',  Fire:'115',  General:'112'}},
-  {n:'Rwanda',       c:'RW',f:'🇷🇼',lang:'Kinyarwanda',e:{Police:'112',Ambulance:'912',  Fire:'112',  General:'112'}},
-  {n:'Mozambique',   c:'MZ',f:'🇲🇿',lang:'Portuguese',e:{Police:'119', Ambulance:'117',  Fire:'198',  General:'112'}},
-  {n:'Tunisia',      c:'TN',f:'🇹🇳',lang:'Arabic',    e:{Police:'197', Ambulance:'190',  Fire:'198',  General:'197'}},
-  {n:'Algeria',      c:'DZ',f:'🇩🇿',lang:'Arabic',    e:{Police:'17',  Ambulance:'14',   Fire:'14',   General:'14'}},
-  {n:'Sudan',        c:'SD',f:'🇸🇩',lang:'Arabic',    e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
-  {n:'DRC Congo',    c:'CD',f:'🇨🇩',lang:'French',    e:{Police:'112', Ambulance:'112',  Fire:'118',  General:'112'}},
-  {n:'Malawi',       c:'MW',f:'🇲🇼',lang:'Chichewa',  e:{Police:'997', Ambulance:'998',  Fire:'999',  General:'112'}},
-  {n:'Fiji',         c:'FJ',f:'🇫🇯',lang:'Fijian',    e:{Police:'917', Ambulance:'911',  Fire:'910',  General:'911'}},
-  {n:'Papua New Guinea',c:'PG',f:'🇵🇬',lang:'Tok Pisin',e:{Police:'000',Ambulance:'111',Fire:'110',  General:'112'}},
-  {n:'Afghanistan',   c:'AF',f:'🇦🇫',lang:'Pashto',     e:{Police:'119', Ambulance:'112',  Fire:'119',  General:'112'}},
-  {n:'Albania',       c:'AL',f:'🇦🇱',lang:'Albanian',   e:{Police:'129', Ambulance:'127',  Fire:'128',  General:'112'}},
-  {n:'Armenia',       c:'AM',f:'🇦🇲',lang:'Armenian',   e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Azerbaijan',    c:'AZ',f:'🇦🇿',lang:'Azerbaijani',e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Bahamas',       c:'BS',f:'🇧🇸',lang:'English',    e:{Police:'919', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Belarus',       c:'BY',f:'🇧🇾',lang:'Belarusian', e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Belize',        c:'BZ',f:'🇧🇿',lang:'English',    e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Benin',         c:'BJ',f:'🇧🇯',lang:'French',     e:{Police:'117', Ambulance:'112',  Fire:'118',  General:'112'}},
-  {n:'Bosnia',        c:'BA',f:'🇧🇦',lang:'Bosnian',    e:{Police:'122', Ambulance:'124',  Fire:'123',  General:'112'}},
-  {n:'Brunei',        c:'BN',f:'🇧🇳',lang:'Malay',      e:{Police:'993', Ambulance:'991',  Fire:'995',  General:'991'}},
-  {n:'Bulgaria',      c:'BG',f:'🇧🇬',lang:'Bulgarian',  e:{Police:'166', Ambulance:'150',  Fire:'160',  General:'112'}},
-  {n:'Burkina Faso',  c:'BF',f:'🇧🇫',lang:'French',     e:{Police:'17',  Ambulance:'112',  Fire:'18',   General:'112'}},
-  {n:'Burundi',       c:'BI',f:'🇧🇮',lang:'Kirundi',    e:{Police:'113', Ambulance:'112',  Fire:'118',  General:'112'}},
-  {n:'Cape Verde',    c:'CV',f:'🇨🇻',lang:'Portuguese', e:{Police:'132', Ambulance:'130',  Fire:'131',  General:'112'}},
-  {n:'Chad',          c:'TD',f:'🇹🇩',lang:'French',     e:{Police:'17',  Ambulance:'2251-52-25',Fire:'18',General:'17'}},
-  {n:'Croatia',       c:'HR',f:'🇭🇷',lang:'Croatian',   e:{Police:'192', Ambulance:'194',  Fire:'193',  General:'112'}},
-  {n:'Cyprus',        c:'CY',f:'🇨🇾',lang:'Greek',      e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Djibouti',      c:'DJ',f:'🇩🇯',lang:'French',     e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
-  {n:'Dominican Republic',c:'DO',f:'🇩🇴',lang:'Spanish',e:{Police:'911',Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'El Salvador',   c:'SV',f:'🇸🇻',lang:'Spanish',   e:{Police:'911', Ambulance:'911',  Fire:'913',  General:'911'}},
-  {n:'Eritrea',       c:'ER',f:'🇪🇷',lang:'Tigrinya',   e:{Police:'114', Ambulance:'117',  Fire:'115',  General:'114'}},
-  {n:'Eswatini',      c:'SZ',f:'🇸🇿',lang:'Swati',      e:{Police:'999', Ambulance:'977',  Fire:'933',  General:'999'}},
-  {n:'Estonia',       c:'EE',f:'🇪🇪',lang:'Estonian',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Gabon',         c:'GA',f:'🇬🇦',lang:'French',     e:{Police:'1730',Ambulance:'1300', Fire:'18',   General:'1730'}},
-  {n:'Gambia',        c:'GM',f:'🇬🇲',lang:'English',    e:{Police:'117', Ambulance:'116',  Fire:'118',  General:'117'}},
-  {n:'Georgia',       c:'GE',f:'🇬🇪',lang:'Georgian',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Guatemala',     c:'GT',f:'🇬🇹',lang:'Spanish',    e:{Police:'110', Ambulance:'128',  Fire:'122',  General:'110'}},
-  {n:'Guinea',        c:'GN',f:'🇬🇳',lang:'French',     e:{Police:'117', Ambulance:'15',   Fire:'18',   General:'117'}},
-  {n:'Guyana',        c:'GY',f:'🇬🇾',lang:'English',    e:{Police:'911', Ambulance:'913',  Fire:'912',  General:'911'}},
-  {n:'Haiti',         c:'HT',f:'🇭🇹',lang:'French',     e:{Police:'114', Ambulance:'115',  Fire:'115',  General:'114'}},
-  {n:'Honduras',      c:'HN',f:'🇭🇳',lang:'Spanish',    e:{Police:'911', Ambulance:'195',  Fire:'198',  General:'911'}},
-  {n:'Hong Kong',     c:'HK',f:'🇭🇰',lang:'Cantonese',  e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
-  {n:'Iran',          c:'IR',f:'🇮🇷',lang:'Persian',    e:{Police:'110', Ambulance:'115',  Fire:'125',  General:'115'}},
-  {n:'Iraq',          c:'IQ',f:'🇮🇶',lang:'Arabic',     e:{Police:'104', Ambulance:'122',  Fire:'115',  General:'115'}},
-  {n:'Jamaica',       c:'JM',f:'🇯🇲',lang:'English',    e:{Police:'119', Ambulance:'110',  Fire:'110',  General:'119'}},
-  {n:'Kazakhstan',    c:'KZ',f:'🇰🇿',lang:'Kazakh',     e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Kosovo',        c:'XK',f:'🇽🇰',lang:'Albanian',   e:{Police:'192', Ambulance:'194',  Fire:'193',  General:'112'}},
-  {n:'Kyrgyzstan',    c:'KG',f:'🇰🇬',lang:'Kyrgyz',     e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Laos',          c:'LA',f:'🇱🇦',lang:'Lao',        e:{Police:'191', Ambulance:'195',  Fire:'190',  General:'191'}},
-  {n:'Latvia',        c:'LV',f:'🇱🇻',lang:'Latvian',    e:{Police:'110', Ambulance:'113',  Fire:'112',  General:'112'}},
-  {n:'Lesotho',       c:'LS',f:'🇱🇸',lang:'Sesotho',    e:{Police:'123', Ambulance:'121',  Fire:'122',  General:'112'}},
-  {n:'Liberia',       c:'LR',f:'🇱🇷',lang:'English',    e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Libya',         c:'LY',f:'🇱🇾',lang:'Arabic',     e:{Police:'1515',Ambulance:'1230', Fire:'1515', General:'1515'}},
-  {n:'Lithuania',     c:'LT',f:'🇱🇹',lang:'Lithuanian', e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Luxembourg',    c:'LU',f:'🇱🇺',lang:'French',     e:{Police:'113', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Madagascar',    c:'MG',f:'🇲🇬',lang:'Malagasy',   e:{Police:'117', Ambulance:'15',   Fire:'18',   General:'117'}},
-  {n:'Maldives',      c:'MV',f:'🇲🇻',lang:'Dhivehi',    e:{Police:'119', Ambulance:'102',  Fire:'118',  General:'119'}},
-  {n:'Mali',          c:'ML',f:'🇲🇱',lang:'French',     e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
-  {n:'Malta',         c:'MT',f:'🇲🇹',lang:'Maltese',    e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Mauritania',    c:'MR',f:'🇲🇷',lang:'Arabic',     e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
-  {n:'Mauritius',     c:'MU',f:'🇲🇺',lang:'French',     e:{Police:'999', Ambulance:'114',  Fire:'115',  General:'999'}},
-  {n:'Moldova',       c:'MD',f:'🇲🇩',lang:'Romanian',   e:{Police:'902', Ambulance:'903',  Fire:'901',  General:'112'}},
-  {n:'Mongolia',      c:'MN',f:'🇲🇳',lang:'Mongolian',  e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Montenegro',    c:'ME',f:'🇲🇪',lang:'Montenegrin',e:{Police:'122', Ambulance:'124',  Fire:'123',  General:'112'}},
-  {n:'Nicaragua',     c:'NI',f:'🇳🇮',lang:'Spanish',    e:{Police:'118', Ambulance:'128',  Fire:'115',  General:'118'}},
-  {n:'Niger',         c:'NE',f:'🇳🇪',lang:'French',     e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
-  {n:'North Macedonia',c:'MK',f:'🇲🇰',lang:'Macedonian',e:{Police:'192',Ambulance:'194',  Fire:'193',  General:'112'}},
-  {n:'Panama',        c:'PA',f:'🇵🇦',lang:'Spanish',    e:{Police:'104', Ambulance:'911',  Fire:'103',  General:'911'}},
-  {n:'Paraguay',      c:'PY',f:'🇵🇾',lang:'Spanish',    e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Palestinian Territories',c:'PS',f:'🇵🇸',lang:'Arabic',e:{Police:'100',Ambulance:'101',Fire:'102',General:'112'}},
-  {n:'Samoa',         c:'WS',f:'🇼🇸',lang:'Samoan',     e:{Police:'995', Ambulance:'994',  Fire:'994',  General:'994'}},
-  {n:'Serbia',        c:'RS',f:'🇷🇸',lang:'Serbian',    e:{Police:'192', Ambulance:'194',  Fire:'193',  General:'112'}},
-  {n:'Seychelles',    c:'SC',f:'🇸🇨',lang:'French',     e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
-  {n:'Sierra Leone',  c:'SL',f:'🇸🇱',lang:'English',    e:{Police:'999', Ambulance:'999',  Fire:'019',  General:'999'}},
-  {n:'Slovakia',      c:'SK',f:'🇸🇰',lang:'Slovak',     e:{Police:'158', Ambulance:'155',  Fire:'150',  General:'112'}},
-  {n:'Slovenia',      c:'SI',f:'🇸🇮',lang:'Slovenian',  e:{Police:'113', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Solomon Islands',c:'SB',f:'🇸🇧',lang:'English',  e:{Police:'999', Ambulance:'911',  Fire:'911',  General:'999'}},
-  {n:'Somalia',       c:'SO',f:'🇸🇴',lang:'Somali',     e:{Police:'888', Ambulance:'888',  Fire:'888',  General:'888'}},
-  {n:'South Sudan',   c:'SS',f:'🇸🇸',lang:'English',    e:{Police:'777', Ambulance:'113',  Fire:'113',  General:'113'}},
-  {n:'Suriname',      c:'SR',f:'🇸🇷',lang:'Dutch',      e:{Police:'115', Ambulance:'113',  Fire:'110',  General:'115'}},
-  {n:'Syria',         c:'SY',f:'🇸🇾',lang:'Arabic',     e:{Police:'112', Ambulance:'110',  Fire:'113',  General:'112'}},
-  {n:'Taiwan',        c:'TW',f:'🇹🇼',lang:'Chinese',    e:{Police:'110', Ambulance:'119',  Fire:'119',  General:'112'}},
-  {n:'Tajikistan',    c:'TJ',f:'🇹🇯',lang:'Tajik',      e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Togo',          c:'TG',f:'🇹🇬',lang:'French',     e:{Police:'117', Ambulance:'118',  Fire:'118',  General:'117'}},
-  {n:'Tonga',         c:'TO',f:'🇹🇴',lang:'Tongan',     e:{Police:'922', Ambulance:'933',  Fire:'911',  General:'911'}},
-  {n:'Trinidad & Tobago',c:'TT',f:'🇹🇹',lang:'English', e:{Police:'999', Ambulance:'990',  Fire:'990',  General:'999'}},
-  {n:'Turkmenistan',  c:'TM',f:'🇹🇲',lang:'Turkmen',    e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Uruguay',       c:'UY',f:'🇺🇾',lang:'Spanish',    e:{Police:'911', Ambulance:'105',  Fire:'104',  General:'911'}},
-  {n:'Uzbekistan',    c:'UZ',f:'🇺🇿',lang:'Uzbek',      e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
-  {n:'Vanuatu',       c:'VU',f:'🇻🇺',lang:'French',     e:{Police:'111', Ambulance:'115',  Fire:'113',  General:'112'}},
-  {n:'Andorra',                 c:'AD',f:'🇦🇩',lang:'Catalan',     e:{Police:'110', Ambulance:'118',  Fire:'118',  General:'112'}},
-  {n:'Antigua & Barbuda',       c:'AG',f:'🇦🇬',lang:'English',     e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Barbados',                c:'BB',f:'🇧🇧',lang:'English',     e:{Police:'211', Ambulance:'511',  Fire:'311',  General:'211'}},
-  {n:'Bhutan',                  c:'BT',f:'🇧🇹',lang:'Dzongkha',    e:{Police:'113', Ambulance:'112',  Fire:'110',  General:'112'}},
-  {n:'Central African Republic',c:'CF',f:'🇨🇫',lang:'French',      e:{Police:'117', Ambulance:'1220', Fire:'118',  General:'112'}},
-  {n:'Republic of Congo',       c:'CG',f:'🇨🇬',lang:'French',      e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
-  {n:'Dominica',                c:'DM',f:'🇩🇲',lang:'English',     e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
-  {n:'Micronesia',              c:'FM',f:'🇫🇲',lang:'English',     e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Grenada',                 c:'GD',f:'🇬🇩',lang:'English',     e:{Police:'911', Ambulance:'434',  Fire:'911',  General:'911'}},
-  {n:'Equatorial Guinea',       c:'GQ',f:'🇬🇶',lang:'Spanish',     e:{Police:'113', Ambulance:'114',  Fire:'115',  General:'113'}},
-  {n:'Guinea-Bissau',           c:'GW',f:'🇬🇼',lang:'Portuguese',  e:{Police:'117', Ambulance:'119',  Fire:'118',  General:'117'}},
-  {n:'Iceland',                 c:'IS',f:'🇮🇸',lang:'Icelandic',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Kiribati',                c:'KI',f:'🇰🇮',lang:'English',     e:{Police:'992', Ambulance:'994',  Fire:'993',  General:'992'}},
-  {n:'Comoros',                 c:'KM',f:'🇰🇲',lang:'Arabic',      e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
-  {n:'Saint Kitts & Nevis',     c:'KN',f:'🇰🇳',lang:'English',     e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'North Korea',             c:'KP',f:'🇰🇵',lang:'Korean',      e:{Police:'112', Ambulance:'119',  Fire:'119',  General:'112'}},
-  {n:'Saint Lucia',             c:'LC',f:'🇱🇨',lang:'English',     e:{Police:'999', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Liechtenstein',           c:'LI',f:'🇱🇮',lang:'German',      e:{Police:'117', Ambulance:'144',  Fire:'118',  General:'112'}},
-  {n:'Monaco',                  c:'MC',f:'🇲🇨',lang:'French',      e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'112'}},
-  {n:'Marshall Islands',        c:'MH',f:'🇲🇭',lang:'Marshallese', e:{Police:'625', Ambulance:'625',  Fire:'625',  General:'911'}},
-  {n:'Nauru',                   c:'NR',f:'🇳🇷',lang:'Nauruan',     e:{Police:'110', Ambulance:'110',  Fire:'110',  General:'110'}},
-  {n:'Palau',                   c:'PW',f:'🇵🇼',lang:'Palauan',     e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'San Marino',              c:'SM',f:'🇸🇲',lang:'Italian',     e:{Police:'113', Ambulance:'118',  Fire:'115',  General:'112'}},
-  {n:'São Tomé & Príncipe',     c:'ST',f:'🇸🇹',lang:'Portuguese',  e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
-  {n:'Timor-Leste',             c:'TL',f:'🇹🇱',lang:'Tetum',       e:{Police:'112', Ambulance:'112',  Fire:'115',  General:'112'}},
-  {n:'Tuvalu',                  c:'TV',f:'🇹🇻',lang:'Tuvaluan',    e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
-  {n:'Vatican City',            c:'VA',f:'🇻🇦',lang:'Italian',     e:{Police:'112', Ambulance:'118',  Fire:'115',  General:'112'}},
-  {n:'Saint Vincent & Grenadines',c:'VC',f:'🇻🇨',lang:'English',  e:{Police:'999', Ambulance:'911',  Fire:'911',  General:'999'}},
-  {n:'Yemen',         c:'YE',f:'🇾🇪',lang:'Arabic',     e:{Police:'194', Ambulance:'191',  Fire:'191',  General:'194'}},
+  {n:'South Africa', c:'ZA',f:'ZA',lang:'Zulu',      e:{Police:'10111',Ambulance:'10177',Fire:'10111',General:'112'}},
+  {n:'United States',c:'US',f:'US',lang:'Spanish',   e:{Police:'911', Ambulance:'911',  Fire:'911',  Poison:'1-800-222-1222'}},
+  {n:'United Kingdom',c:'GB',f:'GB',lang:'Welsh',    e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'112'}},
+  {n:'Australia',    c:'AU',f:'AU',lang:'None',       e:{Police:'000', Ambulance:'000',  Fire:'000',  SES:'132500'}},
+  {n:'Canada',       c:'CA',f:'CA',lang:'French',    e:{Police:'911', Ambulance:'911',  Fire:'911',  Coast:'1-800-267-7270'}},
+  {n:'Germany',      c:'DE',f:'DE',lang:'German',    e:{Police:'110', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'France',       c:'FR',f:'FR',lang:'French',    e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'112'}},
+  {n:'Italy',        c:'IT',f:'IT',lang:'Italian',   e:{Police:'113', Ambulance:'118',  Fire:'115',  Coast:'1530'}},
+  {n:'Spain',        c:'ES',f:'ES',lang:'Spanish',   e:{Police:'091', Ambulance:'061',  Fire:'080',  General:'112'}},
+  {n:'Portugal',     c:'PT',f:'PT',lang:'Portuguese',e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Netherlands',  c:'NL',f:'NL',lang:'Dutch',     e:{Police:'0900-8844',Ambulance:'112',Fire:'112',General:'112'}},
+  {n:'Japan',        c:'JP',f:'JP',lang:'Japanese',  e:{Police:'110', Ambulance:'119',  Fire:'119',  Coast:'118'}},
+  {n:'China',        c:'CN',f:'CN',lang:'Chinese',   e:{Police:'110', Ambulance:'120',  Fire:'119',  Traffic:'122'}},
+  {n:'India',        c:'IN',f:'IN',lang:'Hindi',     e:{Police:'100', Ambulance:'102',  Fire:'101',  Women:'1091'}},
+  {n:'Brazil',       c:'BR',f:'BR',lang:'Portuguese',e:{Police:'190', Ambulance:'192',  Fire:'193',  Traffic:'194'}},
+  {n:'Mexico',       c:'MX',f:'MX',lang:'Spanish',   e:{Police:'911', Ambulance:'911',  Fire:'911',  'Red Cross':'065'}},
+  {n:'Argentina',    c:'AR',f:'AR',lang:'Spanish',   e:{Police:'911', Ambulance:'107',  Fire:'100',  Tourist:'0800-555-0016'}},
+  {n:'Nigeria',      c:'NG',f:'NG',lang:'Yoruba',    e:{Police:'199', Ambulance:'199',  Fire:'199',  NEMA:'0800-CALLNEMA'}},
+  {n:'Kenya',        c:'KE',f:'KE',lang:'Swahili',   e:{Police:'999', Ambulance:'999',  Fire:'999',  Tourist:'020-604767'}},
+  {n:'Egypt',        c:'EG',f:'EG',lang:'Arabic',    e:{Police:'122', Ambulance:'123',  Fire:'180',  Tourist:'126'}},
+  {n:'UAE',          c:'AE',f:'AE',lang:'Arabic',    e:{Police:'999', Ambulance:'998',  Fire:'997',  Tourist:'800-ADED'}},
+  {n:'Saudi Arabia', c:'SA',f:'SA',lang:'Arabic',    e:{Police:'999', Ambulance:'997',  Fire:'998',  Traffic:'996'}},
+  {n:'Turkey',       c:'TR',f:'TR',lang:'Turkish',   e:{Police:'155', Ambulance:'112',  Fire:'110',  Coast:'158'}},
+  {n:'Thailand',     c:'TH',f:'TH',lang:'Thai',      e:{Police:'191', Ambulance:'1669', Fire:'199',  Tourist:'1155'}},
+  {n:'Singapore',    c:'SG',f:'SG',lang:'Malay',     e:{Police:'999', Ambulance:'995',  Fire:'995',  General:'995'}},
+  {n:'New Zealand',  c:'NZ',f:'NZ',lang:'Maori',     e:{Police:'111', Ambulance:'111',  Fire:'111',  Coast:'*500'}},
+  {n:'Zimbabwe',     c:'ZW',f:'ZW',lang:'Shona',     e:{Police:'999', Ambulance:'994',  Fire:'993',  ZRCS:'04-250001'}},
+  {n:'Ghana',        c:'GH',f:'GH',lang:'Twi',       e:{Police:'191', Ambulance:'193',  Fire:'192',  General:'112'}},
+  {n:'Botswana',     c:'BW',f:'BW',lang:'Setswana',  e:{Police:'999', Ambulance:'997',  Fire:'998',  General:'112'}},
+  {n:'Namibia',      c:'NA',f:'NA',lang:'Oshiwambo', e:{Police:'10111',Ambulance:'10177',Fire:'061-211111',MTC:'081-149'}},
+  {n:'Tanzania',     c:'TZ',f:'TZ',lang:'Swahili',   e:{Police:'112', Ambulance:'114',  Fire:'115',  Tourist:'0800-110-093'}},
+  {n:'Morocco',      c:'MA',f:'MA',lang:'Arabic',    e:{Police:'19',  Ambulance:'150',  Fire:'150',  Gendarmerie:'177'}},
+  {n:'Indonesia',    c:'ID',f:'ID',lang:'Indonesian', e:{Police:'110', Ambulance:'118', Fire:'113',  SAR:'115'}},
+  {n:'Philippines',  c:'PH',f:'PH',lang:'Filipino',  e:{Police:'911', Ambulance:'911',  Fire:'911',  'Red Cross':'143'}},
+  {n:'Malaysia',     c:'MY',f:'MY',lang:'Malay',     e:{Police:'999', Ambulance:'999',  Fire:'994',  General:'999'}},
+  {n:'Vietnam',      c:'VN',f:'VN',lang:'Vietnamese', e:{Police:'113', Ambulance:'115', Fire:'114',  SAR:'0511'}},
+  {n:'South Korea',  c:'KR',f:'KR',lang:'Korean',    e:{Police:'112', Ambulance:'119',  Fire:'119',  Coast:'122'}},
+  {n:'Greece',       c:'GR',f:'GR',lang:'Greek',     e:{Police:'100', Ambulance:'166',  Fire:'199',  Coast:'108'}},
+  {n:'Switzerland',  c:'CH',f:'CH',lang:'German',    e:{Police:'117', Ambulance:'144',  Fire:'118',  General:'112'}},
+  {n:'Sweden',       c:'SE',f:'SE',lang:'Swedish',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Ethiopia',     c:'ET',f:'ET',lang:'Amharic',   e:{Police:'911', Ambulance:'907',  Fire:'939',  Traffic:'945'}},
+  {n:'Uganda',       c:'UG',f:'UG',lang:'Luganda',   e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'112'}},
+  {n:'Zambia',       c:'ZM',f:'ZM',lang:'Nyanja',    e:{Police:'991', Ambulance:'992',  Fire:'993',  General:'112'}},
+  {n:'Pakistan',     c:'PK',f:'PK',lang:'Urdu',      e:{Police:'15',  Ambulance:'1122', Fire:'16',   Rescue:'1122'}},
+  {n:'Russia',       c:'RU',f:'RU',lang:'Russian',   e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Poland',       c:'PL',f:'PL',lang:'Polish',    e:{Police:'997', Ambulance:'999',  Fire:'998',  General:'112'}},
+  {n:'Austria',      c:'AT',f:'AT',lang:'German',    e:{Police:'133', Ambulance:'144',  Fire:'122',  General:'112'}},
+  {n:'Belgium',      c:'BE',f:'BE',lang:'French',    e:{Police:'101', Ambulance:'100',  Fire:'100',  General:'112'}},
+  {n:'Denmark',      c:'DK',f:'DK',lang:'Danish',    e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Finland',      c:'FI',f:'FI',lang:'Finnish',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Norway',       c:'NO',f:'NO',lang:'Norwegian', e:{Police:'112', Ambulance:'113',  Fire:'110',  General:'112'}},
+  {n:'Ireland',      c:'IE',f:'IE',lang:'Irish',     e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'112'}},
+  {n:'Czech Republic',c:'CZ',f:'CZ',lang:'Czech',   e:{Police:'158', Ambulance:'155',  Fire:'150',  General:'112'}},
+  {n:'Hungary',      c:'HU',f:'HU',lang:'Hungarian', e:{Police:'107', Ambulance:'104',  Fire:'105',  General:'112'}},
+  {n:'Romania',      c:'RO',f:'RO',lang:'Romanian',  e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Ukraine',      c:'UA',f:'UA',lang:'Ukrainian', e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Colombia',     c:'CO',f:'CO',lang:'Spanish',   e:{Police:'123', Ambulance:'125',  Fire:'119',  General:'112'}},
+  {n:'Chile',        c:'CL',f:'CL',lang:'Spanish',   e:{Police:'133', Ambulance:'131',  Fire:'132',  General:'133'}},
+  {n:'Peru',         c:'PE',f:'PE',lang:'Spanish',   e:{Police:'105', Ambulance:'117',  Fire:'116',  General:'105'}},
+  {n:'Ecuador',      c:'EC',f:'EC',lang:'Spanish',   e:{Police:'101', Ambulance:'911',  Fire:'102',  General:'911'}},
+  {n:'Bolivia',      c:'BO',f:'BO',lang:'Spanish',   e:{Police:'110', Ambulance:'118',  Fire:'119',  General:'110'}},
+  {n:'Venezuela',    c:'VE',f:'VE',lang:'Spanish',   e:{Police:'171', Ambulance:'171',  Fire:'171',  General:'171'}},
+  {n:'Cuba',         c:'CU',f:'CU',lang:'Spanish',   e:{Police:'106', Ambulance:'104',  Fire:'105',  General:'106'}},
+  {n:'Costa Rica',   c:'CR',f:'CR',lang:'Spanish',   e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Jordan',       c:'JO',f:'JO',lang:'Arabic',    e:{Police:'191', Ambulance:'193',  Fire:'193',  General:'112'}},
+  {n:'Lebanon',      c:'LB',f:'LB',lang:'Arabic',    e:{Police:'112', Ambulance:'140',  Fire:'175',  General:'112'}},
+  {n:'Kuwait',       c:'KW',f:'KW',lang:'Arabic',    e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Qatar',        c:'QA',f:'QA',lang:'Arabic',    e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
+  {n:'Bahrain',      c:'BH',f:'BH',lang:'Arabic',    e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
+  {n:'Oman',         c:'OM',f:'OM',lang:'Arabic',    e:{Police:'9999',Ambulance:'9999', Fire:'9999', General:'9999'}},
+  {n:'Bangladesh',   c:'BD',f:'BD',lang:'Bengali',   e:{Police:'999', Ambulance:'199',  Fire:'199',  General:'999'}},
+  {n:'Nepal',        c:'NP',f:'NP',lang:'Nepali',    e:{Police:'100', Ambulance:'102',  Fire:'101',  General:'112'}},
+  {n:'Sri Lanka',    c:'LK',f:'LK',lang:'Sinhala',   e:{Police:'119', Ambulance:'110',  Fire:'111',  General:'119'}},
+  {n:'Myanmar',      c:'MM',f:'MM',lang:'Burmese',   e:{Police:'199', Ambulance:'192',  Fire:'191',  General:'199'}},
+  {n:'Cambodia',     c:'KH',f:'KH',lang:'Khmer',     e:{Police:'117', Ambulance:'119',  Fire:'118',  General:'117'}},
+  {n:'Ivory Coast',  c:'CI',f:'CI',lang:'French',    e:{Police:'111', Ambulance:'185',  Fire:'180',  General:'112'}},
+  {n:'Senegal',      c:'SN',f:'SN',lang:'French',    e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'112'}},
+  {n:'Cameroon',     c:'CM',f:'CM',lang:'French',    e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'112'}},
+  {n:'Angola',       c:'AO',f:'AO',lang:'Portuguese',e:{Police:'113', Ambulance:'112',  Fire:'115',  General:'112'}},
+  {n:'Rwanda',       c:'RW',f:'RW',lang:'Kinyarwanda',e:{Police:'112',Ambulance:'912',  Fire:'112',  General:'112'}},
+  {n:'Mozambique',   c:'MZ',f:'MZ',lang:'Portuguese',e:{Police:'119', Ambulance:'117',  Fire:'198',  General:'112'}},
+  {n:'Tunisia',      c:'TN',f:'TN',lang:'Arabic',    e:{Police:'197', Ambulance:'190',  Fire:'198',  General:'197'}},
+  {n:'Algeria',      c:'DZ',f:'DZ',lang:'Arabic',    e:{Police:'17',  Ambulance:'14',   Fire:'14',   General:'14'}},
+  {n:'Sudan',        c:'SD',f:'SD',lang:'Arabic',    e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
+  {n:'DRC Congo',    c:'CD',f:'CD',lang:'French',    e:{Police:'112', Ambulance:'112',  Fire:'118',  General:'112'}},
+  {n:'Malawi',       c:'MW',f:'MW',lang:'Chichewa',  e:{Police:'997', Ambulance:'998',  Fire:'999',  General:'112'}},
+  {n:'Fiji',         c:'FJ',f:'FJ',lang:'Fijian',    e:{Police:'917', Ambulance:'911',  Fire:'910',  General:'911'}},
+  {n:'Papua New Guinea',c:'PG',f:'PG',lang:'Tok Pisin',e:{Police:'000',Ambulance:'111',Fire:'110',  General:'112'}},
+  {n:'Afghanistan',   c:'AF',f:'AF',lang:'Pashto',     e:{Police:'119', Ambulance:'112',  Fire:'119',  General:'112'}},
+  {n:'Albania',       c:'AL',f:'AL',lang:'Albanian',   e:{Police:'129', Ambulance:'127',  Fire:'128',  General:'112'}},
+  {n:'Armenia',       c:'AM',f:'AM',lang:'Armenian',   e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Azerbaijan',    c:'AZ',f:'AZ',lang:'Azerbaijani',e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Bahamas',       c:'BS',f:'BS',lang:'English',    e:{Police:'919', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Belarus',       c:'BY',f:'BY',lang:'Belarusian', e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Belize',        c:'BZ',f:'BZ',lang:'English',    e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Benin',         c:'BJ',f:'BJ',lang:'French',     e:{Police:'117', Ambulance:'112',  Fire:'118',  General:'112'}},
+  {n:'Bosnia',        c:'BA',f:'BA',lang:'Bosnian',    e:{Police:'122', Ambulance:'124',  Fire:'123',  General:'112'}},
+  {n:'Brunei',        c:'BN',f:'BN',lang:'Malay',      e:{Police:'993', Ambulance:'991',  Fire:'995',  General:'991'}},
+  {n:'Bulgaria',      c:'BG',f:'BG',lang:'Bulgarian',  e:{Police:'166', Ambulance:'150',  Fire:'160',  General:'112'}},
+  {n:'Burkina Faso',  c:'BF',f:'BF',lang:'French',     e:{Police:'17',  Ambulance:'112',  Fire:'18',   General:'112'}},
+  {n:'Burundi',       c:'BI',f:'BI',lang:'Kirundi',    e:{Police:'113', Ambulance:'112',  Fire:'118',  General:'112'}},
+  {n:'Cape Verde',    c:'CV',f:'CV',lang:'Portuguese', e:{Police:'132', Ambulance:'130',  Fire:'131',  General:'112'}},
+  {n:'Chad',          c:'TD',f:'TD',lang:'French',     e:{Police:'17',  Ambulance:'2251-52-25',Fire:'18',General:'17'}},
+  {n:'Croatia',       c:'HR',f:'HR',lang:'Croatian',   e:{Police:'192', Ambulance:'194',  Fire:'193',  General:'112'}},
+  {n:'Cyprus',        c:'CY',f:'CY',lang:'Greek',      e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Djibouti',      c:'DJ',f:'DJ',lang:'French',     e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
+  {n:'Dominican Republic',c:'DO',f:'DO',lang:'Spanish',e:{Police:'911',Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'El Salvador',   c:'SV',f:'SV',lang:'Spanish',   e:{Police:'911', Ambulance:'911',  Fire:'913',  General:'911'}},
+  {n:'Eritrea',       c:'ER',f:'ER',lang:'Tigrinya',   e:{Police:'114', Ambulance:'117',  Fire:'115',  General:'114'}},
+  {n:'Eswatini',      c:'SZ',f:'SZ',lang:'Swati',      e:{Police:'999', Ambulance:'977',  Fire:'933',  General:'999'}},
+  {n:'Estonia',       c:'EE',f:'EE',lang:'Estonian',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Gabon',         c:'GA',f:'GA',lang:'French',     e:{Police:'1730',Ambulance:'1300', Fire:'18',   General:'1730'}},
+  {n:'Gambia',        c:'GM',f:'GM',lang:'English',    e:{Police:'117', Ambulance:'116',  Fire:'118',  General:'117'}},
+  {n:'Georgia',       c:'GE',f:'GE',lang:'Georgian',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Guatemala',     c:'GT',f:'GT',lang:'Spanish',    e:{Police:'110', Ambulance:'128',  Fire:'122',  General:'110'}},
+  {n:'Guinea',        c:'GN',f:'GN',lang:'French',     e:{Police:'117', Ambulance:'15',   Fire:'18',   General:'117'}},
+  {n:'Guyana',        c:'GY',f:'GY',lang:'English',    e:{Police:'911', Ambulance:'913',  Fire:'912',  General:'911'}},
+  {n:'Haiti',         c:'HT',f:'HT',lang:'French',     e:{Police:'114', Ambulance:'115',  Fire:'115',  General:'114'}},
+  {n:'Honduras',      c:'HN',f:'HN',lang:'Spanish',    e:{Police:'911', Ambulance:'195',  Fire:'198',  General:'911'}},
+  {n:'Hong Kong',     c:'HK',f:'HK',lang:'Cantonese',  e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
+  {n:'Iran',          c:'IR',f:'IR',lang:'Persian',    e:{Police:'110', Ambulance:'115',  Fire:'125',  General:'115'}},
+  {n:'Iraq',          c:'IQ',f:'IQ',lang:'Arabic',     e:{Police:'104', Ambulance:'122',  Fire:'115',  General:'115'}},
+  {n:'Jamaica',       c:'JM',f:'JM',lang:'English',    e:{Police:'119', Ambulance:'110',  Fire:'110',  General:'119'}},
+  {n:'Kazakhstan',    c:'KZ',f:'KZ',lang:'Kazakh',     e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Kosovo',        c:'XK',f:'XK',lang:'Albanian',   e:{Police:'192', Ambulance:'194',  Fire:'193',  General:'112'}},
+  {n:'Kyrgyzstan',    c:'KG',f:'KG',lang:'Kyrgyz',     e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Laos',          c:'LA',f:'LA',lang:'Lao',        e:{Police:'191', Ambulance:'195',  Fire:'190',  General:'191'}},
+  {n:'Latvia',        c:'LV',f:'LV',lang:'Latvian',    e:{Police:'110', Ambulance:'113',  Fire:'112',  General:'112'}},
+  {n:'Lesotho',       c:'LS',f:'LS',lang:'Sesotho',    e:{Police:'123', Ambulance:'121',  Fire:'122',  General:'112'}},
+  {n:'Liberia',       c:'LR',f:'LR',lang:'English',    e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Libya',         c:'LY',f:'LY',lang:'Arabic',     e:{Police:'1515',Ambulance:'1230', Fire:'1515', General:'1515'}},
+  {n:'Lithuania',     c:'LT',f:'LT',lang:'Lithuanian', e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Luxembourg',    c:'LU',f:'LU',lang:'French',     e:{Police:'113', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Madagascar',    c:'MG',f:'MG',lang:'Malagasy',   e:{Police:'117', Ambulance:'15',   Fire:'18',   General:'117'}},
+  {n:'Maldives',      c:'MV',f:'MV',lang:'Dhivehi',    e:{Police:'119', Ambulance:'102',  Fire:'118',  General:'119'}},
+  {n:'Mali',          c:'ML',f:'ML',lang:'French',     e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
+  {n:'Malta',         c:'MT',f:'MT',lang:'Maltese',    e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Mauritania',    c:'MR',f:'MR',lang:'Arabic',     e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
+  {n:'Mauritius',     c:'MU',f:'MU',lang:'French',     e:{Police:'999', Ambulance:'114',  Fire:'115',  General:'999'}},
+  {n:'Moldova',       c:'MD',f:'MD',lang:'Romanian',   e:{Police:'902', Ambulance:'903',  Fire:'901',  General:'112'}},
+  {n:'Mongolia',      c:'MN',f:'MN',lang:'Mongolian',  e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Montenegro',    c:'ME',f:'ME',lang:'Montenegrin',e:{Police:'122', Ambulance:'124',  Fire:'123',  General:'112'}},
+  {n:'Nicaragua',     c:'NI',f:'NI',lang:'Spanish',    e:{Police:'118', Ambulance:'128',  Fire:'115',  General:'118'}},
+  {n:'Niger',         c:'NE',f:'NE',lang:'French',     e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
+  {n:'North Macedonia',c:'MK',f:'MK',lang:'Macedonian',e:{Police:'192',Ambulance:'194',  Fire:'193',  General:'112'}},
+  {n:'Panama',        c:'PA',f:'PA',lang:'Spanish',    e:{Police:'104', Ambulance:'911',  Fire:'103',  General:'911'}},
+  {n:'Paraguay',      c:'PY',f:'PY',lang:'Spanish',    e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Palestinian Territories',c:'PS',f:'PS',lang:'Arabic',e:{Police:'100',Ambulance:'101',Fire:'102',General:'112'}},
+  {n:'Samoa',         c:'WS',f:'WS',lang:'Samoan',     e:{Police:'995', Ambulance:'994',  Fire:'994',  General:'994'}},
+  {n:'Serbia',        c:'RS',f:'RS',lang:'Serbian',    e:{Police:'192', Ambulance:'194',  Fire:'193',  General:'112'}},
+  {n:'Seychelles',    c:'SC',f:'SC',lang:'French',     e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
+  {n:'Sierra Leone',  c:'SL',f:'SL',lang:'English',    e:{Police:'999', Ambulance:'999',  Fire:'019',  General:'999'}},
+  {n:'Slovakia',      c:'SK',f:'SK',lang:'Slovak',     e:{Police:'158', Ambulance:'155',  Fire:'150',  General:'112'}},
+  {n:'Slovenia',      c:'SI',f:'SI',lang:'Slovenian',  e:{Police:'113', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Solomon Islands',c:'SB',f:'SB',lang:'English',  e:{Police:'999', Ambulance:'911',  Fire:'911',  General:'999'}},
+  {n:'Somalia',       c:'SO',f:'SO',lang:'Somali',     e:{Police:'888', Ambulance:'888',  Fire:'888',  General:'888'}},
+  {n:'South Sudan',   c:'SS',f:'SS',lang:'English',    e:{Police:'777', Ambulance:'113',  Fire:'113',  General:'113'}},
+  {n:'Suriname',      c:'SR',f:'SR',lang:'Dutch',      e:{Police:'115', Ambulance:'113',  Fire:'110',  General:'115'}},
+  {n:'Syria',         c:'SY',f:'SY',lang:'Arabic',     e:{Police:'112', Ambulance:'110',  Fire:'113',  General:'112'}},
+  {n:'Taiwan',        c:'TW',f:'TW',lang:'Chinese',    e:{Police:'110', Ambulance:'119',  Fire:'119',  General:'112'}},
+  {n:'Tajikistan',    c:'TJ',f:'TJ',lang:'Tajik',      e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Togo',          c:'TG',f:'TG',lang:'French',     e:{Police:'117', Ambulance:'118',  Fire:'118',  General:'117'}},
+  {n:'Tonga',         c:'TO',f:'TO',lang:'Tongan',     e:{Police:'922', Ambulance:'933',  Fire:'911',  General:'911'}},
+  {n:'Trinidad & Tobago',c:'TT',f:'TT',lang:'English', e:{Police:'999', Ambulance:'990',  Fire:'990',  General:'999'}},
+  {n:'Turkmenistan',  c:'TM',f:'TM',lang:'Turkmen',    e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Uruguay',       c:'UY',f:'UY',lang:'Spanish',    e:{Police:'911', Ambulance:'105',  Fire:'104',  General:'911'}},
+  {n:'Uzbekistan',    c:'UZ',f:'UZ',lang:'Uzbek',      e:{Police:'102', Ambulance:'103',  Fire:'101',  General:'112'}},
+  {n:'Vanuatu',       c:'VU',f:'VU',lang:'French',     e:{Police:'111', Ambulance:'115',  Fire:'113',  General:'112'}},
+  {n:'Andorra',                 c:'AD',f:'AD',lang:'Catalan',     e:{Police:'110', Ambulance:'118',  Fire:'118',  General:'112'}},
+  {n:'Antigua & Barbuda',       c:'AG',f:'AG',lang:'English',     e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Barbados',                c:'BB',f:'BB',lang:'English',     e:{Police:'211', Ambulance:'511',  Fire:'311',  General:'211'}},
+  {n:'Bhutan',                  c:'BT',f:'BT',lang:'Dzongkha',    e:{Police:'113', Ambulance:'112',  Fire:'110',  General:'112'}},
+  {n:'Central African Republic',c:'CF',f:'CF',lang:'French',      e:{Police:'117', Ambulance:'1220', Fire:'118',  General:'112'}},
+  {n:'Republic of Congo',       c:'CG',f:'CG',lang:'French',      e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
+  {n:'Dominica',                c:'DM',f:'DM',lang:'English',     e:{Police:'999', Ambulance:'999',  Fire:'999',  General:'999'}},
+  {n:'Micronesia',              c:'FM',f:'FM',lang:'English',     e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Grenada',                 c:'GD',f:'GD',lang:'English',     e:{Police:'911', Ambulance:'434',  Fire:'911',  General:'911'}},
+  {n:'Equatorial Guinea',       c:'GQ',f:'GQ',lang:'Spanish',     e:{Police:'113', Ambulance:'114',  Fire:'115',  General:'113'}},
+  {n:'Guinea-Bissau',           c:'GW',f:'GW',lang:'Portuguese',  e:{Police:'117', Ambulance:'119',  Fire:'118',  General:'117'}},
+  {n:'Iceland',                 c:'IS',f:'IS',lang:'Icelandic',   e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Kiribati',                c:'KI',f:'KI',lang:'English',     e:{Police:'992', Ambulance:'994',  Fire:'993',  General:'992'}},
+  {n:'Comoros',                 c:'KM',f:'KM',lang:'Arabic',      e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'17'}},
+  {n:'Saint Kitts & Nevis',     c:'KN',f:'KN',lang:'English',     e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'North Korea',             c:'KP',f:'KP',lang:'Korean',      e:{Police:'112', Ambulance:'119',  Fire:'119',  General:'112'}},
+  {n:'Saint Lucia',             c:'LC',f:'LC',lang:'English',     e:{Police:'999', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Liechtenstein',           c:'LI',f:'LI',lang:'German',      e:{Police:'117', Ambulance:'144',  Fire:'118',  General:'112'}},
+  {n:'Monaco',                  c:'MC',f:'MC',lang:'French',      e:{Police:'17',  Ambulance:'15',   Fire:'18',   General:'112'}},
+  {n:'Marshall Islands',        c:'MH',f:'MH',lang:'Marshallese', e:{Police:'625', Ambulance:'625',  Fire:'625',  General:'911'}},
+  {n:'Nauru',                   c:'NR',f:'NR',lang:'Nauruan',     e:{Police:'110', Ambulance:'110',  Fire:'110',  General:'110'}},
+  {n:'Palau',                   c:'PW',f:'PW',lang:'Palauan',     e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'San Marino',              c:'SM',f:'SM',lang:'Italian',     e:{Police:'113', Ambulance:'118',  Fire:'115',  General:'112'}},
+  {n:'São Tomé & Príncipe',     c:'ST',f:'ST',lang:'Portuguese',  e:{Police:'112', Ambulance:'112',  Fire:'112',  General:'112'}},
+  {n:'Timor-Leste',             c:'TL',f:'TL',lang:'Tetum',       e:{Police:'112', Ambulance:'112',  Fire:'115',  General:'112'}},
+  {n:'Tuvalu',                  c:'TV',f:'TV',lang:'Tuvaluan',    e:{Police:'911', Ambulance:'911',  Fire:'911',  General:'911'}},
+  {n:'Vatican City',            c:'VA',f:'VA',lang:'Italian',     e:{Police:'112', Ambulance:'118',  Fire:'115',  General:'112'}},
+  {n:'Saint Vincent & Grenadines',c:'VC',f:'VC',lang:'English',  e:{Police:'999', Ambulance:'911',  Fire:'911',  General:'999'}},
+  {n:'Yemen',         c:'YE',f:'YE',lang:'Arabic',     e:{Police:'194', Ambulance:'191',  Fire:'191',  General:'194'}},
 ];
 
 const PHRASEBOOK={
@@ -1413,29 +1500,29 @@ const PHRASES_EN=[
 // `kw` is a list of extra search synonyms so typing "food" finds restaurants etc.
 const CATEGORIES=[
   // ── Emergency / essential (original set) ──
-  {id:'hospital',    label:'Hospital',      icon:'🏥', filters:[[{k:'amenity',v:'hospital'}]],                                    color:'#ff4455',bg:'rgba(255,68,85,.15)', radius:null, kw:['emergency','er','doctor']},
-  {id:'clinic',      label:'Clinic',        icon:'🩺', filters:[[{k:'amenity',v:'clinic'}]],                                      color:'#ff8c42',bg:'rgba(255,140,66,.15)',radius:null, kw:['doctor','medical']},
-  {id:'pharmacy',    label:'Pharmacy',      icon:'💊', filters:[[{k:'amenity',v:'pharmacy'}]],                                    color:'#a78bfa',bg:'rgba(167,139,250,.15)',radius:null, kw:['medicine','chemist','drugstore']},
-  {id:'vet',         label:'Vet',           icon:'🐾', filters:[[{k:'amenity',v:'veterinary'}]],                                  color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['pet','animal']},
-  {id:'police',      label:'Police',        icon:'👮', filters:[[{k:'amenity',v:'police'}]],                                      color:'#4d8aff',bg:'rgba(77,138,255,.15)',radius:null, kw:['station','security']},
-  {id:'embassy',     label:'Embassy',       icon:'🏛️', filters:[[{k:'amenity',v:'embassy'}]],                                     color:'#ffcc44',bg:'rgba(255,204,68,.15)',radius:35000, kw:['consulate']},
+  {id:'hospital',    label:'Hospital',      icon:'<i class="ic ic-hospital"></i>', filters:[[{k:'amenity',v:'hospital'}]],                                    color:'#ff4455',bg:'rgba(255,68,85,.15)', radius:null, kw:['emergency','er','doctor']},
+  {id:'clinic',      label:'Clinic',        icon:'<i class="ic ic-stethoscope"></i>', filters:[[{k:'amenity',v:'clinic'}]],                                      color:'#ff8c42',bg:'rgba(255,140,66,.15)',radius:null, kw:['doctor','medical']},
+  {id:'pharmacy',    label:'Pharmacy',      icon:'<i class="ic ic-pill"></i>', filters:[[{k:'amenity',v:'pharmacy'}]],                                    color:'#a78bfa',bg:'rgba(167,139,250,.15)',radius:null, kw:['medicine','chemist','drugstore']},
+  {id:'vet',         label:'Vet',           icon:'<i class="ic ic-paw"></i>', filters:[[{k:'amenity',v:'veterinary'}]],                                  color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['pet','animal']},
+  {id:'police',      label:'Police',        icon:'<i class="ic ic-badge"></i>', filters:[[{k:'amenity',v:'police'}]],                                      color:'#4d8aff',bg:'rgba(77,138,255,.15)',radius:null, kw:['station','security']},
+  {id:'embassy',     label:'Embassy',       icon:'<i class="ic ic-landmark"></i>', filters:[[{k:'amenity',v:'embassy'}]],                                     color:'#ffcc44',bg:'rgba(255,204,68,.15)',radius:35000, kw:['consulate']},
   // ── Food & drink ──
-  {id:'restaurant',  label:'Restaurant',    icon:'🍽️', filters:[[{k:'amenity',v:'restaurant'}]],                                  color:'#ff8c42',bg:'rgba(255,140,66,.15)',radius:null, kw:['food','eat','dinner','lunch']},
-  {id:'fastfood',    label:'Fast Food',     icon:'🍔', filters:[[{k:'amenity',v:'fast_food'}]],                                   color:'#ffcc44',bg:'rgba(255,204,68,.15)',radius:null, kw:['food','burger','takeaway']},
-  {id:'cafe',        label:'Cafe',          icon:'☕', filters:[[{k:'amenity',v:'cafe'}]],                                        color:'#c8a44b',bg:'rgba(200,164,75,.15)',radius:null, kw:['coffee']},
+  {id:'restaurant',  label:'Restaurant',    icon:'<i class="ic ic-utensils"></i>', filters:[[{k:'amenity',v:'restaurant'}]],                                  color:'#ff8c42',bg:'rgba(255,140,66,.15)',radius:null, kw:['food','eat','dinner','lunch']},
+  {id:'fastfood',    label:'Fast Food',     icon:'<i class="ic ic-burger"></i>', filters:[[{k:'amenity',v:'fast_food'}]],                                   color:'#ffcc44',bg:'rgba(255,204,68,.15)',radius:null, kw:['food','burger','takeaway']},
+  {id:'cafe',        label:'Cafe',          icon:'<i class="ic ic-coffee"></i>', filters:[[{k:'amenity',v:'cafe'}]],                                        color:'#c8a44b',bg:'rgba(200,164,75,.15)',radius:null, kw:['coffee']},
   // ── Shopping / errands ──
-  {id:'convenience', label:'Convenience',   icon:'🏪', filters:[[{k:'shop',v:'convenience'}]],                                    color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['store','shop','snacks']},
-  {id:'supermarket', label:'Supermarket',   icon:'🛒', filters:[[{k:'shop',v:'supermarket'}]],                                    color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['groceries','food shop']},
-  {id:'atm',         label:'ATM',           icon:'🏧', filters:[[{k:'amenity',v:'atm'}]],                                         color:'#4d8aff',bg:'rgba(77,138,255,.15)',radius:null, kw:['cash','money','withdraw']},
-  {id:'bank',        label:'Bank',          icon:'🏦', filters:[[{k:'amenity',v:'bank'}]],                                        color:'#4d8aff',bg:'rgba(77,138,255,.15)',radius:null, kw:['money','finance']},
-  {id:'fuel',        label:'Fuel Station',  icon:'⛽', filters:[[{k:'amenity',v:'fuel'}]],                                        color:'#ff8c42',bg:'rgba(255,140,66,.15)',radius:null, kw:['gas','petrol']},
+  {id:'convenience', label:'Convenience',   icon:'<i class="ic ic-store"></i>', filters:[[{k:'shop',v:'convenience'}]],                                    color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['store','shop','snacks']},
+  {id:'supermarket', label:'Supermarket',   icon:'<i class="ic ic-cart"></i>', filters:[[{k:'shop',v:'supermarket'}]],                                    color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['groceries','food shop']},
+  {id:'atm',         label:'ATM',           icon:'<i class="ic ic-card"></i>', filters:[[{k:'amenity',v:'atm'}]],                                         color:'#4d8aff',bg:'rgba(77,138,255,.15)',radius:null, kw:['cash','money','withdraw']},
+  {id:'bank',        label:'Bank',          icon:'<i class="ic ic-landmark"></i>', filters:[[{k:'amenity',v:'bank'}]],                                        color:'#4d8aff',bg:'rgba(77,138,255,.15)',radius:null, kw:['money','finance']},
+  {id:'fuel',        label:'Fuel Station',  icon:'<i class="ic ic-fuel"></i>', filters:[[{k:'amenity',v:'fuel'}]],                                        color:'#ff8c42',bg:'rgba(255,140,66,.15)',radius:null, kw:['gas','petrol']},
   // ── Wellness / worship / lodging ──
-  {id:'gym',         label:'Gym',           icon:'🏋️', filters:[[{k:'leisure',v:'fitness_centre'}],[{k:'leisure',v:'sports_centre'}]], color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['fitness','workout','sport']},
-  {id:'massage',     label:'Massage/Spa',   icon:'💆', filters:[[{k:'shop',v:'massage'}],[{k:'amenity',v:'spa'}],[{k:'leisure',v:'spa'}]], color:'#a78bfa',bg:'rgba(167,139,250,.15)',radius:null, kw:['spa','relax','wellness']},
-  {id:'mosque',      label:'Mosque',        icon:'🕌', filters:[[{k:'amenity',v:'place_of_worship'},{k:'religion',v:'muslim'}]],  color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['prayer','islam','salah','masjid']},
-  {id:'hotel',       label:'Hotel',         icon:'🛏️', filters:[[{k:'tourism',v:'hotel'}]],                                       color:'#4d8aff',bg:'rgba(77,138,255,.15)',radius:null, kw:['accommodation','lodging','stay']},
-  {id:'hairdresser', label:'Hairdresser',   icon:'💇', filters:[[{k:'shop',v:'hairdresser'}]],                                    color:'#a78bfa',bg:'rgba(167,139,250,.15)',radius:null, kw:['barber','salon','haircut']},
-  {id:'laundry',     label:'Laundry',       icon:'🧺', filters:[[{k:'shop',v:'laundry'}],[{k:'shop',v:'dry_cleaning'}]],          color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['washing','dry cleaning','clothes']},
+  {id:'gym',         label:'Gym',           icon:'<i class="ic ic-dumbbell"></i>', filters:[[{k:'leisure',v:'fitness_centre'}],[{k:'leisure',v:'sports_centre'}]], color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['fitness','workout','sport']},
+  {id:'massage',     label:'Massage/Spa',   icon:'<i class="ic ic-spa"></i>', filters:[[{k:'shop',v:'massage'}],[{k:'amenity',v:'spa'}],[{k:'leisure',v:'spa'}]], color:'#a78bfa',bg:'rgba(167,139,250,.15)',radius:null, kw:['spa','relax','wellness']},
+  {id:'mosque',      label:'Mosque',        icon:'<i class="ic ic-worship"></i>', filters:[[{k:'amenity',v:'place_of_worship'},{k:'religion',v:'muslim'}]],  color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['prayer','islam','salah','masjid']},
+  {id:'hotel',       label:'Hotel',         icon:'<i class="ic ic-bed"></i>', filters:[[{k:'tourism',v:'hotel'}]],                                       color:'#4d8aff',bg:'rgba(77,138,255,.15)',radius:null, kw:['accommodation','lodging','stay']},
+  {id:'hairdresser', label:'Hairdresser',   icon:'<i class="ic ic-scissors"></i>', filters:[[{k:'shop',v:'hairdresser'}]],                                    color:'#a78bfa',bg:'rgba(167,139,250,.15)',radius:null, kw:['barber','salon','haircut']},
+  {id:'laundry',     label:'Laundry',       icon:'<i class="ic ic-basket"></i>', filters:[[{k:'shop',v:'laundry'}],[{k:'shop',v:'dry_cleaning'}]],          color:'#00e07a',bg:'rgba(0,224,122,.15)', radius:null, kw:['washing','dry cleaning','clothes']},
 ];
 
 // ════════════════════════════════════════════
@@ -1472,8 +1559,8 @@ function buildCountryList(filter) {
   if (countEl) countEl.textContent = q ? `${filtered.length} result${filtered.length!==1?'s':''}` : `${filtered.length} countries`;
   list.innerHTML = filtered.map(c =>
     `<div class="csearch-option${_selectedCountryCode === c.c ? ' selected' : ''}"
-      onclick="selectCountry('${c.c}','${c.f} ${c.n.replace(/'/g,"\'")}')">
-      ${c.f}&nbsp;&nbsp;${c.n}
+      onclick="selectCountry('${c.c}','${c.n.replace(/'/g,"\'")}')">
+      <span class="cc">${c.f}</span>${c.n}
     </div>`
   ).join('');
 }
@@ -1615,7 +1702,7 @@ function filterEmbassyList(q) {
   list.innerHTML = filtered.map(c => {
     const sel = _embassyCountry && _embassyCountry.c === c.c;
     return `<div class="embassy-opt${sel ? ' selected' : ''}" onclick="pickEmbassyCountry('${c.c}')">
-      <span class="eo-flag">${c.f}</span>
+      <span class="eo-flag cc">${c.f}</span>
       <span class="eo-name">${c.n}</span>
       ${sel ? '<span class="eo-tick">✓</span>' : ''}
     </div>`;
@@ -1648,7 +1735,7 @@ function searchEmbassyAny() {
 // LOCATION
 // ════════════════════════════════════════════
 function locateUser(){
-  if(!navigator.geolocation){setChip('⚠️','No GPS',false);return;}
+  if(!navigator.geolocation){setChip('<i class="ic ic-alert"></i>','No GPS',false);return;}
   navigator.geolocation.getCurrentPosition(pos=>{
     userLat=pos.coords.latitude; userLng=pos.coords.longitude; userAccuracy=pos.coords.accuracy;
     map.setView([userLat,userLng],15);
@@ -1656,7 +1743,7 @@ function locateUser(){
     setTitle('Select a category above','');
     reverseGeocode(userLat,userLng);
   },err=>{
-    setChip('⚠️','Location denied',false);
+    setChip('<i class="ic ic-alert"></i>','Location denied',false);
     setTitle('Location access denied','Enable location in browser settings');
   },{enableHighAccuracy:true,timeout:12000});
 }
@@ -1664,7 +1751,7 @@ function locateUser(){
 function placeUserMarker(){
   if(userMarker)map.removeLayer(userMarker);
   const icon=L.divIcon({className:'',html:'<div class="user-dot"></div>',iconSize:[14,14],iconAnchor:[7,7]});
-  userMarker=L.marker([userLat,userLng],{icon}).bindPopup('<div class="pop-name">📍 You are here</div>').addTo(map);
+  userMarker=L.marker([userLat,userLng],{icon}).bindPopup('<div class="pop-name"><i class="ic ic-pin"></i> You are here</div>').addTo(map);
 }
 
 function goToUser(){if(userLat)map.setView([userLat,userLng],16);}
@@ -1679,28 +1766,28 @@ async function reverseGeocode(lat,lng){
     clearTimeout(timer);
     const data=await res.json();
     const code=(data.address?.country_code||'').toUpperCase();
-    if(!code){setChip('🌍','Unknown',false);return;}
+    if(!code){setChip('<i class="ic ic-globe"></i>','Unknown',false);return;}
     const found=COUNTRIES.find(c=>c.c===code)||null;
     detectedCountry=found;
     if(found){
-      setChip(found.f,found.n,true);
+      setChip('<span class="cc">'+found.f+'</span>',found.n,true);
       if(!homeCountry){
         homeCountry=found;
-        showToast(`${found.f} ${found.n} detected — numbers ready`);
+        showToast(`${found.n} detected — numbers ready`);
       } else {
-        showToast(`📍 You are currently in ${found.n}`);
+        showToast(`You are currently in ${found.n}`);
       }
     } else {
-      setChip('🌍',data.address?.country||'Unknown',false);
+      setChip('<i class="ic ic-globe"></i>',data.address?.country||'Unknown',false);
     }
   }catch(e){
     clearTimeout(timer);
-    setChip('🌍','Unknown',false);
+    setChip('<i class="ic ic-globe"></i>','Unknown',false);
   }
 }
 
 function setChip(flag,label,detected){
-  document.getElementById('chip').textContent=flag+' '+label;
+  document.getElementById('chip').innerHTML=flag+' <span id="chip-label">'+esc(String(label))+'</span>';
   document.getElementById('chip').classList.toggle('detected',detected);
 }
 
@@ -1763,7 +1850,7 @@ async function searchNearby(catId){
     processResults(els,cat);
   }catch(e){
     setTitle('Search failed','Check your connection');
-    setBody('<div class="state-wrap"><div class="state-icon">⚠️</div><div class="state-text">Couldn\'t load results.<br>Please check your internet connection.</div></div>');
+    setBody('<div class="state-wrap"><div class="state-icon"><i class="ic ic-alert"></i></div><div class="state-text">Couldn\'t load results.<br>Please check your internet connection.</div></div>');
   }
 }
 
@@ -1868,14 +1955,14 @@ function renderCards(results,cat){
   const favs=getFavs();
   const body=document.getElementById('pbody'); body.innerHTML='';
   if(results.length===0){
-    body.innerHTML='<div class="state-wrap"><div class="state-icon">🔍</div><div class="state-text">No results match your filter.</div></div>';
+    body.innerHTML='<div class="state-wrap"><div class="state-icon"><i class="ic ic-search"></i></div><div class="state-text">No results match your filter.</div></div>';
     return;
   }
   // FIX: nearest bar uses current filtered list, not always fullResults[0]
   const nr=results[0];
   const nb=document.createElement('div');
   nb.className='nearest-bar';
-  nb.innerHTML=`<div><div class="nearest-label">⚡ Nearest ${cat.label}</div><div class="nearest-name">${esc(nr.name)}</div></div><span class="nearest-dist">${formatDist(nr.dist)}</span>`;
+  nb.innerHTML=`<div><div class="nearest-label"><i class="ic ic-zap"></i> Nearest ${cat.label}</div><div class="nearest-name">${esc(nr.name)}</div></div><span class="nearest-dist">${formatDist(nr.dist)}</span>`;
   nb.onclick=()=>focusResult(nr);
   body.appendChild(nb);
 
@@ -1889,21 +1976,21 @@ function renderCards(results,cat){
     // FIX: all buttons use addEventListener with closure — no inline JSON
     card.innerHTML=`
       <div class="card-r1">
-        <div class="card-badge" style="background:${r.catBg}">${r.catIcon}</div>
+        <div class="card-badge" style="background:${r.catBg}">${fixIco(r.catIcon)}</div>
         <div class="card-info">
           <div class="card-name">${esc(r.name)}</div>
           <div class="card-tags">
             <span class="tag tag-dist">${formatDist(r.dist)}</span>${ot}
-            ${r.addr?`<span class="tag tag-addr" title="Tap to copy address" onclick="copyAddress('${esc(r.addr)}',this)">📍 ${esc(r.addr)}</span>`:''}
-            ${r.country?`<span class="tag tag-addr">🌍 ${r.country.toUpperCase()}</span>`:''}
+            ${r.addr?`<span class="tag tag-addr" title="Tap to copy address" onclick="copyAddress('${esc(r.addr)}',this)">${esc(r.addr)}</span>`:''}
+            ${r.country?`<span class="tag tag-addr"><i class="ic ic-globe"></i> ${r.country.toUpperCase()}</span>`:''}
           </div>
         </div>
       </div>
       <div class="card-actions">
-        <button class="act-btn act-call ${r.phone?'':'act-disabled'}" ${r.phone?'':'disabled'}>📞 Call</button>
-        <button class="act-btn act-dir">🗺️ Go</button>
-        <button class="act-btn act-share">📤</button>
-        <button class="act-btn act-save ${saved?'saved':''}"><span>${saved?'★':'☆'}</span></button>
+        <button class="act-btn act-call ${r.phone?'':'act-disabled'}" ${r.phone?'':'disabled'}><i class="ic ic-phone"></i> Call</button>
+        <button class="act-btn act-dir"><i class="ic ic-map"></i> Go</button>
+        <button class="act-btn act-share"><i class="ic ic-share"></i></button>
+        <button class="act-btn act-save ${saved?'saved':''}"><span>${saved?'<i class="ic ic-starf"></i>':'<i class="ic ic-star"></i>'}</span></button>
       </div>`;
     // Closures — no inline JSON, no escaping issues
     if(r.phone) card.querySelector('.act-call').addEventListener('click',e=>{e.stopPropagation();callNum(r.phone);});
@@ -1913,7 +2000,7 @@ function renderCards(results,cat){
     saveBtn.addEventListener('click',e=>{
       e.stopPropagation();
       const nowSaved=toggleFav(r);
-      saveBtn.querySelector('span').textContent=nowSaved?'★':'☆';
+      saveBtn.querySelector('span').innerHTML=nowSaved?'<i class="ic ic-starf"></i>':'<i class="ic ic-star"></i>';
       saveBtn.classList.toggle('saved',nowSaved);
     });
     card.querySelector('.card-r1').addEventListener('click',()=>focusResult(r));
@@ -1935,11 +2022,11 @@ function renderRadar(){
   const body=document.getElementById('pbody');
   if(!userLat||fullResults.length===0){
     setTitle('Radar View','Search a category first');
-    body.innerHTML='<div class="state-wrap"><div class="state-icon">🎯</div><div class="state-text">Search for a category first,<br>then come back to Radar view.</div></div>';
+    body.innerHTML='<div class="state-wrap"><div class="state-icon"><i class="ic ic-target"></i></div><div class="state-text">Search for a category first,<br>then come back to Radar view.</div></div>';
     return;
   }
   const cat=CATEGORIES.find(c=>c.id===activeCat)||CATEGORIES[0];
-  setTitle('🎯 Radar View',`${fullResults.length} ${cat.label}s around you`);
+  setTitle('<i class="ic ic-target"></i> Radar View',`${fullResults.length} ${cat.label}s around you`);
   body.innerHTML=`
     <div class="radar-wrap">
       <div class="radar-canvas-wrap">
@@ -2033,12 +2120,12 @@ function renderPhrasebook(){
   const primaryLang=lang.split('/')[0].trim();
   const phrases=PHRASEBOOK[primaryLang]||PHRASES_EN;
   const isEnglish=!PHRASEBOOK[primaryLang];
-  setTitle('💬 Emergency Phrases', isEnglish?'English (tap to copy)':`${primaryLang} — tap any phrase`);
+  setTitle('<i class="ic ic-chat"></i> Emergency Phrases', isEnglish?'English (tap to copy)':`${primaryLang} — tap any phrase`);
   const body=document.getElementById('pbody');
   body.innerHTML=`
     <div class="phrase-header">
-      <div class="phrase-lang">${co?co.f+' ':''} ${isEnglish?'English (no local translation yet)':primaryLang}</div>
-      <div class="phrase-hint">👆 Tap to copy</div>
+      <div class="phrase-lang">${co&&co.f?'<span class="cc">'+co.f+'</span> ':''} ${isEnglish?'English (no local translation yet)':primaryLang}</div>
+      <div class="phrase-hint"><i class="ic ic-tap"></i> Tap to copy</div>
     </div>`;
   phrases.forEach((p,i)=>{
     const card=document.createElement('div');
@@ -2058,7 +2145,7 @@ function renderPhrasebook(){
             card.classList.add('copied');
             card.querySelector('.phrase-copy').textContent='✓ Copied!';
             setTimeout(()=>{card.classList.remove('copied');card.querySelector('.phrase-copy').textContent='Tap to copy to clipboard';},1800);
-            showToast(`📋 Copied: ${copyText.slice(0,28)}${copyText.length>28?'…':''}`);
+            showToast(`Copied: ${copyText.slice(0,28)}${copyText.length>28?'…':''}`);
           })
           .catch(()=>showToast('Copy failed — try long-pressing the phrase'));
       } else {
@@ -2066,7 +2153,7 @@ function renderPhrasebook(){
         const ta=document.createElement('textarea');
         ta.value=copyText; ta.style.position='fixed'; ta.style.opacity='0';
         document.body.appendChild(ta); ta.focus(); ta.select();
-        try{document.execCommand('copy');showToast(`📋 Copied!`);}
+        try{document.execCommand('copy');showToast(`Copied!`);}
         catch(e){showToast('Copy not supported — long-press to copy');}
         document.body.removeChild(ta);
       }
@@ -2079,7 +2166,7 @@ function renderPhrasebook(){
 // SAFETY CARD — FIX: shows current country's numbers, home country noted
 // ════════════════════════════════════════════
 function showSafetyCard(){
-  const currentCo=detectedCountry||homeCountry||{n:'Unknown',f:'🌍',c:'--',e:{General:'112',Police:'112',Ambulance:'112',Fire:'112'}};
+  const currentCo=detectedCountry||homeCountry||{n:'Unknown',f:'',c:'--',e:{General:'112',Police:'112',Ambulance:'112',Fire:'112'}};
   const locStr=userLat?`${userLat.toFixed(5)}, ${userLng.toFixed(5)}`:'Not yet available';
   const mapsUrl=userLat?`https://maps.google.com/?q=${userLat},${userLng}`:'';
   const nums=Object.entries(currentCo.e).map(([k,v])=>`
@@ -2088,12 +2175,12 @@ function showSafetyCard(){
       <div class="sc-num-val">${esc(v)}</div>
     </div>`).join('');
   const homeNote=(homeCountry&&detectedCountry&&homeCountry.c!==detectedCountry.c)
-    ?`<div class="sc-home"><div class="sc-section-label">Your Home Country</div><div class="sc-home-val">${esc(homeCountry.f)} ${esc(homeCountry.n)} — search "Embassy" to find your nearest embassy</div></div>`
+    ?`<div class="sc-home"><div class="sc-section-label">Your Home Country</div><div class="sc-home-val">${esc(homeCountry.n)} — search "Embassy" to find your nearest embassy</div></div>`
     :'';
   document.getElementById('card-body').innerHTML=`
     <div class="safety-card">
       <div class="sc-header">
-        <div class="sc-flag">${currentCo.f}</div>
+        <div class="sc-flag cc">${currentCo.f||''}</div>
         <div>
           <div class="sc-country">${esc(currentCo.n)} — Safety Card</div>
           <div class="sc-sub">Generated by SafeReach · ${new Date().toLocaleDateString()}</div>
@@ -2103,11 +2190,11 @@ function showSafetyCard(){
       <div class="sc-nums" id="sc-nums-grid">${nums}</div>
       ${homeNote}
       ${userLat?`<div class="sc-loc-box">
-        <div class="sc-section-label">📍 My current location</div>
+        <div class="sc-section-label"><i class="ic ic-pin"></i> My current location</div>
         <div class="sc-loc-val">${locStr}</div>
         ${mapsUrl?`<div style="font-size:.66rem;color:var(--text-muted);margin-top:4px;word-break:break-all">${mapsUrl}</div>`:''}
       </div>`:''}
-      <div class="sc-footer">🛡️ SafeReach — Stay safe wherever you travel<br>Share this card with someone you trust before you go out.</div>
+      <div class="sc-footer"><i class="ic ic-shield"></i> SafeReach — Stay safe wherever you travel<br>Share this card with someone you trust before you go out.</div>
     </div>`;
   // Tap-to-call via event delegation — no inline onclick
   document.getElementById('sc-nums-grid')?.addEventListener('click',e=>{
@@ -2119,13 +2206,13 @@ function showSafetyCard(){
 function hideCard(){document.getElementById('card-overlay').classList.remove('show');}
 
 async function shareCard(){
-  const co=detectedCountry||homeCountry||{n:'Unknown',f:'🌍',e:{General:'112'}};
-  let text=`🛡️ SafeReach Safety Card\n${co.f} ${co.n}\n${'─'.repeat(30)}\n`;
+  const co=detectedCountry||homeCountry||{n:'Unknown',f:'',e:{General:'112'}};
+  let text=`SafeReach Safety Card\n${co.n}\n${'─'.repeat(30)}\n`;
   Object.entries(co.e).forEach(([k,v])=>{text+=`${k}: ${v}\n`;});
-  if(userLat)text+=`\n📍 My Location:\nhttps://maps.google.com/?q=${userLat},${userLng}`;
+  if(userLat)text+=`\nMy Location:\nhttps://maps.google.com/?q=${userLat},${userLng}`;
   text+=`\n\nGenerated: ${new Date().toLocaleString()}`;
   if(navigator.share){try{await navigator.share({title:'SafeReach Safety Card',text});return;}catch(e){}}
-  try{await navigator.clipboard.writeText(text);showToast('📋 Safety card copied!');}
+  try{await navigator.clipboard.writeText(text);showToast('Safety card copied!');}
   catch(e){showToast('Share not available — try a different browser');}
 }
 
@@ -2138,7 +2225,7 @@ function saveFavs(f){try{localStorage.setItem('sr_favs',JSON.stringify(f));}catc
 function toggleFav(r){
   const favs=getFavs(), idx=favs.findIndex(f=>f.id===r.id);
   if(idx>=0){favs.splice(idx,1);showToast('Removed from saved');}
-  else{favs.push({...r});showToast(`⭐ Saved: ${r.name}`);}
+  else{favs.push({...r});showToast(`Saved: ${r.name}`);}
   saveFavs(favs); updateSavedBadge();
   return idx<0; // returns true if now saved
 }
@@ -2153,11 +2240,11 @@ function showSavedTab(){
   const favs=getFavs();
   document.getElementById('search-wrap').style.display='none';
   if(favs.length===0){
-    setTitle('No saved places','Tap ☆ on any result to save');
+    setTitle('No saved places','Tap the star on any result to save');
     setBody(`<div class="state-wrap">
-      <div class="state-icon">⭐</div>
-      <div class="state-text">Tap ☆ on any result card<br>to save hospitals, vets, police stations<br>or other services for quick access.</div>
-      <button id="clear-cache-btn" style="margin-top:10px;background:none;border:1px solid var(--border2);color:var(--text-muted);border-radius:9px;padding:.5rem 1rem;font-size:.72rem;cursor:pointer">🗑️ Clear offline cache</button>
+      <div class="state-icon"><i class="ic ic-star"></i></div>
+      <div class="state-text">Tap the star on any result card<br>to save hospitals, vets, police stations<br>or other services for quick access.</div>
+      <button id="clear-cache-btn" style="margin-top:10px;background:none;border:1px solid var(--border2);color:var(--text-muted);border-radius:9px;padding:.5rem 1rem;font-size:.72rem;cursor:pointer"><i class="ic ic-trash"></i> Clear offline cache</button>
     </div>`);
     document.getElementById('clear-cache-btn')?.addEventListener('click',clearOfflineCache);
     return;
@@ -2171,19 +2258,19 @@ function showSavedTab(){
     card.style.animationDelay=`${Math.min(i*.04,.3)}s`;
     card.innerHTML=`
       <div class="card-r1">
-        <div class="card-badge" style="background:${r.catBg||'rgba(0,212,255,.12)'}">${r.catIcon||'📍'}</div>
+        <div class="card-badge" style="background:${r.catBg||'rgba(0,212,255,.12)'}">${fixIco(r.catIcon||'<i class="ic ic-pin"></i>')}</div>
         <div class="card-info">
           <div class="card-name">${esc(r.name)}</div>
           <div class="card-tags">
             ${d!==null?`<span class="tag tag-dist">${formatDist(d)}</span>`:''}
-            ${r.addr?`<span class="tag tag-addr" title="Tap to copy address" onclick="copyAddress('${esc(r.addr)}',this)">📍 ${esc(r.addr)}</span>`:''}
+            ${r.addr?`<span class="tag tag-addr" title="Tap to copy address" onclick="copyAddress('${esc(r.addr)}',this)">${esc(r.addr)}</span>`:''}
           </div>
         </div>
       </div>
       <div class="card-actions">
-        <button class="act-btn act-call ${r.phone?'':'act-disabled'}" ${r.phone?'':'disabled'}>📞 Call</button>
-        <button class="act-btn act-dir">🗺️ Go</button>
-        <button class="act-btn act-save saved">★ Remove</button>
+        <button class="act-btn act-call ${r.phone?'':'act-disabled'}" ${r.phone?'':'disabled'}><i class="ic ic-phone"></i> Call</button>
+        <button class="act-btn act-dir"><i class="ic ic-map"></i> Go</button>
+        <button class="act-btn act-save saved"><i class="ic ic-starf"></i> Remove</button>
       </div>`;
     if(r.phone) card.querySelector('.act-call').addEventListener('click',e=>{e.stopPropagation();callNum(r.phone);});
     card.querySelector('.act-dir').addEventListener('click',e=>{e.stopPropagation();openDir(r.lat,r.lng);});
@@ -2196,7 +2283,7 @@ function showSavedTab(){
   footer.style.cssText='text-align:center;padding:14px 0 4px';
   const ccBtn=document.createElement('button');
   ccBtn.style.cssText='background:none;border:1px solid var(--border2);color:var(--text-muted);border-radius:9px;padding:.45rem 1rem;font-size:.72rem;cursor:pointer';
-  ccBtn.textContent='🗑️ Clear offline cache';
+  ccBtn.innerHTML='<i class="ic ic-trash"></i> Clear offline cache';
   ccBtn.addEventListener('click',clearOfflineCache);
   footer.appendChild(ccBtn);
   body.appendChild(footer);
@@ -2209,7 +2296,7 @@ function clearOfflineCache(){
   }
   // Wipe in-app result cache too
   try{localStorage.removeItem('sr_cache_v1');}catch(e){}
-  showToast('🗑️ Offline cache cleared');
+  showToast('Offline cache cleared');
 }
 
 // ════════════════════════════════════════════
@@ -2227,7 +2314,7 @@ function switchTab(t){
       const cat=CATEGORIES.find(c=>c.id===activeCat);
       renderCards(filteredResults.length>0?filteredResults:fullResults,cat);
     } else {
-      setBody('<div class="state-wrap"><div class="state-icon">🗺️</div><div class="state-text">Select a category above to search.</div></div>');
+      setBody('<div class="state-wrap"><div class="state-icon"><i class="ic ic-map"></i></div><div class="state-text">Select a category above to search.</div></div>');
     }
     openPanel();
   } else if(t==='radar'){renderRadar();openPanel();}
@@ -2240,8 +2327,8 @@ function switchTab(t){
 // ════════════════════════════════════════════
 function showSOS(){
   // SOS uses detectedCountry first (where you are), fall back to homeCountry
-  const co=detectedCountry||homeCountry||{n:'International',f:'🌍',e:{General:'112',Police:'112',Ambulance:'112',Fire:'112'}};
-  document.getElementById('sos-cn').textContent=`${co.f} ${co.n}`;
+  const co=detectedCountry||homeCountry||{n:'International',f:'',e:{General:'112',Police:'112',Ambulance:'112',Fire:'112'}};
+  document.getElementById('sos-cn').textContent=co.n;
   document.getElementById('sos-grid').innerHTML='';
   Object.entries(co.e).forEach(([svc,num])=>{
     const card=document.createElement('div');
@@ -2300,14 +2387,14 @@ async function shareSvc(name,lat,lng){
   const url=`https://maps.google.com/?q=${lat},${lng}`;
   const text=`${name}\n${url}`;
   if(navigator.share){try{await navigator.share({title:name,text,url});return;}catch(e){}}
-  try{await navigator.clipboard.writeText(text);showToast('📋 Link copied!');}
+  try{await navigator.clipboard.writeText(text);showToast('Link copied!');}
   catch(e){showToast('Share not supported on this browser');}
 }
 async function shareMyLocation(){
   if(!userLat){showToast('Location not available yet');return;}
   const url=`https://maps.google.com/?q=${userLat},${userLng}`;
-  if(navigator.share){try{await navigator.share({title:'My Location',text:`📍 My location:\n${url}`,url});return;}catch(e){}}
-  try{await navigator.clipboard.writeText(url);showToast('📋 Location link copied!');}
+  if(navigator.share){try{await navigator.share({title:'My Location',text:`My location:\n${url}`,url});return;}catch(e){}}
+  try{await navigator.clipboard.writeText(url);showToast('Location link copied!');}
   catch(e){showToast('Could not copy — try manually');}
 }
 
@@ -2346,13 +2433,13 @@ function setRadius(el,r){
 // ════════════════════════════════════════════
 function getOpenStatus(hours){
   if(!hours)return null;
-  if(/24\/7/i.test(hours))return'🟢 Open 24/7';
+  if(/24\/7/i.test(hours))return'<span class="dot"></span> Open 24/7';
   try{
     const now=new Date(),time=now.getHours()*60+now.getMinutes();
     const m=hours.match(/(\d{2}):(\d{2})-(\d{2}):(\d{2})/);
     if(m){
       const o=parseInt(m[1])*60+parseInt(m[2]),c=parseInt(m[3])*60+parseInt(m[4]);
-      return time>=o&&time<c?'🟢 Open now':'🔴 Closed now';
+      return time>=o&&time<c?'<span class="dot"></span> Open now':'<span class="dot r"></span> Closed now';
     }
     return null;
   }catch(e){return null;}
@@ -2376,13 +2463,13 @@ function callNum(n){
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // ════════════════════════════════════════════
-// OFFLINE CACHE  ★ v5
+// OFFLINE CACHE  v5
 // ════════════════════════════════════════════
 const CACHE_KEY='sr_cache_v1';
 let isOffline=!navigator.onLine;
 
 window.addEventListener('offline',()=>{isOffline=true; showOfflineBanner();});
-window.addEventListener('online', ()=>{isOffline=false; hideOfflineBanner(); showToast('🟢 Back online');});
+window.addEventListener('online', ()=>{isOffline=false; hideOfflineBanner(); showToast('Back online');});
 
 function showOfflineBanner(){
   const cache=loadCache(activeCat);
@@ -2431,12 +2518,12 @@ searchNearby=async function(catId){
       placeAllMarkers(fullResults,cat);
       renderCards(fullResults,cat);
       const mins=Math.round((Date.now()-cache.ts)/60000);
-      setTitle(`<em>${fullResults.length}</em> ${cat.label}s <span class="cache-badge">📦 Cached ${mins<1?'just now':mins+'m ago'}</span>`,'Offline mode');
+      setTitle(`<em>${fullResults.length}</em> ${cat.label}s <span class="cache-badge"><i class="ic ic-box"></i> Cached ${mins<1?'just now':mins+'m ago'}</span>`,'Offline mode');
       document.getElementById('search-wrap').style.display='block';
       showOfflineBanner();
     } else {
       setTitle('No cache available','Connect to internet to search');
-      setBody(`<div class="state-wrap"><div class="state-icon">📵</div><div class="state-text">You're offline and no cached results exist for this category.<br>Connect to the internet and search once to enable offline access.</div></div>`);
+      setBody(`<div class="state-wrap"><div class="state-icon"><i class="ic ic-wifioff"></i></div><div class="state-text">You're offline and no cached results exist for this category.<br>Connect to the internet and search once to enable offline access.</div></div>`);
       showOfflineBanner();
     }
     return;
@@ -2447,7 +2534,7 @@ searchNearby=async function(catId){
 };
 
 // ════════════════════════════════════════════
-// SHOW ALL MODE  ★ v5
+// SHOW ALL MODE  v5
 // ════════════════════════════════════════════
 let showAllActive=false;
 let showAllMarkers=[];
@@ -2464,7 +2551,7 @@ function toggleShowAll(){
   } else {
     showAllActive=true;
     btn.style.borderColor='rgba(0,212,255,.5)'; btn.style.color='var(--cyan)'; btn.style.background='var(--cyan-dim)';
-    showToast('🗂️ Loading all service types…');
+    showToast('Loading all service types…');
     loadAllCategories();
   }
 }
@@ -2492,16 +2579,16 @@ async function loadAllCategories(){
         showAllMarkers.push(m);
       });
       showAllSearches++;
-      showToast(`🗂️ Loaded ${showAllSearches}/${cats.length} categories`);
+      showToast(`Loaded ${showAllSearches}/${cats.length} categories`);
     }catch(e){}
   }
-  showToast(`✅ Show All complete — ${showAllMarkers.length} services shown`);
+  showToast(`Show All complete — ${showAllMarkers.length} services shown`);
 }
 
 function clearShowAllMarkers(){showAllMarkers.forEach(m=>map.removeLayer(m));showAllMarkers=[];}
 
 // ════════════════════════════════════════════
-// MEDICAL ID  ★ v5
+// MEDICAL ID  v5
 // ════════════════════════════════════════════
 const MED_KEY='sr_medid_v1';
 
@@ -2558,12 +2645,12 @@ function renderMedPreview(d){
   if(!d||Object.values(d).every(v=>!v)){prev.style.display='none';return;}
   prev.style.display='block';
   let html='';
-  if(d.name)   html+=`<div class="medid-prev-row"><span class="medid-chip">👤 ${esc(d.name)}</span>${d.blood?`<span class="medid-chip blood">🩸 ${esc(d.blood)}</span>`:''}</div>`;
-  if(d.allergies) html+=`<div class="medid-prev-row">${d.allergies.split(',').map(a=>`<span class="medid-chip danger">⚠️ ${esc(a.trim())}</span>`).join('')}</div>`;
-  if(d.conditions) html+=`<div class="medid-prev-row">${d.conditions.split(',').map(c=>`<span class="medid-chip">🫀 ${esc(c.trim())}</span>`).join('')}</div>`;
-  if(d.meds)   html+=`<div class="medid-prev-row"><span class="medid-chip">💊 ${esc(d.meds)}</span></div>`;
-  if(d.contact)html+=`<div class="medid-prev-row"><span class="medid-chip">📞 ${esc(d.contact)}</span></div>`;
-  if(d.notes)  html+=`<div class="medid-prev-row"><span class="medid-chip">📝 ${esc(d.notes)}</span></div>`;
+  if(d.name)   html+=`<div class="medid-prev-row"><span class="medid-chip"><i class="ic ic-user"></i> ${esc(d.name)}</span>${d.blood?`<span class="medid-chip blood"><i class="ic ic-drop"></i> ${esc(d.blood)}</span>`:''}</div>`;
+  if(d.allergies) html+=`<div class="medid-prev-row">${d.allergies.split(',').map(a=>`<span class="medid-chip danger"><i class="ic ic-alert"></i> ${esc(a.trim())}</span>`).join('')}</div>`;
+  if(d.conditions) html+=`<div class="medid-prev-row">${d.conditions.split(',').map(c=>`<span class="medid-chip"><i class="ic ic-heart"></i> ${esc(c.trim())}</span>`).join('')}</div>`;
+  if(d.meds)   html+=`<div class="medid-prev-row"><span class="medid-chip"><i class="ic ic-pill"></i> ${esc(d.meds)}</span></div>`;
+  if(d.contact)html+=`<div class="medid-prev-row"><span class="medid-chip"><i class="ic ic-phone"></i> ${esc(d.contact)}</span></div>`;
+  if(d.notes)  html+=`<div class="medid-prev-row"><span class="medid-chip"><i class="ic ic-note"></i> ${esc(d.notes)}</span></div>`;
   content.innerHTML=html;
 }
 
@@ -2571,7 +2658,7 @@ function saveMedID(){
   const d=getMedIDFields();
   try{
     localStorage.setItem(MED_KEY,JSON.stringify(d));
-    showToast('✅ Medical ID saved to device');
+    showToast('Medical ID saved to device');
     renderMedPreview(d);
     updateMedDot(); // Fix: refresh green dot
   }catch(e){showToast('Could not save — storage may be full');}
@@ -2580,17 +2667,17 @@ function saveMedID(){
 async function shareMedID(){
   const d=getMedIDFields();
   if(Object.values(d).every(v=>!v)){showToast('Please fill in your Medical ID first');return;}
-  let text='🩺 MEDICAL ID — SafeReach\n' + '═'.repeat(30) + '\n';
+  let text='MEDICAL ID — SafeReach\n' + '═'.repeat(30) + '\n';
   if(d.name)       text+=`Name: ${d.name}\n`;
   if(d.blood)      text+=`Blood Type: ${d.blood}\n`;
-  if(d.allergies)  text+=`⚠️ Allergies: ${d.allergies}\n`;
+  if(d.allergies)  text+=`Allergies: ${d.allergies}\n`;
   if(d.conditions) text+=`Conditions: ${d.conditions}\n`;
   if(d.meds)       text+=`Medications: ${d.meds}\n`;
   if(d.contact)    text+=`Emergency Contact: ${d.contact}\n`;
   if(d.notes)      text+=`Notes: ${d.notes}\n`;
-  text+=`\n🛡️ Generated by SafeReach`;
+  text+=`\nGenerated by SafeReach`;
   if(navigator.share){try{await navigator.share({title:'Medical ID',text});return;}catch(e){}}
-  try{await navigator.clipboard.writeText(text);showToast('📋 Medical ID copied!');}
+  try{await navigator.clipboard.writeText(text);showToast('Medical ID copied!');}
   catch(e){showToast('Share not supported');}
 }
 
@@ -2607,12 +2694,12 @@ showSafetyCard=function(){
     if(existing){
       const medBox=document.createElement('div');
       medBox.style.cssText='background:rgba(0,224,122,.06);border:1px solid rgba(0,224,122,.2);border-radius:14px;padding:12px;margin-bottom:14px';
-      let html='<div style="font-family:Chakra Petch,monospace;font-size:.65rem;color:var(--green);letter-spacing:.08em;margin-bottom:8px">🩺 MY MEDICAL ID</div>';
+      let html='<div style="font-family:Chakra Petch,monospace;font-size:.65rem;color:var(--green);letter-spacing:.08em;margin-bottom:8px"><i class="ic ic-stethoscope"></i> MY MEDICAL ID</div>';
       if(med.name)  html+=`<div style="font-size:.8rem;font-weight:600;margin-bottom:4px">${esc(med.name)}</div>`;
-      if(med.blood) html+=`<span style="background:rgba(255,68,85,.15);border:1px solid rgba(255,68,85,.3);border-radius:6px;padding:2px 8px;font-size:.75rem;color:#ff6677;font-family:Chakra Petch,monospace;margin-right:6px">🩸 ${esc(med.blood)}</span>`;
-      if(med.allergies)html+=`<div style="font-size:.74rem;color:var(--red);margin-top:6px">⚠️ Allergic to: ${esc(med.allergies)}</div>`;
-      if(med.conditions)html+=`<div style="font-size:.74rem;color:var(--text-dim);margin-top:3px">🫀 ${esc(med.conditions)}</div>`;
-      if(med.contact)html+=`<div style="font-size:.74rem;color:var(--cyan);margin-top:3px">📞 Emergency: ${esc(med.contact)}</div>`;
+      if(med.blood) html+=`<span style="background:rgba(255,68,85,.15);border:1px solid rgba(255,68,85,.3);border-radius:6px;padding:2px 8px;font-size:.75rem;color:#ff6677;font-family:Chakra Petch,monospace;margin-right:6px"><i class="ic ic-drop"></i> ${esc(med.blood)}</span>`;
+      if(med.allergies)html+=`<div style="font-size:.74rem;color:var(--red);margin-top:6px"><i class="ic ic-alert"></i> Allergic to: ${esc(med.allergies)}</div>`;
+      if(med.conditions)html+=`<div style="font-size:.74rem;color:var(--text-dim);margin-top:3px"><i class="ic ic-heart"></i> ${esc(med.conditions)}</div>`;
+      if(med.contact)html+=`<div style="font-size:.74rem;color:var(--cyan);margin-top:3px"><i class="ic ic-phone"></i> Emergency: ${esc(med.contact)}</div>`;
       medBox.innerHTML=html;
       const safetyCard=existing.querySelector('.safety-card');
       if(safetyCard){
@@ -2625,7 +2712,7 @@ showSafetyCard=function(){
 };
 
 // ════════════════════════════════════════════
-// TRIP PLANNER  ★ v5
+// TRIP PLANNER  v5
 // ════════════════════════════════════════════
 const SAVED_TRIPS_KEY='sr_trips_v1';
 
@@ -2669,7 +2756,7 @@ async function searchTrip(){
 
 function renderTripResult(place,country,container){
   container.innerHTML='';
-  const co=country||{f:'🌍',n:'Unknown country',e:{General:'112',Police:'112',Ambulance:'112',Fire:'112'}};
+  const co=country||{f:'',n:'Unknown country',e:{General:'112',Police:'112',Ambulance:'112',Fire:'112'}};
   // Fix: sanitize display name, limit to 2 parts
   const rawName=place.display_name||'';
   const displayName=rawName.split(',').slice(0,2).map(s=>s.trim()).join(', ');
@@ -2681,12 +2768,12 @@ function renderTripResult(place,country,container){
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
       <button style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:.8rem;padding:0" id="trip-back-btn">← Back</button>
     </div>
-    <div class="trip-dest-name">${co.f} ${esc(displayName)}</div>
+    <div class="trip-dest-name">${co.f?'<span class="cc">'+co.f+'</span> ':''}${esc(displayName)}</div>
     <div class="trip-dest-sub">${esc(co.n)} · Tap a number to call</div>
     <div class="trip-nums" id="trip-nums-grid"></div>
     <div class="trip-actions">
-      <button class="trip-act trip-act-go" id="trip-go-btn">🗺️ Go to destination</button>
-      <button class="trip-act trip-act-save" id="trip-save-btn">⭐ Save trip</button>
+      <button class="trip-act trip-act-go" id="trip-go-btn"><i class="ic ic-map"></i> Go to destination</button>
+      <button class="trip-act trip-act-save" id="trip-save-btn"><i class="ic ic-star"></i> Save trip</button>
     </div>`;
   container.appendChild(card);
 
@@ -2709,7 +2796,7 @@ function renderTripResult(place,country,container){
   document.getElementById('trip-go-btn').addEventListener('click',()=>{
     hideTrip();
     map.setView([parseFloat(place.lat),parseFloat(place.lon)],13);
-    showToast(`📍 Viewing ${displayName}`);
+    showToast(`Viewing ${displayName}`);
   });
 
   document.getElementById('trip-save-btn').addEventListener('click',()=>{
@@ -2724,8 +2811,8 @@ function renderTripResult(place,country,container){
       nums:co.e, savedAt:Date.now()
     });
     localStorage.setItem(SAVED_TRIPS_KEY,JSON.stringify(trips));
-    showToast(`✈️ Saved: ${displayName}`);
-    document.getElementById('trip-save-btn').textContent='✅ Saved!';
+    showToast(`Saved: ${displayName}`);
+    document.getElementById('trip-save-btn').innerHTML='<i class="ic ic-check"></i> Saved!';
     document.getElementById('trip-save-btn').disabled=true;
   });
 }
@@ -2737,7 +2824,7 @@ function renderSavedTrips(){
   const container=document.getElementById('trip-results');
   if(!container)return;
   if(trips.length===0){
-    container.innerHTML='<div class="trip-empty" style="padding:1rem;text-align:center;color:var(--text-dim);font-size:.84rem">No saved trips yet.<br>Search a city above and tap ⭐ to save it.</div>';
+    container.innerHTML='<div class="trip-empty" style="padding:1rem;text-align:center;color:var(--text-dim);font-size:.84rem">No saved trips yet.<br>Search a city above and tap <i class="ic ic-star"></i> to save it.</div>';
     return;
   }
   let html='<div style="font-family:Chakra Petch,monospace;font-size:.66rem;color:var(--text-muted);letter-spacing:.07em;margin-bottom:8px">SAVED TRIPS</div>';
@@ -2747,11 +2834,11 @@ function renderSavedTrips(){
       <div class="trip-result-card" style="padding:10px 14px" data-idx="${i}">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
           <div style="min-width:0">
-            <div class="trip-dest-name" style="font-size:.86rem">${esc(t.flag)} ${esc(t.name)}</div>
+            <div class="trip-dest-name" style="font-size:.86rem">${fixIco(esc(t.flag))} ${esc(t.name)}</div>
             <div class="trip-dest-sub">${esc(t.country)}</div>
           </div>
           <div style="display:flex;gap:6px;flex-shrink:0">
-            <button class="trip-act trip-act-go" style="padding:.4rem .7rem;font-size:.7rem" data-lat="${t.lat}" data-lon="${t.lon}" data-name="${esc(t.name)}">🗺️</button>
+            <button class="trip-act trip-act-go" style="padding:.4rem .7rem;font-size:.7rem" data-lat="${t.lat}" data-lon="${t.lon}" data-name="${esc(t.name)}"><i class="ic ic-map"></i></button>
             <button class="trip-act" style="padding:.4rem .7rem;font-size:.7rem;background:rgba(255,68,85,.1);color:var(--red);border:1px solid rgba(255,68,85,.2)" data-del="${esc(String(t.id))}">✕</button>
           </div>
         </div>
@@ -2763,7 +2850,7 @@ function renderSavedTrips(){
     btn.addEventListener('click',()=>{
       hideTrip();
       map.setView([parseFloat(btn.dataset.lat),parseFloat(btn.dataset.lon)],13);
-      showToast(`📍 Viewing ${btn.dataset.name}`);
+      showToast(`Viewing ${btn.dataset.name}`);
     });
   });
   container.querySelectorAll('[data-del]').forEach(btn=>{
@@ -2783,7 +2870,7 @@ if(!navigator.onLine) showOfflineBanner();
 updateMedDot(); // Show green dot if Medical ID already saved
 
 // ════════════════════════════════════════════
-// THEME TOGGLE  ★ v6
+// THEME TOGGLE  v6
 // ════════════════════════════════════════════
 let isDark=true;
 
@@ -2820,7 +2907,7 @@ const SEARCH_THROTTLE_MS = 1500;
 function canSearch() {
   const now = Date.now();
   if (now - _lastSearchTime < SEARCH_THROTTLE_MS) {
-    showToast('⏳ Please wait before searching again');
+    showToast('Please wait before searching again');
     return false;
   }
   _lastSearchTime = now;
@@ -2905,7 +2992,7 @@ function renderRecentStrip() {
     strip.classList.add('visible');
     // Keep the label, rebuild chips
     const chips = recents.map(r =>
-      `<button class="recent-chip" onclick="selectCat('${r.id}')">${r.icon} ${r.label}</button>`
+      `<button class="recent-chip" onclick="selectCat('${r.id}')">${fixIco(r.icon)} ${r.label}</button>`
     ).join('');
     strip.innerHTML = '<span class="recent-label">Recent:</span>' + chips;
   } catch {}
@@ -2934,7 +3021,7 @@ function showLost() {
     document.getElementById('lost-dd').textContent  = `${lat6}, ${lng6}`;
     document.getElementById('lost-dms').textContent = `${toDMS(userLat, true)}  ${toDMS(userLng, false)}`;
     document.getElementById('lost-acc').textContent = userAccuracy
-      ? `📡 GPS accuracy: ±${Math.round(userAccuracy)}m`
+      ? `<i class="ic ic-signal"></i> GPS accuracy: ±${Math.round(userAccuracy)}m`
       : '';
     // What3Words link
     document.getElementById('lost-w3').innerHTML =
@@ -2960,7 +3047,7 @@ async function copyCoords() {
   const text = `${userLat.toFixed(6)}, ${userLng.toFixed(6)}`;
   try {
     await navigator.clipboard.writeText(text);
-    showToast('📋 Coordinates copied!');
+    showToast('Coordinates copied!');
     if (navigator.vibrate) navigator.vibrate(40);
   } catch {
     showToast('Could not copy — try manually');
@@ -2971,13 +3058,13 @@ async function shareCoords() {
   if (!userLat) { showToast('No GPS fix yet'); return; }
   const lat6 = userLat.toFixed(6), lng6 = userLng.toFixed(6);
   const url  = `https://maps.google.com/?q=${lat6},${lng6}`;
-  const text = `🆘 I'm lost. My exact location:\n${lat6}, ${lng6}\n${url}`;
+  const text = `I'm lost. My exact location:\n${lat6}, ${lng6}\n${url}`;
   if (navigator.share) {
     try { await navigator.share({ title: "I'm Lost — My Location", text, url }); return; } catch {}
   }
   try {
     await navigator.clipboard.writeText(text);
-    showToast('📋 Location copied — paste into WhatsApp/SMS');
+    showToast('Location copied — paste into WhatsApp/SMS');
   } catch {
     showToast('Share not available');
   }
@@ -2991,7 +3078,7 @@ async function copyAddress(addr, btn) {
     await navigator.clipboard.writeText(addr);
     btn.textContent = '✓ Copied';
     if (navigator.vibrate) navigator.vibrate(30);
-    setTimeout(() => { btn.textContent = '📍 ' + addr; }, 2000);
+    setTimeout(() => { btn.innerHTML = '<i class="ic ic-pin"></i> ' + esc(addr); }, 2000);
   } catch {
     showToast('Could not copy address');
   }
@@ -3000,20 +3087,20 @@ async function copyAddress(addr, btn) {
 function toggleTheme(){
   isDark=!isDark;
   document.body.classList.toggle('light',!isDark);
-  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+  document.getElementById('theme-btn').innerHTML=isDark?'<i class="ic ic-moon"></i>':'<i class="ic ic-sun"></i>';
   try{localStorage.setItem('sr_theme',isDark?'dark':'light');}catch(e){}
-  showToast(isDark?'🌙 Dark mode':'☀️ Light mode');
+  showToast(isDark?'Dark mode':'Light mode');
 }
 // Restore saved theme preference
 (function(){
   try{
     const t=localStorage.getItem('sr_theme');
-    if(t==='light'){isDark=false;document.body.classList.add('light');document.getElementById('theme-btn').textContent='☀️';}
+    if(t==='light'){isDark=false;document.body.classList.add('light');document.getElementById('theme-btn').innerHTML='<i class="ic ic-sun"></i>';}
   }catch(e){}
 })();
 
 // ════════════════════════════════════════════
-// WEATHER STRIP  ★ v6
+// WEATHER STRIP  v6
 // ════════════════════════════════════════════
 let _weatherLoaded=false;
 async function loadWeather(lat,lng){
@@ -3030,12 +3117,12 @@ async function loadWeather(lat,lng){
     const code=data.current?.weathercode??0;
     const wind=Math.round(data.current?.windspeed_10m??0);
     const icon=wmoToEmoji(code);
-    const txt=`${icon} ${temp}°C · 💨 ${wind}km/h`;
-    document.getElementById('weather-txt').textContent=txt;
+    const txt=`${icon} ${temp}°C · <i class="ic ic-wind"></i> ${wind}km/h`;
+    document.getElementById('weather-txt').innerHTML=txt;
     document.getElementById('weather-strip').classList.add('show');
     _weatherLoaded=true;
     // Warn on extreme wind
-    if(wind>60)showToast(`⚠️ Strong winds: ${wind}km/h — take care`);
+    if(wind>60)showToast(`Strong winds: ${wind}km/h — take care`);
   }catch(e){
     // Silently fail — weather is non-critical
   }
@@ -3047,16 +3134,16 @@ async function refreshWeather(){
   await loadWeather(userLat,userLng);
 }
 function wmoToEmoji(code){
-  if(code===0)return'☀️';
-  if(code<=2)return'⛅';
-  if(code<=3)return'☁️';
-  if(code<=49)return'🌫️';
-  if(code<=59)return'🌦️';
-  if(code<=69)return'🌧️';
-  if(code<=79)return'❄️';
-  if(code<=84)return'🌧️';
-  if(code<=99)return'⛈️';
-  return'🌡️';
+  if(code===0)return'<i class="ic ic-sun"></i>';
+  if(code<=2)return'<i class="ic ic-cloud"></i>';
+  if(code<=3)return'<i class="ic ic-cloud"></i>';
+  if(code<=49)return'<i class="ic ic-fog"></i>';
+  if(code<=59)return'<i class="ic ic-rain"></i>';
+  if(code<=69)return'<i class="ic ic-rain"></i>';
+  if(code<=79)return'<i class="ic ic-snow"></i>';
+  if(code<=84)return'<i class="ic ic-rain"></i>';
+  if(code<=99)return'<i class="ic ic-storm"></i>';
+  return'<i class="ic ic-thermo"></i>';
 }
 // Patch locateUser to load weather after location found
 const _origLocate=locateUser;
@@ -3071,49 +3158,49 @@ placeUserMarker=function(){
 };
 
 // ════════════════════════════════════════════
-// EMERGENCY GUIDE  ★ v6
+// EMERGENCY GUIDE  v6
 // ════════════════════════════════════════════
 const GUIDES={
-  'Medical':{icon:'🏥',steps:[
+  'Medical':{icon:'<i class="ic ic-hospital"></i>',steps:[
     {t:'Call for help first',d:'Call the local ambulance number immediately before doing anything else. Put it on speaker so your hands are free.'},
     {t:'Check responsiveness',d:'Gently tap the person\'s shoulder and shout "Are you okay?" If no response, shout for bystanders to help.'},
     {t:'Check breathing',d:'Tilt their head back, lift the chin, and listen/look for breathing for no more than 10 seconds.'},
     {t:'CPR if not breathing',d:'Give 30 chest compressions (hard and fast, centre of chest) followed by 2 rescue breaths. Repeat until help arrives.'},
     {t:'Control bleeding',d:'Apply firm, continuous pressure with a cloth. Do not remove the cloth — add more on top if it soaks through.'},
     {t:'Recovery position',d:'If breathing but unconscious, roll them onto their side to prevent choking. Keep them still and warm until ambulance arrives.'},
-  ],tip:'🩺 Tell the dispatcher: your exact location, the number of injured, and what happened. Stay on the line.'},
-  'Fire':{icon:'🔥',steps:[
+  ],tip:'<i class="ic ic-stethoscope"></i> Tell the dispatcher: your exact location, the number of injured, and what happened. Stay on the line.'},
+  'Fire':{icon:'<i class="ic ic-flame"></i>',steps:[
     {t:'Alert everyone first',d:'Shout "Fire!" and activate the nearest fire alarm. Every second of warning matters.'},
     {t:'Call the fire service',d:'Call the local fire emergency number immediately. Even small fires can spread in under 3 minutes.'},
     {t:'Close doors behind you',d:'As you evacuate, close every door you pass through. This slows fire and smoke spread significantly.'},
     {t:'Stay low if there\'s smoke',d:'Smoke rises. Crawl low under the smoke line where air is cleaner. Cover your nose and mouth.'},
     {t:'Do not use lifts',d:'Always use stairs during a fire evacuation. Lifts can trap you or descend to the fire floor.'},
     {t:'Meet at assembly point',d:'Go to a pre-designated assembly point or as far from the building as possible. Do not re-enter.'},
-  ],tip:'🔥 If your clothes catch fire: Stop, Drop, and Roll to smother flames. Do not run.'},
-  'Robbery':{icon:'👮',steps:[
+  ],tip:'<i class="ic ic-flame"></i> If your clothes catch fire: Stop, Drop, and Roll to smother flames. Do not run.'},
+  'Robbery':{icon:'<i class="ic ic-badge"></i>',steps:[
     {t:'Do not resist',d:'Your safety is worth more than any possession. Hand over what they ask for without hesitation.'},
     {t:'Stay calm and observe',d:'Note their height, clothing, voice, and any identifying features. This helps police later.'},
     {t:'Get to safety first',d:'Once the threat has moved away, get into a public, well-lit place immediately.'},
     {t:'Call the police',d:'Report the incident as soon as you are safe. Give your location, a description, and which direction they went.'},
     {t:'Do not chase',d:'Never follow or confront the perpetrator. This escalates the situation dangerously.'},
     {t:'Secure your accounts',d:'If cards were stolen, call your bank immediately to freeze them. Most banks have 24/7 fraud lines.'},
-  ],tip:'👮 Write down everything you remember as soon as possible — memory fades within hours.'},
-  'Earthquake':{icon:'🌍',steps:[
+  ],tip:'<i class="ic ic-badge"></i> Write down everything you remember as soon as possible — memory fades within hours.'},
+  'Earthquake':{icon:'<i class="ic ic-globe"></i>',steps:[
     {t:'Drop, Cover, Hold On',d:'Drop to your hands and knees, take cover under a sturdy desk or table, and hold on until shaking stops.'},
     {t:'Away from windows',d:'Stay away from glass, exterior walls, and anything that could fall. The danger is from objects, not the ground.'},
     {t:'If outdoors, stay there',d:'Move away from buildings, streetlights, and utility wires. Crouch and protect your head.'},
     {t:'If in a vehicle',d:'Pull over away from buildings and trees. Stay inside with your seatbelt fastened until shaking stops.'},
     {t:'After shaking stops',d:'Check yourself and others for injuries. Expect aftershocks. Evacuate if the building is damaged.'},
     {t:'Check for gas leaks',d:'If you smell gas, leave the building immediately, leave the door open, and call emergency services from outside.'},
-  ],tip:'🌍 Do not run outside during shaking — most injuries happen from falling objects while moving.'},
-  'Drowning':{icon:'🌊',steps:[
+  ],tip:'<i class="ic ic-globe"></i> Do not run outside during shaking — most injuries happen from falling objects while moving.'},
+  'Drowning':{icon:'<i class="ic ic-wave"></i>',steps:[
     {t:'Call for help immediately',d:'Shout for a lifeguard or bystanders. Call emergency services. Give your exact location including water name.'},
     {t:'Throw, don\'t go',d:'Throw a life ring, rope, towel or any floating object. Entering the water to rescue a panicking swimmer is extremely dangerous.'},
     {t:'Reach from safety',d:'If they are close to the edge, lie flat and extend a pole, branch, belt or clothing for them to grab.'},
     {t:'If you enter the water',d:'Only trained rescuers should enter. Approach from behind. A panicking person will push you under.'},
     {t:'Recovery after rescue',d:'Even if they seem fine, anyone rescued from drowning needs medical evaluation — secondary drowning can occur hours later.'},
     {t:'CPR if unresponsive',d:'Begin CPR immediately if they are not breathing. Prioritise 5 rescue breaths first for drowning casualties.'},
-  ],tip:'🌊 Secondary drowning: symptoms like coughing, chest pain, or fatigue hours after a near-drowning require immediate medical attention.'},
+  ],tip:'<i class="ic ic-wave"></i> Secondary drowning: symptoms like coughing, chest pain, or fatigue hours after a near-drowning require immediate medical attention.'},
 };
 
 let activeGuideCat='Medical';
@@ -3132,7 +3219,7 @@ function buildGuideTabs(){
   Object.keys(GUIDES).forEach(key=>{
     const btn=document.createElement('button');
     btn.className='guide-tab'+(key==='Medical'?' active':'');
-    btn.textContent=`${GUIDES[key].icon} ${key}`;
+    btn.innerHTML=`${GUIDES[key].icon} ${key}`;
     btn.addEventListener('click',()=>{
       document.querySelectorAll('.guide-tab').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
@@ -3146,7 +3233,7 @@ function renderGuide(key){
   activeGuideCat=key;
   const guide=GUIDES[key];
   const content=document.getElementById('guide-content');
-  let html=`<div class="guide-tip"><strong>💡 Remember:</strong> ${guide.tip}</div>`;
+  let html=`<div class="guide-tip"><strong><i class="ic ic-bulb"></i> Remember:</strong> ${guide.tip}</div>`;
   guide.steps.forEach((s,i)=>{
     html+=`<div class="guide-step" style="animation-delay:${i*0.05}s">
       <div class="guide-step-num">${i+1}</div>
@@ -3160,16 +3247,16 @@ function renderGuide(key){
 }
 
 // ════════════════════════════════════════════
-// INCIDENT REPORT  ★ v6
+// INCIDENT REPORT  v6
 // ════════════════════════════════════════════
 const REPORT_KEY='sr_reports_v1';
 const REPORT_TYPES=[
-  {id:'theft',    icon:'👝',label:'Theft'},
-  {id:'assault',  icon:'🚨',label:'Assault'},
-  {id:'accident', icon:'🚗',label:'Accident'},
-  {id:'fire',     icon:'🔥',label:'Fire'},
-  {id:'medical',  icon:'🏥',label:'Medical'},
-  {id:'other',    icon:'📋',label:'Other'},
+  {id:'theft',    icon:'<i class="ic ic-bag"></i>',label:'Theft'},
+  {id:'assault',  icon:'<i class="ic ic-siren"></i>',label:'Assault'},
+  {id:'accident', icon:'<i class="ic ic-car"></i>',label:'Accident'},
+  {id:'fire',     icon:'<i class="ic ic-flame"></i>',label:'Fire'},
+  {id:'medical',  icon:'<i class="ic ic-hospital"></i>',label:'Medical'},
+  {id:'other',    icon:'<i class="ic ic-clipboard"></i>',label:'Other'},
 ];
 let selectedReportType=null;
 
@@ -3224,7 +3311,7 @@ function submitReport(){
   document.getElementById('rep-desc').value='';
   document.querySelectorAll('.report-type-btn').forEach(b=>b.classList.remove('sel'));
   selectedReportType=null;
-  showToast('📋 Incident logged');
+  showToast('Incident logged');
   renderReportList();
 }
 
@@ -3238,13 +3325,13 @@ function renderReportList(){
   reports.slice(0,5).forEach(r=>{
     const timeStr=new Date(r.ts).toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
     html+=`<div class="report-list-item">
-      <div class="report-item-type">${r.icon} ${esc(r.label)}</div>
+      <div class="report-item-type">${fixIco(r.icon)} ${esc(r.label)}</div>
       <div class="report-item-desc">${esc(r.desc.slice(0,80))}${r.desc.length>80?'…':''}</div>
-      <div class="report-item-meta">📍 ${esc(r.loc)} · ${timeStr}</div>
+      <div class="report-item-meta"><i class="ic ic-pin"></i> ${esc(r.loc)} · ${timeStr}</div>
     </div>`;
   });
   if(reports.length>5)html+=`<div style="font-size:.72rem;color:var(--text-muted);text-align:center;padding:4px">${reports.length-5} more in log</div>`;
-  html+=`<button onclick="clearReports()" style="margin-top:6px;width:100%;background:none;border:1px solid rgba(255,68,85,.2);color:var(--red);border-radius:9px;padding:.55rem;font-size:.76rem;cursor:pointer">🗑️ Clear all reports</button>`;
+  html+=`<button onclick="clearReports()" style="margin-top:6px;width:100%;background:none;border:1px solid rgba(255,68,85,.2);color:var(--red);border-radius:9px;padding:.55rem;font-size:.76rem;cursor:pointer"><i class="ic ic-trash"></i> Clear all reports</button>`;
   list.innerHTML=html;
 }
 
@@ -3272,9 +3359,39 @@ function clearCheckinState(){
   try{ localStorage.removeItem(CHECKIN_KEY); }catch(e){}
 }
 
+// Check-in history: every check-in is recorded here (started, extended, confirmed
+// safe or missed), not only the ones that escalate. Signed-in members see the
+// server's record instead (see the SafeReach backend section further down).
+const CI_LOG_KEY='sr_checkin_log';
+function getCheckinLog(){try{return JSON.parse(localStorage.getItem(CI_LOG_KEY)||'[]');}catch(e){return [];}}
+function logCheckin(startedAt,patch){
+  try{
+    const log=getCheckinLog();
+    let e=log.find(x=>x.startedAt===startedAt);
+    if(!e){e={startedAt};log.unshift(e);}
+    Object.assign(e,patch);
+    if(log.length>30)log.splice(30);
+    localStorage.setItem(CI_LOG_KEY,JSON.stringify(log));
+  }catch(err){}
+}
+function renderCheckinHistory(list){
+  const box=document.getElementById('ci-history');if(!box)return;
+  list=(list||getCheckinLog()).slice(0,6);
+  if(!list.length){box.innerHTML='';return;}
+  const t=ms=>new Date(ms).toLocaleString([], {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  const tm=ms=>new Date(ms).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  box.innerHTML='<div class="ci-h-title">Your recent check-ins</div>'+list.map(e=>{
+    const st=e.status==='safe'?`<span class="ci-pill ok">Safe${e.safeAt?' at '+tm(e.safeAt):''}</span>`
+      :e.status==='escalated'?`<span class="ci-pill bad">Missed${e.escalatedAt?' at '+tm(e.escalatedAt):''}</span>`
+      :`<span class="ci-pill on">In progress</span>`;
+    const ext=e.extendedMin?` · +${e.extendedMin} min`:'';
+    return `<div class="ci-h-row"><div><div class="ci-h-dest">${esc(e.note||'No destination')}</div><div class="ci-h-meta">${t(e.startedAt)} · ${e.durationMin||'?'} min${ext}</div></div>${st}</div>`;
+  }).join('');
+}
 function showCheckin(){
   document.getElementById('checkin-overlay').classList.add('show');
   renderCheckinUI();
+  renderCheckinHistory();
 }
 function hideCheckin(){
   document.getElementById('checkin-overlay').classList.remove('show');
@@ -3298,11 +3415,13 @@ function startCheckin(){
     lat:userLat, lng:userLng,
   };
   saveCheckinState(state);
+  logCheckin(state.startedAt,{note,durationMin:minutes,status:'active',extendedMin:0});
   startCheckinTicker();
   updateCheckinIndicators();
   renderCheckinUI();
+  renderCheckinHistory();
   if(navigator.vibrate) try{navigator.vibrate(40);}catch(e){}
-  showToast(`⏱️ Check-in started — ${minutes} min`);
+  showToast(`Check-in started — ${minutes} min`);
 }
 
 function extendCheckin(minutes){
@@ -3310,6 +3429,7 @@ function extendCheckin(minutes){
   if(!state||state.status!=='active')return;
   state.expiresAt+=minutes*60000;
   saveCheckinState(state);
+  logCheckin(state.startedAt,{extendedMin:(getCheckinLog().find(x=>x.startedAt===state.startedAt)?.extendedMin||0)+minutes});
   renderCheckinUI();
   updateCheckinIndicators();
   showToast(`+${minutes} min added`);
@@ -3322,9 +3442,12 @@ function cancelCheckinState(){
 }
 
 function imSafe(){
+  const cur=loadCheckin();
+  if(cur&&cur.startedAt) logCheckin(cur.startedAt,{status:'safe',safeAt:Date.now()});
   cancelCheckinState();
   renderCheckinUI();
-  showToast("✅ You're marked safe — check-in cancelled");
+  renderCheckinHistory();
+  showToast("You're marked safe — check-in cancelled");
   if(navigator.vibrate) try{navigator.vibrate(30);}catch(e){}
 }
 
@@ -3380,14 +3503,15 @@ function escalateCheckin(state){
   state.status='escalated';
   state.escalatedAt=Date.now();
   saveCheckinState(state);
+  logCheckin(state.startedAt,{status:'escalated',escalatedAt:state.escalatedAt});
   updateCheckinIndicators();
   if(navigator.vibrate) try{navigator.vibrate([150,80,150,80,150]);}catch(e){}
-  showToast('🆘 Check-in missed — escalating');
+  showToast('Check-in missed — escalating');
   // Log automatically to the user's own incident log for a record of what happened
   try{
     const reports=getReports();
     reports.unshift({
-      id:Date.now(), type:'checkin', icon:'⏱️', label:'Missed Check-in',
+      id:Date.now(), type:'checkin', icon:'<i class="ic ic-timer"></i>', label:'Missed Check-in',
       desc:`Check-in "${state.note||'trip'}" (${state.durationMin} min) expired without confirmation.`,
       loc: state.lat?`${state.lat.toFixed(5)}, ${state.lng.toFixed(5)}`:'Location not set',
       lat:state.lat, lng:state.lng, ts:Date.now(),
@@ -3448,7 +3572,7 @@ function renderCheckinCountdown(state,remain){
   const el=document.getElementById('checkin-countdown');
   if(el) el.textContent=formatMMSS(remain);
   const noteEl=document.getElementById('checkin-active-note');
-  if(noteEl) noteEl.textContent=state.note?`📍 ${state.note}`:'No note added';
+  if(noteEl) noteEl.textContent=state.note?`Note: ${state.note}`:'No note added';
 }
 
 function restoreCheckin(){
@@ -3489,7 +3613,7 @@ function handleDeviceMotion(e){
 
 function onShakeDetected(){
   if(navigator.vibrate) try{navigator.vibrate([100,60,100,60,100]);}catch(e){}
-  showToast('🆘 Shake detected — opening SOS');
+  showToast('Shake detected — opening SOS');
   showSOS();
 }
 
@@ -3510,7 +3634,7 @@ async function enableShake(){
     _shakeNeedsReauth=false;
     try{localStorage.setItem(SHAKE_KEY,'1');}catch(e){}
     renderSettings();
-    showToast('✅ Shake-to-SOS enabled');
+    showToast('Shake-to-SOS enabled');
     return true;
   }catch(e){
     showToast('Shake-to-SOS could not be enabled on this device');
@@ -3665,7 +3789,8 @@ function renderSettings(){
       if (d.token) setToken(d.token); // every OTHER session is signed out by the server
       return d;
     },
-    startCheckIn: p => request('/checkin', 'POST', p),            // not queued: server clock starts on receipt
+    startCheckIn: p => request('/checkin', 'POST', p),
+    checkInHistory: () => request('/checkin/history'),            // not queued: server clock starts on receipt
     extendCheckIn: (id, m) => sendOrQueue('/checkin/' + id + '/extend', 'PATCH', { minutes: m }),
     markSafe: id => sendOrQueue('/checkin/' + id + '/safe', 'PATCH'),
     sendSOS: p => sendOrQueue('/sos', 'POST', p),
@@ -3705,7 +3830,7 @@ function renderSettings(){
   }
   async function doAuth(fn) {
     const err = document.getElementById('auth-err'); err.textContent = '';
-    try { await fn(); document.getElementById('auth-pass').value = ''; refreshAccountUI(); hideAuth(); toast('✅ Signed in'); }
+    try { await fn(); document.getElementById('auth-pass').value = ''; refreshAccountUI(); hideAuth(); toast('Signed in'); }
     catch (e) { err.textContent = isOffline(e) ? 'Cannot reach the server. Check your connection.' : e.message; }
   }
   window.srSignIn = () => { const f = authFields(); return doAuth(() => SR.login(f.phone, f.pass)); };
@@ -3736,7 +3861,7 @@ function renderSettings(){
     const btn = document.getElementById('pw-save'); btn.disabled = true; pwErr('');
     try {
       await SR.changePassword(cur, nw);
-      srTogglePw(false); hideAuth(); toast('✅ Password changed');
+      srTogglePw(false); hideAuth(); toast('Password changed');
     } catch (e) {
       pwErr(isOffline(e) ? 'Cannot reach the server. Check your connection and try again.' : e.message);
     } finally { btn.disabled = false; }
@@ -3745,11 +3870,11 @@ function renderSettings(){
   // ---- SOS alert (manual button + shake with cancel countdown) ----
   let shakeTimer = null;
   window.srSendSOS = async function (source) {
-    if (!isLoggedIn()) { toast('Sign in (⚙️ Settings) to alert your coordinators'); return; }
+    if (!isLoggedIn()) { toast('Sign in (Settings) to alert your coordinators'); return; }
     const s = (typeof loadCheckin === 'function') ? loadCheckin() : null;
     try {
       const r = await SR.sendSOS({ checkInId: s && s.serverId || undefined, triggerSource: source, lat: fmtCoord(userLat), lng: fmtCoord(userLng) });
-      toast(r.queued ? '🆘 Offline — alert will send when you reconnect' : '🆘 Coordinators alerted');
+      toast(r.queued ? 'Offline — alert will send when you reconnect' : 'Coordinators alerted');
     } catch (e) { toast('Could not send alert: ' + e.message); }
   };
   window.srCancelShake = function () {
@@ -3758,7 +3883,7 @@ function renderSettings(){
   };
   function armShakeAlert() {
     const box = document.getElementById('sos-alert-status'); if (!box) return;
-    if (!isLoggedIn()) { box.textContent = 'Sign in via ⚙️ Settings so shake can alert your coordinators.'; return; }
+    if (!isLoggedIn()) { box.textContent = 'Sign in via Settings so shake can alert your coordinators.'; return; }
     let n = 5; clearInterval(shakeTimer);
     const tick = () => {
       box.innerHTML = 'Alerting coordinators in ' + n + '… <button class="sr-link" onclick="srCancelShake()">Cancel</button>';
@@ -3785,11 +3910,25 @@ function renderSettings(){
     const s = loadCheckin();
     if (isLoggedIn() && s && s.serverId) SR.extendCheckIn(s.serverId, m).catch(() => {});
   };
+  // Signed-in members see the server's record of their check-ins
+  const _renderHist = window.renderCheckinHistory;
+  window.renderCheckinHistory = function (list) {
+    _renderHist(list);
+    if (list || !isLoggedIn()) return;
+    SR.checkInHistory().then(d => {
+      const rows = (d.checkIns || []).map(c => ({
+        startedAt: new Date(c.startTime).getTime(), note: c.destination, durationMin: c.durationMinutes,
+        extendedMin: c.extendedMinutes || 0, status: c.status,
+        safeAt: c.safeAt ? new Date(c.safeAt).getTime() : null, escalatedAt: c.escalatedAt ? new Date(c.escalatedAt).getTime() : null,
+      }));
+      if (rows.length) _renderHist(rows);
+    }).catch(() => {});
+  };
   const _safe = window.imSafe;
   window.imSafe = function () {
     const s = loadCheckin();           // read before the original clears it
     _safe();
-    if (isLoggedIn() && s && s.serverId) SR.markSafe(s.serverId).catch(() => {});
+    if (isLoggedIn() && s && s.serverId) SR.markSafe(s.serverId).then(() => window.renderCheckinHistory()).catch(() => {});
   };
 
   // ---- incident reports ----
@@ -3840,7 +3979,7 @@ window.addEventListener('appinstalled', () => {
   document.getElementById('install-banner').style.display = 'none';
   document.getElementById('ios-install-banner').style.display = 'none';
   document.getElementById('install-btn')?.classList.remove('visible');
-  if (typeof showToast === 'function') showToast('✅ SafeReach installed!');
+  if (typeof showToast === 'function') showToast('SafeReach installed!');
 });
 
 async function triggerInstall() {
@@ -3854,14 +3993,14 @@ async function triggerInstall() {
       }
       _installPrompt = null;
     } catch {
-      if (typeof showToast === 'function') showToast('📲 Try ⋮ menu → "Install app"');
+      if (typeof showToast === 'function') showToast('Try ⋮ menu → "Install app"');
     }
     return;
   }
   // Fallback: guide manually
   if (typeof showToast === 'function') {
-    if (_isIOS) showToast('📱 Tap Share  →  "Add to Home Screen"');
-    else        showToast('📲 Tap ⋮ menu  →  "Add to Home Screen" or "Install app"');
+    if (_isIOS) showToast('Tap Share  →  "Add to Home Screen"');
+    else        showToast('Tap ⋮ menu  →  "Add to Home Screen" or "Install app"');
   }
   if (banner) banner.style.display = 'none';
 }
@@ -3892,7 +4031,7 @@ function dismissInstallBanner() {
 </script>
 <!-- ── PWA Install Banner (Android / Desktop Chrome) ──────── -->
 <div id="install-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#0d1520,#080b12);border-top:1px solid rgba(0,188,212,.35);padding:12px 16px;align-items:center;gap:12px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
-  <div style="width:38px;height:38px;background:rgba(0,188,212,.12);border:1px solid rgba(0,188,212,.3);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px">🛡️</div>
+  <div style="width:38px;height:38px;background:rgba(0,188,212,.12);border:1px solid rgba(0,188,212,.3);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px"><i class="ic ic-shield"></i></div>
   <div style="flex:1;min-width:0">
     <div style="font-size:12px;font-weight:700;color:#00bcd4;letter-spacing:.3px">Add SafeReach to Home Screen</div>
     <div style="font-size:10px;color:#60687d;margin-top:2px">Works offline · loads instantly · feels native</div>
@@ -3904,7 +4043,7 @@ function dismissInstallBanner() {
 <!-- ── iOS Safari Install Banner ─────────────────────────── -->
 <div id="ios-install-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;background:linear-gradient(135deg,#0d1520,#080b12);border-top:1px solid rgba(0,188,212,.35);padding:12px 16px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)">
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-    <span style="font-size:18px">🛡️</span>
+    <span style="font-size:18px"><i class="ic ic-shield"></i></span>
     <div style="font-size:12px;font-weight:700;color:#00bcd4">Install SafeReach on your iPhone</div>
     <button onclick="dismissInstallBanner()" style="background:none;border:none;color:#60687d;font-size:20px;cursor:pointer;margin-left:auto;line-height:1">✕</button>
   </div>
@@ -3937,7 +4076,7 @@ function dismissInstallBanner() {
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
             // New version waiting — show a soft update toast
-            showToast('🔄 New version available — reopen to update');
+            showToast('New version available — reopen to update');
           }
         });
       });
@@ -3966,12 +4105,12 @@ function dismissInstallBanner() {
 
       case 'BACK_ONLINE':
         // SW detected network restored after background sync
-        if (typeof showToast === 'function') showToast('🟢 Back online — tap a category to refresh');
+        if (typeof showToast === 'function') showToast('Back online — tap a category to refresh');
         if (typeof hideOfflineBanner === 'function') hideOfflineBanner();
         break;
 
       case 'CACHES_CLEARED':
-        if (typeof showToast === 'function') showToast('🗑️ Offline cache cleared');
+        if (typeof showToast === 'function') showToast('Offline cache cleared');
         break;
 
       case 'VERSION_INFO':
@@ -3986,10 +4125,10 @@ function dismissInstallBanner() {
           document.querySelector('textarea')?.value.trim().length > 0 ||
           document.querySelector('.report-type-btn.sel') !== null;
         if (!hasPendingInput) {
-          if (typeof showToast === 'function') showToast('🔄 Updating SafeReach…');
+          if (typeof showToast === 'function') showToast('Updating SafeReach…');
           setTimeout(() => window.location.reload(), 1200);
         } else {
-          if (typeof showToast === 'function') showToast('🔄 Update ready — reopen to apply');
+          if (typeof showToast === 'function') showToast('Update ready — reopen to apply');
         }
         break;
       }
@@ -4015,10 +4154,10 @@ function dismissInstallBanner() {
   <div class="embassy-backdrop" onclick="closeEmbassySheet()"></div>
   <div class="embassy-card">
     <div class="embassy-drag"></div>
-    <div class="embassy-title">🏛️ Which country's embassy?</div>
+    <div class="embassy-title"><i class="ic ic-landmark"></i> Which country's embassy?</div>
     <div class="embassy-sub">Find the nearest embassy of any country near your location.</div>
     <div class="embassy-search-wrap">
-      <span class="embassy-search-icon">🔍</span>
+      <span class="embassy-search-icon"><i class="ic ic-search"></i></span>
       <input class="embassy-search-input" id="embassy-search-input"
         type="text" placeholder="Search country…"
         oninput="filterEmbassyList(this.value)"
@@ -4037,7 +4176,7 @@ function dismissInstallBanner() {
   <div class="lost-backdrop" onclick="closeLost()"></div>
   <div class="lost-card">
     <div class="lost-drag"></div>
-    <div class="lost-title">🆘 I'm Lost</div>
+    <div class="lost-title"><i class="ic ic-siren"></i> I'm Lost</div>
     <div class="lost-sub">Read these coordinates out loud to emergency services or share your exact position.</div>
     <div class="lost-coord-box">
       <div class="lost-coord-label">Decimal Degrees (GPS)</div>
@@ -4046,8 +4185,8 @@ function dismissInstallBanner() {
     </div>
     <div class="lost-accuracy" id="lost-acc"></div>
     <div class="lost-actions">
-      <button class="lost-btn lost-btn-copy" onclick="copyCoords()">📋 Copy</button>
-      <button class="lost-btn lost-btn-share" onclick="shareCoords()">📤 Share</button>
+      <button class="lost-btn lost-btn-copy" onclick="copyCoords()"><i class="ic ic-clipboard"></i> Copy</button>
+      <button class="lost-btn lost-btn-share" onclick="shareCoords()"><i class="ic ic-share"></i> Share</button>
     </div>
     <button class="lost-btn lost-btn-close" onclick="closeLost()">Close</button>
     <div class="lost-what3" id="lost-w3"></div>

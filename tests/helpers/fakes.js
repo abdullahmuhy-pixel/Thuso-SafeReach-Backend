@@ -115,13 +115,19 @@ const IncidentRepository = {
 };
 
 const CheckInRepository = {
-  async create(d) { const c = { _id: oid(), status: 'active', startTime: new Date(), ...d }; state.checkIns.push(c); return c; },
+  async create(d) { const c = { _id: oid(), status: 'active', startTime: new Date(), extendedMinutes: 0, extensionCount: 0, safeAt: null, escalatedAt: null, ngoBranch: null, ...d }; state.checkIns.push(c); return c; },
   async findById(id) { return state.checkIns.find(c => c._id === String(id)) || null; },
   async findActiveForUser(userId) { return state.checkIns.find(c => String(c.userId) === String(userId) && c.status === 'active') || null; },
-  async markSafe(id) { const c = state.checkIns.find(x => x._id === String(id)); c.status = 'safe'; return c; },
-  async extend(id, minutes) { const c = state.checkIns.find(x => x._id === String(id)); c.expiresAt = new Date(c.expiresAt.getTime() + minutes * 60000); return c; },
+  async markSafe(id) { const c = state.checkIns.find(x => x._id === String(id)); c.status = 'safe'; c.safeAt = new Date(); return c; },
+  async extend(id, minutes) { const c = state.checkIns.find(x => x._id === String(id)); c.expiresAt = new Date(c.expiresAt.getTime() + minutes * 60000); c.extendedMinutes += minutes; c.extensionCount += 1; return c; },
   async findAllExpiredActive() { return state.checkIns.filter(c => c.status === 'active' && c.expiresAt <= new Date()); },
-  async markEscalated(id) { state.checkIns.find(x => x._id === String(id)).status = 'escalated'; },
+  async markEscalated(id) { const c = state.checkIns.find(x => x._id === String(id)); c.status = 'escalated'; c.escalatedAt = new Date(); },
+  async findAll({ limit = 50, branchId, status } = {}) {
+    return state.checkIns
+      .filter(c => (!branchId || !c.ngoBranch || String(c.ngoBranch) === String(branchId)) && (!status || c.status === status))
+      .slice(-limit).reverse().map(c => ({ ...c, userId: populate(c.userId) }));
+  },
+  async findByUser(userId) { return state.checkIns.filter(c => String(c.userId) === String(userId)).reverse(); },
 };
 
 const NotificationDispatcher = { dispatchAlert: async alert => { state.dispatched.push(alert); } };

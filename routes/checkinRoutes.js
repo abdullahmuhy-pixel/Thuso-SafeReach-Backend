@@ -34,6 +34,7 @@ router.post('/', validateBody({ destination: 'destination' }), async (req, res) 
     destination: destination || '',
     lat: lat ?? null,
     lng: lng ?? null,
+    ngoBranch: req.user.ngoBranch || null,
   });
 
   return res.status(201).json({ success: true, checkIn });
@@ -42,6 +43,12 @@ router.post('/', validateBody({ destination: 'destination' }), async (req, res) 
 router.get('/active', async (req, res) => {
   const checkIn = await CheckInRepository.findActiveForUser(req.user._id);
   return res.json({ checkIn: checkIn || null });
+});
+
+// The member's own check-in history (every timer they have used)
+router.get('/history', async (req, res) => {
+  const checkIns = await CheckInRepository.findByUser(req.user._id);
+  return res.json({ checkIns });
 });
 
 router.patch('/:id/extend', validateParams({ id: 'mongoId' }), async (req, res) => {
@@ -67,6 +74,7 @@ router.patch('/:id/safe', validateParams({ id: 'mongoId' }), async (req, res) =>
   if (!checkIn || String(checkIn.userId) !== String(req.user._id)) {
     return res.status(404).json({ error: 'Check-in not found' });
   }
+  if (checkIn.status === 'safe') return res.json({ success: true, checkIn });
   const updated = await CheckInRepository.markSafe(req.params.id);
   return res.json({ success: true, checkIn: updated });
 });

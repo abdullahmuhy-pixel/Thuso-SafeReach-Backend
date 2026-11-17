@@ -10,6 +10,7 @@ const UserRepository = require('../repositories/UserRepository');
 const SOSAlertRepository = require('../repositories/SOSAlertRepository');
 const IncidentRepository = require('../repositories/IncidentRepository');
 const BranchRepository = require('../repositories/BranchRepository');
+const CheckInRepository = require('../repositories/CheckInRepository');
 const { authenticate, requireRole } = require('../middleware/auth');
 const { scopeFor } = require('../services/BranchScope');
 
@@ -21,16 +22,27 @@ router.use(authenticate, requireRole('coordinator', 'admin'));
 // on load. `scope` tells the UI what the coordinator is looking at.
 router.get('/dashboard', async (req, res) => {
   const scope = scopeFor(req.user);
-  const [alerts, incidents, branch] = await Promise.all([
+  const [alerts, incidents, checkIns, branch] = await Promise.all([
     SOSAlertRepository.findActive({ branchId: scope.branchId }),
     IncidentRepository.findAll({ limit: 20, branchId: scope.branchId }),
+    CheckInRepository.findAll({ limit: 30, branchId: scope.branchId }),
     scope.branchId ? BranchRepository.findById(scope.branchId) : null,
   ]);
   return res.json({
     activeAlerts: alerts,
     recentIncidents: incidents,
+    recentCheckIns: checkIns,
     scope: { all: scope.all, branch: branch ? { _id: branch._id, branchName: branch.branchName, region: branch.region } : null },
   });
+});
+
+// Full check-in log: every timer members have started, extended, ended safely
+// or that escalated. Optional ?status=active|safe|escalated and ?limit=.
+router.get('/checkins', async (req, res) => {
+  const status = ['active', 'safe', 'escalated'].includes(req.query.status) ? req.query.status : undefined;
+  const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 100, 1), 500);
+  const checkIns = await CheckInRepository.findAll({ limit, status, branchId: scopeFor(req.user).branchId });
+  return res.json({ checkIns });
 });
 
 router.get('/members', async (req, res) => {
