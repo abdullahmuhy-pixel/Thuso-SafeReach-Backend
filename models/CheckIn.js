@@ -12,8 +12,24 @@ const checkInSchema = new mongoose.Schema({
     enum: ['active', 'safe', 'escalated'],
     default: 'active',
   },
+  // Where the check-in was started
   lat: { type: Number, default: null },
   lng: { type: Number, default: null },
+  // Latest position the member's phone reported while the timer ran. If the
+  // member never presses "I'm safe", this is the best estimate of where they
+  // were, and it is what the escalation alert uses.
+  lastLat: { type: Number, default: null },
+  lastLng: { type: Number, default: null },
+  lastAccuracy: { type: Number, default: null },
+  lastLocationAt: { type: Date, default: null },
+  // Recent positions (newest last, capped at LOCATION_TRAIL_MAX)
+  locationTrail: {
+    type: [{ _id: false, lat: Number, lng: Number, accuracy: Number, at: Date }],
+    default: [],
+  },
+  // Where the member was when they pressed "I'm safe"
+  safeLat: { type: Number, default: null },
+  safeLng: { type: Number, default: null },
   // Record-keeping, so coordinators can see every check-in and how it ended
   ngoBranch: { type: mongoose.Schema.Types.ObjectId, ref: 'NGOBranch', default: null },
   extendedMinutes: { type: Number, default: 0 },
@@ -26,5 +42,7 @@ const checkInSchema = new mongoose.Schema({
 checkInSchema.index({ userId: 1, status: 1 });
 // Newest-first history lists for the coordinator dashboard and the member
 checkInSchema.index({ startTime: -1 });
+
+checkInSchema.statics.LOCATION_TRAIL_MAX = 50;
 
 module.exports = mongoose.model('CheckIn', checkInSchema);

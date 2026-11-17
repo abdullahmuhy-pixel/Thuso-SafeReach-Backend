@@ -22,29 +22,49 @@ async function sweepOnce() {
     const member = await UserRepository.findById(checkIn.userId);
     const ngoBranch = member ? member.ngoBranch || null : null;
 
+    // Best estimate of where the member is: the last position their phone
+    // reported during the check-in, otherwise where they started it.
+    const est = estimateLocation(checkIn);
+
     const alert = await SOSAlertRepository.create({
       userId: checkIn.userId,
       checkInId: checkIn._id,
       triggerSource: 'checkin_timeout',
-      lat: checkIn.lat,
-      lng: checkIn.lng,
+      lat: est.lat,
+      lng: est.lng,
       ngoBranch,
     });
 
     await IncidentRepository.create({
       userId: checkIn.userId,
       type: 'checkin',
-      description: `Check-in "${checkIn.destination || 'trip'}" (${checkIn.durationMinutes} min) expired without confirmation.`,
+      description: `Check-in "${checkIn.destination || 'trip'}" (${checkIn.durationMinutes} min) expired without confirmation. ${est.note}`,
       severity: 'high',
-      location: checkIn.lat ? `${checkIn.lat}, ${checkIn.lng}` : 'Location not set',
-      lat: checkIn.lat,
-      lng: checkIn.lng,
+      location: est.lat != null ? `${est.lat}, ${est.lng}` : 'Location not set',
+      lat: est.lat,
+      lng: est.lng,
       ngoBranch,
     });
 
     await dispatchAlert(alert);
     console.log(`[CheckInSweeper] Escalated check-in ${checkIn._id} -> alert ${alert._id}`);
   }
+}
+
+function estimateLocation(checkIn) {
+  if (checkIn.lastLat != null && checkIn.lastLng != null) {
+    const at = checkIn.lastLocationAt ? new Date(checkIn.lastLocationAt) : null;
+    const mins = at ? Math.max(0, Math.round((Date.now() - at.getTime()) / 60000)) : null;
+    const acc = checkIn.lastAccuracy != null ? ` (accuracy about ${checkIn.lastAccuracy} m)` : '';
+    return {
+      lat: checkIn.lastLat, lng: checkIn.lastLng, source: 'last_known',
+      note: `Last known location${mins != null ? ` from ${mins} min before escalation` : ''}${acc}.`,
+    };
+  }
+  if (checkIn.lat != null && checkIn.lng != null) {
+    return { lat: checkIn.lat, lng: checkIn.lng, source: 'start', note: 'No location updates were received; this is where the check-in was started.' };
+  }
+  return { lat: null, lng: null, source: 'none', note: 'No location was shared.' };
 }
 
 function start() {
@@ -62,4 +82,4 @@ function stop() {
   }
 }
 
-module.exports = { start, stop, sweepOnce };
+module.exports = { start, stop, sweepOnce, estimateLocation };

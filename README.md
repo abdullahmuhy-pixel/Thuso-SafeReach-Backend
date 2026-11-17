@@ -84,7 +84,7 @@ Render redeploys the API and GitHub Pages republishes the pages.
 |---|---|---|
 | Auth | `/api/auth/register`, `/login`, `PATCH /password` | Member / any signed-in user |
 | Staff auth | `/api/coordinator/auth/login`, `/verify-2fa`, `/2fa/setup`, `/enable`, `/disable` | Coordinator, admin |
-| Check-in | `POST /api/checkin`, `GET /active`, `PATCH /:id/extend`, `/:id/safe` | Member |
+| Check-in | `POST /api/checkin`, `GET /active`, `GET /history`, `PATCH /:id/extend`, `/:id/location`, `/:id/safe` (optional lat/lng) | Member |
 | SOS | `POST /api/sos`; `GET /api/sos`, `PATCH /:id/resolve` | Member; coordinator, admin |
 | Incidents | `POST /api/incidents`, `GET /mine`; `GET /api/incidents`, `PATCH /:id/review` | Member; coordinator, admin |
 | Dashboard | `GET /api/coordinator/dashboard`, `/members` | Coordinator, admin |

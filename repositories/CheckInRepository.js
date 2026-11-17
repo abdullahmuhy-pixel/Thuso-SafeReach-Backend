@@ -18,8 +18,27 @@ class CheckInRepository {
     return CheckIn.findOne({ userId, status: 'active' });
   }
 
-  async markSafe(id) {
-    return CheckIn.findByIdAndUpdate(id, { status: 'safe', safeAt: new Date() }, { new: true });
+  // loc is optional: { lat, lng, accuracy } where the member pressed "I'm safe"
+  async markSafe(id, loc) {
+    const update = { status: 'safe', safeAt: new Date() };
+    if (loc) {
+      update.safeLat = loc.lat;
+      update.safeLng = loc.lng;
+      update.lastLat = loc.lat;
+      update.lastLng = loc.lng;
+      update.lastAccuracy = loc.accuracy ?? null;
+      update.lastLocationAt = update.safeAt;
+    }
+    return CheckIn.findByIdAndUpdate(id, update, { new: true });
+  }
+
+  // Position update from the member's phone while the timer is running
+  async addLocation(id, { lat, lng, accuracy = null }) {
+    const at = new Date();
+    return CheckIn.findByIdAndUpdate(id, {
+      lastLat: lat, lastLng: lng, lastAccuracy: accuracy, lastLocationAt: at,
+      $push: { locationTrail: { $each: [{ lat, lng, accuracy, at }], $slice: -CheckIn.LOCATION_TRAIL_MAX } },
+    }, { new: true });
   }
 
   async markEscalated(id) {

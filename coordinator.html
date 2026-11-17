@@ -235,6 +235,20 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
   const ago = d => { const m = Math.max(0, Math.round((Date.now() - new Date(d)) / 60000)); return m < 1 ? 'just now' : m < 60 ? m + ' min ago' : Math.round(m / 60) + ' h ago'; };
   const person = u => u ? esc(u.fullName) : 'Unknown member';
   const phoneLink = u => u && u.phoneNumber ? '<a href="tel:' + esc(u.phoneNumber) + '">' + esc(u.phoneNumber) + '</a>' : '';
+  // Start, last known and "I'm safe" locations of a check-in
+  const locLink = (label, lat, lng, extra) => '<div class="meta">' + label + ': <a target="_blank" rel="noopener" href="https://www.google.com/maps?q=' + encodeURIComponent(lat + ',' + lng) + '">' + Number(lat).toFixed(5) + ', ' + Number(lng).toFixed(5) + '</a>' + (extra ? ' ' + esc(extra) : '') + '</div>';
+  const ciLocations = c => {
+    let h = '';
+    if (c.lat != null && c.lng != null) h += locLink('Started at', c.lat, c.lng);
+    if (c.status === 'safe' && c.safeLat != null) h += locLink('Pressed I\'m safe at', c.safeLat, c.safeLng, c.lastAccuracy != null ? '(within about ' + c.lastAccuracy + ' m)' : '');
+    else if (c.lastLat != null && c.lastLocationAt) {
+      const mins = Math.max(0, Math.round((Date.now() - new Date(c.lastLocationAt)) / 60000));
+      h += locLink(c.status === 'escalated' ? 'Last known location' : 'Latest location', c.lastLat, c.lastLng,
+        '(' + mins + ' min ago' + (c.lastAccuracy != null ? ', within about ' + c.lastAccuracy + ' m' : '') + ')');
+    }
+    if (c.status === 'safe' && c.safeLat == null) h += '<div class="meta">No location was shared when they pressed I\'m safe.</div>';
+    return h || '<div class="meta">No location shared</div>';
+  };
   const mapLink = o => (o.lat != null && o.lng != null) ? '<a target="_blank" rel="noopener" href="https://www.google.com/maps?q=' + encodeURIComponent(o.lat + ',' + o.lng) + '">Open map</a>' : '<span class="meta">No location</span>';
   const SRC = { manual: 'Manual SOS', shake: 'Shake SOS', checkin_timeout: 'Check-in timed out' };
 
@@ -268,7 +282,7 @@ a.btn{display:block;text-align:center;text-decoration:none;color:#001018}
           '<div style="margin-top:8px">' + esc(c.destination || 'No destination given') + '</div>' +
           '<div class="meta">Started ' + t(c.startTime) + ' · ' + esc(c.durationMinutes) + ' min timer' + ext + '</div>' +
           '<div class="meta">' + esc(end) + '</div>' +
-          '<div class="meta">' + mapLink(c) + '</div></div>';
+          ciLocations(c) + '</div>';
       });
     } else if (state.tab === 'incidents') {
       if (!state.incidents.length) h = '<div class="empty">No incident reports yet.</div>';

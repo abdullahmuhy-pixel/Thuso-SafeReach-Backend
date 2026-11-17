@@ -348,7 +348,8 @@ $('ciGo').onclick=function(){
 };
 $('ciSafe').onclick=function(){
   if(!ci)return;var b=$('ciSafe');b.disabled=true;
-  api('/checkin/'+encodeURIComponent(ci._id)+'/safe','PATCH').then(function(){ci=null;renderCheckin();msg('ciMsg','You are marked safe. Check-in cancelled.','ok')})
+  // Record where the member is when they confirm they are safe
+  position().then(function(pos){return api('/checkin/'+encodeURIComponent(ci._id)+'/safe','PATCH',pos||undefined)}).then(function(){ci=null;renderCheckin();msg('ciMsg','You are marked safe. Check-in cancelled.','ok')})
    .catch(function(e){msg('ciMsg',netErr(e),'err');loadActive()}).finally(function(){b.disabled=false});
 };
 $('ciExt').onclick=function(){
@@ -356,6 +357,13 @@ $('ciExt').onclick=function(){
   api('/checkin/'+encodeURIComponent(ci._id)+'/extend','PATCH',{minutes:15}).then(function(){msg('ciMsg','Added 15 minutes.','ok');return loadActive()})
    .catch(function(e){msg('ciMsg',netErr(e),'err')}).finally(function(){b.disabled=false});
 };
+
+/* While a check-in runs, report the position every 2 minutes so a missed
+   check-in is escalated with a recent location, not only the starting point. */
+setInterval(function(){
+  if(!ci||document.hidden)return;
+  position().then(function(pos){if(pos&&ci)return api('/checkin/'+encodeURIComponent(ci._id)+'/location','PATCH',pos)}).catch(function(){});
+},120000);
 
 /* ---- SOS ---- */
 $('sosGo').onclick=function(){$('sosGo').classList.add('hide');$('sosConfirm').classList.remove('hide');msg('sosMsg','')};

@@ -11,7 +11,7 @@
 'use strict';
 
 // Change this string on every deploy that should replace the stored files.
-const VERSION   = 'sr-2026-11-17d';
+const VERSION   = 'sr-2026-11-17e';
 const APP_CACHE = VERSION + '-app';
 const LIB_CACHE = 'sr-libs-v1';     // Leaflet + fonts (versioned URLs, safe to keep)
 const TILE_CACHE = 'sr-tiles-v1';   // map tiles

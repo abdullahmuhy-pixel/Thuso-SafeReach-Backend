@@ -69,13 +69,51 @@ router.patch('/:id/extend', validateParams({ id: 'mongoId' }), async (req, res) 
   return res.json({ success: true, checkIn: updated });
 });
 
+// Reads an optional { lat, lng, accuracy } from the body.
+// Returns null when no location was sent, or { error } when it is invalid.
+function readLocation(body) {
+  const { lat, lng, accuracy } = body || {};
+  if (lat === undefined && lng === undefined) return null;
+  if (!isValid('latLng', lat) || !isValid('latLng', lng)) return { error: 'Invalid latitude or longitude' };
+  const la = Number(lat), ln = Number(lng);
+  if (Math.abs(la) > 90 || Math.abs(ln) > 180) return { error: 'Invalid latitude or longitude' };
+  let acc = null;
+  if (accuracy !== undefined && accuracy !== null) {
+    acc = Number(accuracy);
+    if (!Number.isFinite(acc) || acc < 0 || acc > 100000) return { error: 'Invalid accuracy' };
+    acc = Math.round(acc);
+  }
+  return { lat: la, lng: ln, accuracy: acc };
+}
+
+// The member's phone reports its position every few minutes while the timer
+// runs, so a missed check-in can be escalated with a recent location.
+router.patch('/:id/location', validateParams({ id: 'mongoId' }), async (req, res) => {
+  const loc = readLocation(req.body);
+  if (!loc) return res.status(400).json({ error: 'lat and lng are required' });
+  if (loc.error) return res.status(400).json({ error: loc.error });
+
+  const checkIn = await CheckInRepository.findById(req.params.id);
+  if (!checkIn || String(checkIn.userId) !== String(req.user._id)) {
+    return res.status(404).json({ error: 'Check-in not found' });
+  }
+  if (checkIn.status !== 'active') {
+    return res.status(409).json({ error: 'This check-in is no longer active' });
+  }
+  const updated = await CheckInRepository.addLocation(req.params.id, loc);
+  return res.json({ success: true, checkIn: updated });
+});
+
 router.patch('/:id/safe', validateParams({ id: 'mongoId' }), async (req, res) => {
+  const loc = readLocation(req.body);
+  if (loc && loc.error) return res.status(400).json({ error: loc.error });
+
   const checkIn = await CheckInRepository.findById(req.params.id);
   if (!checkIn || String(checkIn.userId) !== String(req.user._id)) {
     return res.status(404).json({ error: 'Check-in not found' });
   }
   if (checkIn.status === 'safe') return res.json({ success: true, checkIn });
-  const updated = await CheckInRepository.markSafe(req.params.id);
+  const updated = await CheckInRepository.markSafe(req.params.id, loc);
   return res.json({ success: true, checkIn: updated });
 });
 

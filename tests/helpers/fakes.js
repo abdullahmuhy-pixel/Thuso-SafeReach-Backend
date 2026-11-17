@@ -115,10 +115,11 @@ const IncidentRepository = {
 };
 
 const CheckInRepository = {
-  async create(d) { const c = { _id: oid(), status: 'active', startTime: new Date(), extendedMinutes: 0, extensionCount: 0, safeAt: null, escalatedAt: null, ngoBranch: null, ...d }; state.checkIns.push(c); return c; },
+  async create(d) { const c = { _id: oid(), status: 'active', startTime: new Date(), extendedMinutes: 0, extensionCount: 0, safeAt: null, escalatedAt: null, ngoBranch: null, lastLat: null, lastLng: null, lastAccuracy: null, lastLocationAt: null, locationTrail: [], safeLat: null, safeLng: null, ...d }; state.checkIns.push(c); return c; },
   async findById(id) { return state.checkIns.find(c => c._id === String(id)) || null; },
   async findActiveForUser(userId) { return state.checkIns.find(c => String(c.userId) === String(userId) && c.status === 'active') || null; },
-  async markSafe(id) { const c = state.checkIns.find(x => x._id === String(id)); c.status = 'safe'; c.safeAt = new Date(); return c; },
+  async markSafe(id, loc) { const c = state.checkIns.find(x => x._id === String(id)); c.status = 'safe'; c.safeAt = new Date(); if (loc) { c.safeLat = loc.lat; c.safeLng = loc.lng; c.lastLat = loc.lat; c.lastLng = loc.lng; c.lastAccuracy = loc.accuracy ?? null; c.lastLocationAt = c.safeAt; } return c; },
+  async addLocation(id, { lat, lng, accuracy = null }) { const c = state.checkIns.find(x => x._id === String(id)); const at = new Date(); Object.assign(c, { lastLat: lat, lastLng: lng, lastAccuracy: accuracy, lastLocationAt: at }); c.locationTrail = [...(c.locationTrail || []), { lat, lng, accuracy, at }].slice(-50); return c; },
   async extend(id, minutes) { const c = state.checkIns.find(x => x._id === String(id)); c.expiresAt = new Date(c.expiresAt.getTime() + minutes * 60000); c.extendedMinutes += minutes; c.extensionCount += 1; return c; },
   async findAllExpiredActive() { return state.checkIns.filter(c => c.status === 'active' && c.expiresAt <= new Date()); },
   async markEscalated(id) { const c = state.checkIns.find(x => x._id === String(id)); c.status = 'escalated'; c.escalatedAt = new Date(); },

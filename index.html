@@ -683,6 +683,7 @@ body.light #map .leaflet-tile-pane{filter:none}
 .ci-history{margin:14px 0 4px}.ci-h-title{font:600 .68rem/1 'Chakra Petch',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px}
 .ci-h-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--border)}
 .ci-h-dest{font-size:.85rem;font-weight:600}.ci-h-meta{font-size:.72rem;color:var(--text-dim);margin-top:2px}
+.ci-h-loc{color:var(--cyan);text-decoration:none}.ci-h-loc:hover{text-decoration:underline}
 .ci-pill{font-size:.68rem;font-weight:700;border-radius:20px;padding:3px 9px;white-space:nowrap;border:1px solid currentColor}
 .ci-pill.ok{color:var(--green)}.ci-pill.bad{color:var(--red)}.ci-pill.on{color:var(--gold)}
 .tool-btn .tl,.icon-btn .tl{font:600 8.5px/1 'DM Sans',system-ui,sans-serif;letter-spacing:.01em;white-space:nowrap;color:inherit;opacity:.9}
@@ -3371,6 +3372,41 @@ function clearCheckinState(){
 // Check-in history: every check-in is recorded here (started, extended, confirmed
 // safe or missed), not only the ones that escalate. Signed-in members see the
 // server's record instead (see the SafeReach backend section further down).
+// ── Check-in location tracking ──
+// While a check-in runs, the phone's position is kept up to date so that the
+// place the member pressed "I'm safe" is known, and a missed check-in can be
+// escalated with the last known location rather than only the starting point.
+let _ciWatch=null;
+function startCheckinTracking(){
+  if(_ciWatch!==null||!navigator.geolocation)return;
+  try{
+    _ciWatch=navigator.geolocation.watchPosition(pos=>{
+      const s=loadCheckin();
+      if(!s||s.status!=='active'){stopCheckinTracking();return;}
+      const {latitude:lat,longitude:lng,accuracy}=pos.coords;
+      userLat=lat;userLng=lng;userAccuracy=accuracy;
+      s.lastLat=lat;s.lastLng=lng;s.lastAcc=Math.round(accuracy);s.lastAt=Date.now();
+      if(s.lat==null){s.lat=lat;s.lng=lng;logCheckin(s.startedAt,{startLat:lat,startLng:lng});}
+      saveCheckinState(s);
+      if(window.srCheckinLocation)window.srCheckinLocation(s);
+    },()=>{}, {enableHighAccuracy:true,maximumAge:30000,timeout:20000});
+  }catch(e){_ciWatch=null;}
+}
+function stopCheckinTracking(){
+  if(_ciWatch!==null){try{navigator.geolocation.clearWatch(_ciWatch);}catch(e){}_ciWatch=null;}
+}
+// Latest known position (from tracking within the last 10 minutes, else the map's)
+function checkinCurrentFix(){
+  const s=loadCheckin();
+  if(s&&s.lastLat!=null&&Date.now()-(s.lastAt||0)<600000)return {lat:s.lastLat,lng:s.lastLng,acc:s.lastAcc};
+  if(userLat!=null)return {lat:userLat,lng:userLng,acc:typeof userAccuracy==='number'?Math.round(userAccuracy):null};
+  return null;
+}
+function distanceM(a,b,c,d){
+  const R=6371000,r=x=>x*Math.PI/180;
+  const h=Math.sin(r(c-a)/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(r(d-b)/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
 const CI_LOG_KEY='sr_checkin_log';
 function getCheckinLog(){try{return JSON.parse(localStorage.getItem(CI_LOG_KEY)||'[]');}catch(e){return [];}}
 function logCheckin(startedAt,patch){
@@ -3394,7 +3430,10 @@ function renderCheckinHistory(list){
       :e.status==='escalated'?`<span class="ci-pill bad">Missed${e.escalatedAt?' at '+tm(e.escalatedAt):''}</span>`
       :`<span class="ci-pill on">In progress</span>`;
     const ext=e.extendedMin?` · +${e.extendedMin} min`:'';
-    return `<div class="ci-h-row"><div><div class="ci-h-dest">${esc(e.note||'No destination')}</div><div class="ci-h-meta">${t(e.startedAt)} · ${e.durationMin||'?'} min${ext}</div></div>${st}</div>`;
+    const ml=(label,la,ln)=>la!=null&&ln!=null?`<a class="ci-h-loc" target="_blank" rel="noopener" href="https://www.google.com/maps?q=${encodeURIComponent(la+','+ln)}">${label}</a>`:'';
+    const locs=[ml('Start',e.startLat,e.startLng),
+      e.status==='safe'?ml('Where I said safe',e.safeLat,e.safeLng):e.status==='escalated'?ml('Last known',e.lastLat,e.lastLng):''].filter(Boolean).join(' · ');
+    return `<div class="ci-h-row"><div><div class="ci-h-dest">${esc(e.note||'No destination')}</div><div class="ci-h-meta">${t(e.startedAt)} · ${e.durationMin||'?'} min${ext}</div>${locs?`<div class="ci-h-meta">${locs}</div>`:''}</div>${st}</div>`;
   }).join('');
 }
 function showCheckin(){
@@ -3424,8 +3463,9 @@ function startCheckin(){
     lat:userLat, lng:userLng,
   };
   saveCheckinState(state);
-  logCheckin(state.startedAt,{note,durationMin:minutes,status:'active',extendedMin:0});
+  logCheckin(state.startedAt,{note,durationMin:minutes,status:'active',extendedMin:0,startLat:userLat,startLng:userLng});
   startCheckinTicker();
+  startCheckinTracking();
   updateCheckinIndicators();
   renderCheckinUI();
   renderCheckinHistory();
@@ -3452,7 +3492,9 @@ function cancelCheckinState(){
 
 function imSafe(){
   const cur=loadCheckin();
-  if(cur&&cur.startedAt) logCheckin(cur.startedAt,{status:'safe',safeAt:Date.now()});
+  const here=checkinCurrentFix();
+  if(cur&&cur.startedAt) logCheckin(cur.startedAt,{status:'safe',safeAt:Date.now(),safeLat:here?here.lat:null,safeLng:here?here.lng:null});
+  stopCheckinTracking();
   cancelCheckinState();
   renderCheckinUI();
   renderCheckinHistory();
@@ -3509,10 +3551,15 @@ function updateCheckinIndicators(remainMs){
 
 function escalateCheckin(state){
   stopCheckinTicker();
+  stopCheckinTracking();
   state.status='escalated';
   state.escalatedAt=Date.now();
+  // Best estimate of where the member is: the last position the phone gave
+  // during the check-in, otherwise where it was started.
+  const est=state.lastLat!=null?{lat:state.lastLat,lng:state.lastLng}:{lat:state.lat,lng:state.lng};
   saveCheckinState(state);
-  logCheckin(state.startedAt,{status:'escalated',escalatedAt:state.escalatedAt});
+  logCheckin(state.startedAt,{status:'escalated',escalatedAt:state.escalatedAt,lastLat:est.lat,lastLng:est.lng,lastAt:state.lastAt||null});
+  state={...state,lat:est.lat,lng:est.lng};
   updateCheckinIndicators();
   if(navigator.vibrate) try{navigator.vibrate([150,80,150,80,150]);}catch(e){}
   showToast('Check-in missed — escalating');
@@ -3589,7 +3636,7 @@ function restoreCheckin(){
   if(!state){updateCheckinIndicators();return;}
   if(state.status==='active'){
     if(Date.now()>=state.expiresAt) escalateCheckin(state);
-    else startCheckinTicker();
+    else { startCheckinTicker(); startCheckinTracking(); }
   }
   updateCheckinIndicators();
 }
@@ -3798,10 +3845,11 @@ function renderSettings(){
       if (d.token) setToken(d.token); // every OTHER session is signed out by the server
       return d;
     },
-    startCheckIn: p => request('/checkin', 'POST', p),
-    checkInHistory: () => request('/checkin/history'),            // not queued: server clock starts on receipt
+    startCheckIn: p => request('/checkin', 'POST', p),            // not queued: server clock starts on receipt
+    checkInHistory: () => request('/checkin/history'),
+    checkInLocation: (id, p) => request('/checkin/' + id + '/location', 'PATCH', p), // not queued: an old position is no use later
     extendCheckIn: (id, m) => sendOrQueue('/checkin/' + id + '/extend', 'PATCH', { minutes: m }),
-    markSafe: id => sendOrQueue('/checkin/' + id + '/safe', 'PATCH'),
+    markSafe: (id, loc) => sendOrQueue('/checkin/' + id + '/safe', 'PATCH', loc || undefined),
     sendSOS: p => sendOrQueue('/sos', 'POST', p),
     reportIncident: p => sendOrQueue('/incidents', 'POST', p),
   };
@@ -3910,7 +3958,7 @@ function renderSettings(){
     if (!isLoggedIn()) return;
     const s = loadCheckin(); if (!s || s.status !== 'active') return;
     SR.startCheckIn({ durationMinutes: s.durationMin, destination: clean(s.note, 120), lat: fmtCoord(s.lat), lng: fmtCoord(s.lng) })
-      .then(d => { const cur = loadCheckin(); if (cur && cur.startedAt === s.startedAt && d.checkIn) { cur.serverId = d.checkIn._id; saveCheckinState(cur); } })
+      .then(d => { const cur = loadCheckin(); if (cur && cur.startedAt === s.startedAt && d.checkIn) { cur.serverId = d.checkIn._id; saveCheckinState(cur); window.srCheckinLocation(cur); } })
       .catch(e => { if (e.status === 409) toast('Server already has an active check-in for you'); else if (!isOffline(e)) toast('Check-in not synced: ' + e.message); });
   };
   const _extend = window.extendCheckin;
@@ -3929,6 +3977,7 @@ function renderSettings(){
         startedAt: new Date(c.startTime).getTime(), note: c.destination, durationMin: c.durationMinutes,
         extendedMin: c.extendedMinutes || 0, status: c.status,
         safeAt: c.safeAt ? new Date(c.safeAt).getTime() : null, escalatedAt: c.escalatedAt ? new Date(c.escalatedAt).getTime() : null,
+        startLat: c.lat, startLng: c.lng, safeLat: c.safeLat, safeLng: c.safeLng, lastLat: c.lastLat, lastLng: c.lastLng,
       }));
       if (rows.length) _renderHist(rows);
     }).catch(() => {});
@@ -3936,8 +3985,24 @@ function renderSettings(){
   const _safe = window.imSafe;
   window.imSafe = function () {
     const s = loadCheckin();           // read before the original clears it
+    const here = checkinCurrentFix();  // where the member is as they press "I'm safe"
     _safe();
-    if (isLoggedIn() && s && s.serverId) SR.markSafe(s.serverId).then(() => window.renderCheckinHistory()).catch(() => {});
+    if (isLoggedIn() && s && s.serverId) {
+      const loc = here ? { lat: fmtCoord(here.lat), lng: fmtCoord(here.lng), accuracy: here.acc } : null;
+      SR.markSafe(s.serverId, loc).then(() => window.renderCheckinHistory()).catch(() => {});
+    }
+  };
+  // Position updates while a check-in runs: sent at most every 2 minutes, or
+  // sooner after moving 150 m, so a missed check-in has a recent location.
+  let _lastSent = null;
+  window.srCheckinLocation = function (s) {
+    if (!isLoggedIn() || !s || !s.serverId || s.lastLat == null) return;
+    const now = Date.now();
+    if (_lastSent && _lastSent.id === s.serverId && now - _lastSent.at < 120000 &&
+        distanceM(_lastSent.lat, _lastSent.lng, s.lastLat, s.lastLng) < 150) return;
+    _lastSent = { id: s.serverId, at: now, lat: s.lastLat, lng: s.lastLng };
+    SR.checkInLocation(s.serverId, { lat: fmtCoord(s.lastLat), lng: fmtCoord(s.lastLng), accuracy: s.lastAcc })
+      .catch(() => { _lastSent = null; });
   };
 
   // ---- incident reports ----
